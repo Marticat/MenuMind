@@ -1,0 +1,14 @@
+POST http://localhost:8080/api/generate
+Content-Type: application/json
+
+{
+  "recipe": {
+    "name": "Томлёная говяжья щека",
+    "subtitle": "с пюре из сельдерея",
+    "ingredients": ["говяжья щека", "сельдерей", "масло", "демиглас"],
+    "method": "Томление 24 часа при 74°C.",
+    "pairing": "Barolo DOCG 2018"
+  },
+  "tone": "editorial",
+  "settings": { "limits": { "yandex": 250, "wolt": 180, "website": 450, "print": 300 } }
+}
