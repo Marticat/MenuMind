@@ -1,0 +1,23 @@
+POST http://localhost:8080/api/generate
+Content-Type: application/json
+Content-Length: 443
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.4
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "recipe": {
+    "name": "Томлёная говяжья щека",
+    "subtitle": "с пюре из сельдерея",
+    "ingredients": ["говяжья щека", "сельдерей", "масло", "демиглас"],
+    "method": "Томление 24 часа при 74°C.",
+    "pairing": "Barolo DOCG 2018"
+  },
+  "tone": "editorial",
+  "settings": { "limits": { "yandex": 250, "wolt": 180, "website": 450, "print": 300 } }
+}
+
+<> 2026-10-03T002031.200.json
+
+###
+
