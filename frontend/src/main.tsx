@@ -12,7 +12,7 @@ import '@fontsource/inter/cyrillic-500.css';
 import '@fontsource/inter/latin-500.css';
 import '@fontsource/jetbrains-mono/cyrillic-400.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
-import App from './App';
+import App from './Root';
 import './styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

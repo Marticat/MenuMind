@@ -1,7 +1,19 @@
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  const response = await page.request.post('/api/v1/auth/register', {
+    data: {
+      name: 'Test Chef',
+      email: `chef-${crypto.randomUUID()}@example.test`,
+      password: 'Test-password-42',
+      restaurantName: 'Test Restaurant',
+    },
+  });
+  expect(response.status()).toBe(201);
+});
+
 test('recipe editing, generation, export and persistence', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/#studio');
   await page.getByRole('button', { name: /Выбранное блюдо/ }).click();
   await page.getByLabel('Название блюда', { exact: true }).fill('Запечённая тыква');
   await page.getByLabel('Дополнение к названию').fill('с шалфеем');
@@ -36,6 +48,8 @@ test('channel limits and brand settings apply to generation', async ({ page }) =
   await page.getByRole('button', { name: 'Применить', exact: true }).click();
   await page.getByRole('slider', { name: 'Уровень сдержанности' }).fill('25');
   await page.getByRole('button', { name: 'Сохранить профиль ресторана' }).click();
+  await expect(page.getByRole('button', { name: 'Сохранить профиль ресторана' })).toBeEnabled();
+  await expect(page.getByText('Профиль ресторана сохранён', { exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('slider', { name: 'Уровень сдержанности' })).toHaveValue('25');
   await expect(page.locator('.channel-card').first()).toContainText('75 симв.');
@@ -71,6 +85,8 @@ test('API examples and publication dialog are honest and functional', async ({ p
   await page.getByRole('button', { name: 'Копировать пример API' }).click();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('import requests');
   await page.getByRole('link', { name: 'Студия генерации', exact: true }).click();
+  await page.getByRole('button', { name: 'Сгенерировать для всех каналов' }).click();
+  await expect(page.getByRole('button', { name: 'Сгенерировать для всех каналов' })).toBeEnabled();
   await page.getByRole('button', { name: 'Подготовить к публикации' }).click();
   await expect(page.getByRole('dialog')).toContainText('ещё не подключены');
   const downloaded = page.waitForEvent('download');
@@ -86,7 +102,7 @@ test('all pages render without overflow or browser errors on desktop and mobile'
   page.on('pageerror', (error) => errors.push(error.message));
   for (const width of [1440, 390, 320]) {
     await page.setViewportSize({ width, height: 1000 });
-    for (const route of ['studio', 'channels', 'brand', 'docs', 'library']) {
+    for (const route of ['studio', 'channels', 'brand', 'docs', 'library', 'profile', 'history']) {
       await page.goto(`/#${route}`);
       await expect(page.locator('h1')).toBeVisible();
       await page.evaluate(() => document.fonts.ready);

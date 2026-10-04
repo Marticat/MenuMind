@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import {
-  ArrowDown,
   ArrowDownToLine,
   ArrowRight,
   BookOpen,
@@ -8,7 +7,6 @@ import {
   CheckCircle2,
   ChevronDown,
   Clipboard,
-  Code2,
   Copy,
   FileText,
   Flower2,
@@ -28,15 +26,9 @@ import {
 import {
   channels,
   constrain,
-  defaultRecipes,
-  defaultSettings,
   download,
   forbidden,
-  generate,
   generationFingerprint,
-  initialResult,
-  readStorage,
-  saveStorage,
   tones,
   type ChannelId,
   type Page,
@@ -45,16 +37,22 @@ import {
   type Settings,
   type Tone,
 } from './model';
+import { api, send, errorMessage, type Workspace, type Profile } from './api';
+import { Account, History } from './components/Account';
+import { ApiDocs } from './components/ApiDocs';
 
 const nav: { id: Page; label: string }[] = [
   { id: 'studio', label: 'Студия генерации' },
   { id: 'channels', label: 'Витрины каналов' },
-  { id: 'brand', label: 'Тон бренда & RAG' },
+  { id: 'brand', label: 'Тон бренда' },
   { id: 'docs', label: 'API документация' },
   { id: 'library', label: 'Библиотека рецептов' },
+  { id: 'history', label: 'История' },
 ];
 const getPage = (): Page =>
-  nav.some((n) => n.id === location.hash.slice(1)) ? (location.hash.slice(1) as Page) : 'studio';
+  location.hash.slice(1) === 'profile' || nav.some((n) => n.id === location.hash.slice(1))
+    ? (location.hash.slice(1) as Page)
+    : 'studio';
 const money = (price: number) => new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
 
 function Modal({
@@ -96,34 +94,62 @@ function Modal({
   );
 }
 
-function App() {
+function App({
+  workspace,
+  onLogout,
+  onWorkspaceChange,
+}: {
+  workspace: Workspace;
+  onLogout: () => Promise<void>;
+  onWorkspaceChange: (value: Workspace) => void;
+}) {
   const [page, setPage] = useState<Page>(getPage);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [recipes, setRecipes] = useState<Recipe[]>(() =>
-    readStorage('mise.recipes.v1', defaultRecipes),
+  const [profile, setProfile] = useState(workspace.profile);
+  const [recipes, setRecipes] = useState<Recipe[]>(workspace.recipes);
+  const [selectedId, setSelectedId] = useState(
+    workspace.result?.recipeId || workspace.recipes[0]?.id || '',
   );
-  const [selectedId, setSelectedId] = useState(() =>
-    readStorage('mise.selected.v1', defaultRecipes[0].id),
-  );
-  const [settings, setSettings] = useState<Settings>(() =>
-    readStorage('mise.settings.v1', defaultSettings),
-  );
-  const [tone, setTone] = useState<Tone>(() => readStorage('mise.tone.v1', 'editorial'));
-  const [result, setResult] = useState<Result>(() =>
-    readStorage('mise.result.v1', initialResult()),
+  const settings = profile.settings;
+  const [tone, setTone] = useState<Tone>(workspace.profile.tone);
+  const [language, setLanguage] = useState<'ru' | 'kk'>(workspace.profile.language);
+  const [result, setResult] = useState<Result>(
+    workspace.result ?? {
+      id: '',
+      recipeId: '',
+      name: 'Здесь появится описание',
+      texts: { yandex: '', wolt: '', website: '', print: '' },
+      variant: '',
+      tone: workspace.profile.tone,
+      sourceFingerprint: '',
+      createdAt: '',
+      price: 0,
+      weight: 0,
+      pairing: '',
+    },
   );
   const [generating, setGenerating] = useState(false);
+  useEffect(() => {
+    onWorkspaceChange({
+      user: workspace.user,
+      provider: workspace.provider,
+      profile,
+      recipes,
+      result: result.id ? result : null,
+    });
+  }, [onWorkspaceChange, workspace.user, workspace.provider, profile, recipes, result]);
   const [toast, setToast] = useState('');
   const [editingRecipe, setEditingRecipe] = useState<Recipe | 'new' | null>(null);
   const [editText, setEditText] = useState<{ key: ChannelId | 'variant'; text: string } | null>(
     null,
   );
   const [publishOpen, setPublishOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  const profileOpen = page === 'profile';
   const [copied, setCopied] = useState('');
-  const [published, setPublished] = useState<string>(() => readStorage('mise.published.v1', ''));
+  const [editBusy, setEditBusy] = useState(false);
+  const [editError, setEditError] = useState('');
+  const [published, setPublished] = useState('');
   const recipe = recipes.find((r) => r.id === selectedId) || recipes[0];
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const copyTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const notify = (message: string) => setToast(message);
   const go = (next: Page) => {
@@ -138,7 +164,7 @@ function App() {
     return () => window.removeEventListener('hashchange', change);
   }, []);
   useEffect(() => {
-    document.title = `Mise en Place — ${nav.find((n) => n.id === page)?.label}`;
+    document.title = `MenuMind — ${page === 'profile' ? 'Профиль' : nav.find((n) => n.id === page)?.label}`;
   }, [page]);
   useEffect(() => {
     if (toast) {
@@ -146,31 +172,33 @@ function App() {
       return () => clearTimeout(t);
     }
   }, [toast]);
-  useEffect(() => {
-    const ok = [
-      saveStorage('mise.recipes.v1', recipes),
-      saveStorage('mise.selected.v1', selectedId),
-      saveStorage('mise.tone.v1', tone),
-      saveStorage('mise.result.v1', result),
-    ].every(Boolean);
-    if (!ok)
-      setToast('Браузер не разрешает сохранять данные. Экспортируйте результат перед закрытием.');
-  }, [recipes, selectedId, tone, result]);
   useEffect(
     () => () => {
-      clearTimeout(timer.current);
       clearTimeout(copyTimer.current);
     },
     [],
   );
-  const doGenerate = () => {
-    if (generating) return;
+  const doGenerate = async () => {
+    if (generating || !recipe) return;
     setGenerating(true);
-    timer.current = setTimeout(() => {
-      setResult(generate(recipe, tone, settings));
+    try {
+      const next = await api<Result>('/generations', {
+        method: 'POST',
+        headers: { 'Idempotency-Key': crypto.randomUUID() },
+        body: JSON.stringify({
+          recipeId: recipe.id,
+          language,
+          tone,
+          ...(result.id && result.recipeId === recipe.id ? { previousId: result.id } : {}),
+        }),
+      });
+      setResult(next);
+      notify('Описания для четырёх каналов сохранены');
+    } catch (error) {
+      notify(errorMessage(error));
+    } finally {
       setGenerating(false);
-      notify('Описания для четырёх каналов готовы');
-    }, 1000);
+    }
   };
   useEffect(() => {
     const shortcut = (e: KeyboardEvent) => {
@@ -200,34 +228,53 @@ function App() {
       notify('Не удалось скопировать. Выделите текст или экспортируйте JSON.');
     }
   };
-  const saveRecipe = (value: Recipe) => {
-    setRecipes((prev) =>
-      prev.some((r) => r.id === value.id)
-        ? prev.map((r) => (r.id === value.id ? value : r))
-        : [...prev, value],
+  const saveRecipe = async (value: Recipe) => {
+    const exists = recipes.some((r) => r.id === value.id);
+    const saved = await send<Recipe>(
+      exists ? `/recipes/${value.id}` : '/recipes',
+      exists ? 'PUT' : 'POST',
+      value,
     );
-    setSelectedId(value.id);
+    setRecipes((prev) =>
+      prev.some((r) => r.id === saved.id)
+        ? prev.map((r) => (r.id === saved.id ? saved : r))
+        : [...prev, saved],
+    );
+    setSelectedId(saved.id);
     setEditingRecipe(null);
     notify('Технологическая карта сохранена');
   };
-  const saveSettings = (value: Settings) => {
-    setSettings(value);
-    notify(
-      saveStorage('mise.settings.v1', value)
-        ? 'Профиль ресторана сохранён в этом браузере'
-        : 'Не удалось сохранить настройки в браузере',
-    );
+  const saveSettings = async (value: Settings) => {
+    setProfile(await send<Profile>('/settings', 'PUT', value));
+    notify('Профиль ресторана сохранён');
   };
-  const stale = result.sourceFingerprint !== generationFingerprint(recipe, tone, settings);
-  const publishValid = channels.every(
-    (c) =>
-      result.texts[c.id].trim().length > 0 && result.texts[c.id].length <= settings.limits[c.id],
-  );
+  const saveProfile = async (value: Profile) => {
+    const saved = await send<Profile>('/profile', 'PUT', value);
+    setProfile(saved);
+    setTone(saved.tone);
+    setLanguage(saved.language);
+  };
+  const deleteRecipe = async (id: string) => {
+    await send(`/recipes/${id}`, 'DELETE');
+    setRecipes((prev) => prev.filter((r) => r.id !== id));
+    setEditingRecipe(null);
+    notify('Блюдо удалено');
+  };
+  const stale =
+    !!recipe &&
+    result.sourceFingerprint !== generationFingerprint(recipe, tone, settings, language, profile);
+  const publishValid =
+    !!result.id &&
+    channels.every(
+      (c) =>
+        result.texts[c.id].trim().length > 0 && result.texts[c.id].length <= settings.limits[c.id],
+    );
   const actionButtons = (key: ChannelId | 'variant') => (
     <div className="card-actions">
       <button
         aria-label={`Копировать ${key}`}
         className="icon-button"
+        disabled={!result.id}
         onClick={() => copy(key === 'variant' ? result.variant : result.texts[key], key)}
       >
         {copied === key ? <Check size={16} /> : <Copy size={16} />}
@@ -235,9 +282,11 @@ function App() {
       <button
         aria-label={`Редактировать ${key}`}
         className="icon-button"
-        onClick={() =>
-          setEditText({ key, text: key === 'variant' ? result.variant : result.texts[key] })
-        }
+        disabled={!result.id}
+        onClick={() => {
+          setEditError('');
+          setEditText({ key, text: key === 'variant' ? result.variant : result.texts[key] });
+        }}
       >
         <PencilLine size={16} />
       </button>
@@ -247,8 +296,8 @@ function App() {
   return (
     <>
       <header className="site-header">
-        <a className="wordmark" href="#studio" onClick={() => go('studio')}>
-          <span>MISE EN PLACE</span>
+        <a className="wordmark" href="#home">
+          <span>MENUMIND</span>
           <small>L’ATELIER GASTRONOMIQUE</small>
         </a>
         <nav
@@ -267,19 +316,16 @@ function App() {
             </a>
           ))}
         </nav>
-        <button className="organization" onClick={() => setProfileOpen(true)}>
+        <button className="organization" onClick={() => go('profile')}>
           <span>
-            Maison Delacroix<small>Grand Cru Group</small>
+            {profile.restaurantName}
+            <small>{workspace.user.name}</small>
           </span>
           <ChevronDown size={13} />
         </button>
         <span className="env-tag">STUDIO</span>
-        <button
-          className="avatar"
-          aria-label="Профиль ресторана"
-          onClick={() => setProfileOpen(true)}
-        >
-          MD
+        <button className="avatar" aria-label="Профиль ресторана" onClick={() => go('profile')}>
+          {workspace.user.name.slice(0, 2).toUpperCase()}
         </button>
         <button
           className="mobile-toggle icon-button"
@@ -293,17 +339,26 @@ function App() {
       {page === 'studio' && (
         <div className="session-bar">
           <span>
-            <i className="status-dot" /> ЛОКАЛЬНАЯ СЕССИЯ <b>/</b>{' '}
-            <span className="session-restaurant">Maison Delacroix & Associés</span>
+            <i className="status-dot" /> ВАШЕ ПРОСТРАНСТВО <b>/</b>{' '}
+            <span className="session-restaurant">{profile.restaurantName}</span>
           </span>
           <span>
-            DESCRIPTION ENGINE <b>/</b> ДЕМО-РЕЖИМ{' '}
-            <span className="session-extra">· Данные в этом браузере</span>
+            DESCRIPTION ENGINE <b>/</b>{' '}
+            {workspace.provider === 'template' ? 'ШАБЛОННЫЙ РЕЖИМ' : 'LLM'}{' '}
+            <span className="session-extra">· Данные сохранены на сервере</span>
           </span>
         </div>
       )}
       <main className={`main page-${page}`}>
-        {page === 'studio' && (
+        {page === 'studio' && !recipe && (
+          <div className="product-empty">
+            <h1>Начните с первого блюда</h1>
+            <button className="button primary" onClick={() => setEditingRecipe('new')}>
+              Добавить блюдо
+            </button>
+          </div>
+        )}
+        {page === 'studio' && recipe && (
           <>
             <div className="page-heading studio-heading">
               <div>
@@ -314,7 +369,11 @@ function App() {
               </div>
               <div className="mode-label">
                 <span>РЕЖИМ:</span>
-                <span className="tag">EDITORIAL RIGOR V2.8</span>
+                <span className="tag">
+                  {workspace.provider === 'template'
+                    ? 'ШАБЛОННЫЙ · БЕЗ LLM'
+                    : 'LLM · ПРОВЕРЬТЕ РЕЗУЛЬТАТ'}
+                </span>
               </div>
             </div>
             <div className="studio-grid">
@@ -385,6 +444,30 @@ function App() {
                     </label>
                   ))}
                 </fieldset>
+                <label className="product-field">
+                  Язык описания
+                  <select
+                    aria-label="Язык описания"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value as 'ru' | 'kk')}
+                  >
+                    <option value="ru">Русский</option>
+                    <option value="kk">Қазақша</option>
+                  </select>
+                </label>
+                <div className="product-tags" aria-label="Извлечённые теги">
+                  {recipe.tags?.map((tag) => (
+                    <span key={tag.id} title={`Источник: ${tag.evidence?.text ?? ''}`}>
+                      {tag.label}
+                      {tag.kind === 'allergen' ? ' *' : ''}
+                    </span>
+                  ))}
+                </div>
+                {!!recipe.tags?.some((tag) => tag.kind === 'allergen') && (
+                  <p className="footnote">
+                    * Возможный аллерген по составу; требует подтверждения.
+                  </p>
+                )}
                 <div className="field-block">
                   <div className="field-label">Редакционные проверки</div>
                   <div className="filter-row">
@@ -400,7 +483,7 @@ function App() {
                   <div className="filter-row strict">
                     <Flower2 size={16} />
                     <span>Zero Superlatives · фильтр штампов</span>
-                    <span className="tag">{settings.strictness >= 70 ? 'STRICT' : 'SOFT'}</span>
+                    <span className="tag">STRICT</span>
                   </div>
                   <p className="footnote">
                     * Стоп-слова: «изысканный», «незабываемый», «волшебный», «лучший», «сочный»,
@@ -423,8 +506,12 @@ function App() {
                   <kbd>⌘ ↵</kbd>
                 </button>
                 <div className="generation-note">
-                  <span>Локальный шаблонный движок</span>
-                  <span>4 канала / RU</span>
+                  <span>
+                    {workspace.provider === 'template'
+                      ? 'Шаблонный режим · без перевода исходных полей'
+                      : 'Генерация через LLM'}
+                  </span>
+                  <span>4 канала / {language.toUpperCase()}</span>
                 </div>
                 <div className="atelier-note">
                   <Flower2 size={24} strokeWidth={1} />
@@ -440,157 +527,224 @@ function App() {
                 aria-label="Результаты генерации"
                 aria-busy={generating}
               >
-                <div className="result-status">
-                  <span>
-                    <i className="status-dot" />{' '}
-                    {generating
-                      ? 'Подготовка редакционных вариантов…'
-                      : stale
-                        ? 'Параметры изменены · сгенерируйте новые тексты'
-                        : 'Четыре варианта · готовы к редактуре'}
-                  </span>
-                  <span className="status-right">
-                    DEMO <Check size={12} />
-                  </span>
-                </div>
-                <article className="result-card marketplace">
-                  <div className="card-heading">
-                    <div>
-                      <span className="channel-tag">Канал: Яндекс.Еда</span>
-                      <span className="card-caption">
-                        Лимит витрины: {settings.limits.yandex} симв.
+                {!result.id && (
+                  <div className="product-empty studio-empty">
+                    <Sparkles size={30} strokeWidth={1} />
+                    <h2>Здесь появится голос вашего меню</h2>
+                    <p>
+                      Выберите язык и тон, затем нажмите «Сгенерировать». Готовые тексты сохранятся
+                      в истории.
+                    </p>
+                  </div>
+                )}
+                {!!result.id && (
+                  <>
+                    <div className="result-status">
+                      <span>
+                        <i className="status-dot" />{' '}
+                        {generating
+                          ? 'Подготовка редакционных вариантов…'
+                          : stale
+                            ? 'Параметры изменены · сгенерируйте новые тексты'
+                            : 'Четыре варианта · готовы к редактуре'}
+                      </span>
+                      <span className="status-right">
+                        {result.provider === 'openai-compatible' ? 'LLM' : 'TEMPLATE'}{' '}
+                        <Check size={12} />
                       </span>
                     </div>
-                    {actionButtons('yandex')}
-                  </div>
-                  <div className="dish-preview">
-                    {result.image ? (
-                      <div className="dish-photo">
-                        <img
-                          src={result.image}
-                          alt="Томлёная говяжья щека с пюре на керамической тарелке"
-                        />
-                        <span>{result.weight} г</span>
+                    <article className="result-card marketplace">
+                      <div className="card-heading">
+                        <div>
+                          <span className="channel-tag">Канал: Яндекс.Еда</span>
+                          <span className="card-caption">
+                            Лимит витрины: {settings.limits.yandex} симв.
+                          </span>
+                        </div>
+                        {actionButtons('yandex')}
                       </div>
-                    ) : (
-                      <div className="dish-placeholder">
-                        <UtensilsCrossed size={30} />
+                      <div className="dish-preview">
+                        {result.image ? (
+                          <div className="dish-photo">
+                            <img src={result.image} alt={result.name} />
+                            <span>{result.weight} г</span>
+                          </div>
+                        ) : (
+                          <div className="dish-placeholder">
+                            <UtensilsCrossed size={30} />
+                          </div>
+                        )}
+                        <div className="dish-description">
+                          <div className="row-between dish-title">
+                            <h3>{result.name}</h3>
+                            <span>{money(result.price)}</span>
+                          </div>
+                          <p className="editorial-text">«{result.texts.yandex}»</p>
+                          <div className="result-meta">
+                            <CharacterCount
+                              text={result.texts.yandex}
+                              limit={settings.limits.yandex}
+                            />
+                            <span className="tag">
+                              {/\p{Extended_Pictographic}/u.test(result.texts.yandex)
+                                ? 'Есть эмодзи'
+                                : 'NO EMOJI'}
+                            </span>
+                            <span className="text-brass">Ручная редактура доступна</span>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                    <article className="result-card">
+                      <div className="card-heading">
+                        <div>
+                          <span className="channel-tag brass">Канал: Wolt Global</span>
+                          <span className="card-caption">
+                            Editorial формат до {settings.limits.wolt} симв.
+                          </span>
+                        </div>
+                        {actionButtons('wolt')}
+                      </div>
+                      <div className="row-between">
+                        <span className="eyebrow">Компактная подача</span>
+                        <CharacterCount text={result.texts.wolt} limit={settings.limits.wolt} />
+                      </div>
+                      <p className="editorial-text wolt-text">«{result.texts.wolt}»</p>
+                      <div className="card-bottom">
+                        <span>
+                          Язык: {(result.language ?? language).toUpperCase()} · Краткое описание
+                        </span>
+                        <span className="mono">{result.texts.wolt.split(/\s+/).length} слов</span>
+                      </div>
+                    </article>
+                    <article className="result-card master-card">
+                      <span className="floating-label">MASTER ATELIER TEXT</span>
+                      <div className="card-heading">
+                        <div>
+                          <span className="channel-tag">Фирменное приложение & carte des mets</span>
+                          <span className="card-caption">
+                            Full storytelling · {settings.limits.website} симв.
+                          </span>
+                        </div>
+                        {actionButtons('website')}
+                      </div>
+                      <div className="master-text">
+                        <span className="roman">IV.</span>
+                        <blockquote>«{result.texts.website}»</blockquote>
+                      </div>
+                      {result.pairing && (
+                        <div className="pairing">
+                          <Wine size={17} />
+                          <div>
+                            <span className="eyebrow">Эногастрономический пейринг</span>
+                            <p>
+                              Рекомендация сомелье:
+                              <br />
+                              {result.pairing}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      <div className="card-bottom">
+                        <CharacterCount
+                          text={result.texts.website}
+                          limit={settings.limits.website}
+                        />
+                        <span className="mono">
+                          Стиль: {tones.find((t) => t.id === result.tone)?.id.toUpperCase()}
+                        </span>
+                      </div>
+                    </article>
+                    <article className="result-card print-card">
+                      <div className="card-heading">
+                        <div>
+                          <span className="channel-tag">Печатное меню</span>
+                          <span className="card-caption">Короткая подача для карты меню</span>
+                        </div>
+                        {actionButtons('print')}
+                      </div>
+                      <p className="editorial-text">«{result.texts.print}»</p>
+                      <div className="card-bottom">
+                        <span>Готово для вёрстки меню</span>
+                        <CharacterCount text={result.texts.print} limit={settings.limits.print} />
+                      </div>
+                    </article>
+                    <article className="result-card variant-card">
+                      <div className="card-heading">
+                        <div>
+                          <span className="tag">A/B СПЛИТ: МАРКЕТПЛЕЙС 2</span>
+                          <span className="card-caption">Фокус на ремесло & фактуру</span>
+                        </div>
+                        {actionButtons('variant')}
+                      </div>
+                      <p className="editorial-text">«{result.variant}»</p>
+                      <div className="card-bottom">
+                        <span>Альтернативная редакция · вариант B</span>
+                        <span className="mono">{result.variant.length} симв.</span>
+                      </div>
+                    </article>
+                    <div className="export-bar">
+                      <div>
+                        <Clipboard size={18} />
+                        <span>
+                          <strong>
+                            {published && published === result.id
+                              ? 'Редакция сохранена'
+                              : 'Готово к передаче в меню'}
+                          </strong>
+                          <small>JSON для четырёх каналов дистрибуции</small>
+                        </span>
+                      </div>
+                      <div className="export-actions">
+                        <button
+                          className="button secondary"
+                          disabled={!result.id}
+                          onClick={() => {
+                            download(result, `mise-${result.recipeId}.json`);
+                            notify('JSON экспортирован');
+                          }}
+                        >
+                          <ArrowDownToLine size={15} />
+                          Экспорт JSON
+                        </button>
+                        <button
+                          className="button primary"
+                          disabled={!result.id}
+                          onClick={() => setPublishOpen(true)}
+                        >
+                          Подготовить к публикации
+                          <ArrowRight size={15} />
+                        </button>
+                      </div>
+                    </div>
+                    {!!result.id && (
+                      <div className="feedback-bar">
+                        <span>Подходит вашему ресторану?</span>
+                        {[1, -1].map((value) => (
+                          <button
+                            key={value}
+                            className="button secondary"
+                            aria-pressed={result.feedback === value}
+                            onClick={async () => {
+                              try {
+                                const feedback = result.feedback === value ? 0 : value;
+                                await send(`/generations/${result.id}/feedback`, 'PUT', {
+                                  value: feedback,
+                                });
+                                setResult((prev) => ({ ...prev, feedback }));
+                                notify('Оценка учтена в персональной подборке');
+                              } catch (error) {
+                                notify(errorMessage(error));
+                              }
+                            }}
+                          >
+                            {value === 1 ? 'Подходит' : 'Нужно доработать'}
+                          </button>
+                        ))}
                       </div>
                     )}
-                    <div className="dish-description">
-                      <div className="row-between dish-title">
-                        <h3>{result.name}</h3>
-                        <span>{money(result.price)}</span>
-                      </div>
-                      <p className="editorial-text">«{result.texts.yandex}»</p>
-                      <div className="result-meta">
-                        <CharacterCount text={result.texts.yandex} limit={settings.limits.yandex} />
-                        <span className="tag">
-                          {/\p{Extended_Pictographic}/u.test(result.texts.yandex)
-                            ? '???? ??????'
-                            : 'NO EMOJI'}
-                        </span>
-                        <span className="text-brass">Ручная редактура доступна</span>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-                <article className="result-card">
-                  <div className="card-heading">
-                    <div>
-                      <span className="channel-tag brass">Канал: Wolt Global</span>
-                      <span className="card-caption">
-                        Editorial формат до {settings.limits.wolt} симв.
-                      </span>
-                    </div>
-                    {actionButtons('wolt')}
-                  </div>
-                  <div className="row-between">
-                    <span className="eyebrow">Компактная подача</span>
-                    <CharacterCount text={result.texts.wolt} limit={settings.limits.wolt} />
-                  </div>
-                  <p className="editorial-text wolt-text">«{result.texts.wolt}»</p>
-                  <div className="card-bottom">
-                    <span>Язык: RU · Краткое описание</span>
-                    <span className="mono">{result.texts.wolt.split(/\s+/).length} слов</span>
-                  </div>
-                </article>
-                <article className="result-card master-card">
-                  <span className="floating-label">MASTER ATELIER TEXT</span>
-                  <div className="card-heading">
-                    <div>
-                      <span className="channel-tag">Фирменное приложение & carte des mets</span>
-                      <span className="card-caption">
-                        Full storytelling · {settings.limits.website} симв.
-                      </span>
-                    </div>
-                    {actionButtons('website')}
-                  </div>
-                  <div className="master-text">
-                    <span className="roman">IV.</span>
-                    <blockquote>«{result.texts.website}»</blockquote>
-                  </div>
-                  <div className="pairing">
-                    <Wine size={17} />
-                    <div>
-                      <span className="eyebrow">Эногастрономический пейринг</span>
-                      <p>
-                        Рекомендация сомелье:
-                        <br />
-                        {result.pairing}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="card-bottom">
-                    <CharacterCount text={result.texts.website} limit={settings.limits.website} />
-                    <span className="mono">
-                      Стиль: {tones.find((t) => t.id === result.tone)?.id.toUpperCase()}
-                    </span>
-                  </div>
-                </article>
-                <article className="result-card variant-card">
-                  <div className="card-heading">
-                    <div>
-                      <span className="tag">A/B СПЛИТ: МАРКЕТПЛЕЙС 2</span>
-                      <span className="card-caption">Фокус на ремесло & фактуру</span>
-                    </div>
-                    {actionButtons('variant')}
-                  </div>
-                  <p className="editorial-text">«{result.variant}»</p>
-                  <div className="card-bottom">
-                    <span>Альтернативная редакция · вариант B</span>
-                    <span className="mono">{result.variant.length} симв.</span>
-                  </div>
-                </article>
-                <div className="export-bar">
-                  <div>
-                    <Clipboard size={18} />
-                    <span>
-                      <strong>
-                        {published === result.id
-                          ? 'Редакция сохранена'
-                          : 'Готово к передаче в меню'}
-                      </strong>
-                      <small>JSON для четырёх каналов дистрибуции</small>
-                    </span>
-                  </div>
-                  <div className="export-actions">
-                    <button
-                      className="button secondary"
-                      onClick={() => {
-                        download(result, `mise-${result.recipeId}.json`);
-                        notify('JSON экспортирован');
-                      }}
-                    >
-                      <ArrowDownToLine size={15} />
-                      Экспорт JSON
-                    </button>
-                    <button className="button primary" onClick={() => setPublishOpen(true)}>
-                      Подготовить к публикации
-                      <ArrowRight size={15} />
-                    </button>
-                  </div>
-                </div>
+                  </>
+                )}
               </section>
             </div>
           </>
@@ -605,7 +759,35 @@ function App() {
             notify={notify}
           />
         )}
-        {page === 'docs' && <DocsPage copied={copied} copy={copy} />}
+        {page === 'docs' && <ApiDocs />}
+        {page === 'profile' && (
+          <Account
+            user={workspace.user}
+            profile={profile}
+            onSave={saveProfile}
+            onLogout={onLogout}
+            onSelect={(r) => {
+              setSelectedId(r.id);
+              go('studio');
+            }}
+          />
+        )}
+        {page === 'history' && (
+          <History
+            onSelect={(value) => {
+              if (!recipes.some((r) => r.id === value.recipeId)) {
+                download(value, `mise-${value.id}.json`);
+                notify('Блюдо удалено. Историческая редакция скачана.');
+                return;
+              }
+              setResult(value);
+              setSelectedId(value.recipeId);
+              setTone(value.tone);
+              setLanguage(value.language ?? 'ru');
+              go('studio');
+            }}
+          />
+        )}
         {page === 'library' && (
           <LibraryPage
             recipes={recipes}
@@ -622,7 +804,7 @@ function App() {
         <div>
           <span className="footer-wordmark">L’Atelier Gastronomique</span>
           <span className="footer-divider">·</span>
-          <span>© {new Date().getFullYear()} Mise en Place. Искусство точного слова.</span>
+          <span>© {new Date().getFullYear()} MenuMind. Искусство точного слова.</span>
         </div>
         <div>
           <button onClick={() => go('docs')}>ARCHIVAL CODEX</button>
@@ -630,7 +812,7 @@ function App() {
           <button onClick={() => go('brand')}>BRAND MANIFESTO</button>
           <span>/</span>
           <span className="footer-status">
-            <i className="status-dot" /> LOCAL STUDIO
+            <i className="status-dot" /> MENUMIND STUDIO
           </span>
         </div>
       </footer>
@@ -652,24 +834,34 @@ function App() {
           recipe={editingRecipe}
           onClose={() => setEditingRecipe(null)}
           onSave={saveRecipe}
+          onDelete={deleteRecipe}
         />
       )}
       {editText && (
         <Modal title="Редактура описания" onClose={() => setEditText(null)}>
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              if (!editText.text.trim()) return;
+              if (!editText.text.trim() || editBusy) return;
               const key = editText.key;
-              setResult((prev) => ({
-                ...prev,
-                id: crypto.randomUUID(),
-                ...(key === 'variant'
-                  ? { variant: editText.text.trim() }
-                  : { texts: { ...prev.texts, [key]: editText.text.trim() } }),
-              }));
-              setEditText(null);
-              notify('Редакция сохранена');
+              setEditBusy(true);
+              setEditError('');
+              try {
+                const body = {
+                  texts:
+                    key === 'variant'
+                      ? result.texts
+                      : { ...result.texts, [key]: editText.text.trim() },
+                  variant: key === 'variant' ? editText.text.trim() : result.variant,
+                };
+                setResult(await send<Result>(`/generations/${result.id}`, 'PATCH', body));
+                setEditText(null);
+                notify('Редакция сохранена');
+              } catch (error) {
+                setEditError(errorMessage(error));
+              } finally {
+                setEditBusy(false);
+              }
             }}
           >
             <label className="input-label" htmlFor="edit-description">
@@ -697,10 +889,15 @@ function App() {
               <button type="button" className="button secondary" onClick={() => setEditText(null)}>
                 Отмена
               </button>
-              <button className="button primary" disabled={!editText.text.trim()}>
+              <button className="button primary" disabled={!editText.text.trim() || editBusy}>
                 Сохранить редакцию
               </button>
             </div>
+            {editError && (
+              <p className="form-error" role="alert">
+                {editError}
+              </p>
+            )}
           </form>
         </Modal>
       )}
@@ -738,52 +935,12 @@ function App() {
                   `mise-publication-${result.recipeId}.json`,
                 );
                 setPublished(result.id);
-                saveStorage('mise.published.v1', result.id);
                 setPublishOpen(false);
                 notify('Пакет для публикации скачан. Внешние каналы не подключены.');
               }}
             >
               Скачать пакет
               <ArrowDownToLine size={15} />
-            </button>
-          </div>
-        </Modal>
-      )}
-      {profileOpen && (
-        <Modal title="Maison Delacroix" onClose={() => setProfileOpen(false)}>
-          <p className="modal-copy">Рабочее пространство ресторанной группы Grand Cru Group.</p>
-          <dl className="profile-details">
-            <div>
-              <dt>Режим</dt>
-              <dd>Локальная студия</dd>
-            </div>
-            <div>
-              <dt>Технологические карты</dt>
-              <dd>{recipes.length}</dd>
-            </div>
-            <div>
-              <dt>Каналы дистрибуции</dt>
-              <dd>4</dd>
-            </div>
-            <div>
-              <dt>Хранение</dt>
-              <dd>В этом браузере</dd>
-            </div>
-          </dl>
-          <p className="footnote">
-            Авторизация, внешнее API и синхронизация POS будут доступны после подключения серверной
-            части.
-          </p>
-          <div className="modal-actions">
-            <button
-              className="button primary"
-              onClick={() => {
-                setProfileOpen(false);
-                go('brand');
-              }}
-            >
-              Настроить голос бренда
-              <ArrowRight size={15} />
             </button>
           </div>
         </Modal>
@@ -804,10 +961,12 @@ function RecipeEditor({
   recipe,
   onSave,
   onClose,
+  onDelete,
 }: {
   recipe: Recipe | 'new';
-  onSave: (r: Recipe) => void;
+  onSave: (r: Recipe) => Promise<void>;
   onClose: () => void;
+  onDelete: (id: string) => Promise<void>;
 }) {
   const [draft, setDraft] = useState<Recipe>(() =>
     recipe === 'new'
@@ -818,23 +977,33 @@ function RecipeEditor({
           ingredients: [],
           method: '',
           category: 'Основное',
-          weight: 250,
-          price: 1000,
+          weight: 0,
+          price: 0,
           pairing: '',
         }
       : { ...recipe },
   );
   const [ingredientsText, setIngredientsText] = useState(draft.ingredients.join('\n'));
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
   const update = <K extends keyof Recipe>(key: K, value: Recipe[K]) =>
     setDraft({ ...draft, [key]: value });
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     const ingredients = ingredientsText
       .split(/[\n;]/)
       .map((s) => s.trim())
       .filter(Boolean);
-    if (!draft.name.trim() || !draft.method.trim() || !ingredients.length) return;
-    onSave({ ...draft, name: draft.name.trim(), ingredients, method: draft.method.trim() });
+    if (!draft.name.trim() || busy) return;
+    setBusy(true);
+    setError('');
+    try {
+      await onSave({ ...draft, name: draft.name.trim(), ingredients, method: draft.method.trim() });
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setBusy(false);
+    }
   };
   return (
     <Modal
@@ -875,8 +1044,7 @@ function RecipeEditor({
             Вес, г
             <input
               type="number"
-              required
-              min="1"
+              min="0"
               max="20000"
               value={draft.weight}
               onChange={(e) => update('weight', Number(e.target.value))}
@@ -886,8 +1054,7 @@ function RecipeEditor({
             Цена, ₽
             <input
               type="number"
-              required
-              min="1"
+              min="0"
               max="1000000"
               value={draft.price}
               onChange={(e) => update('price', Number(e.target.value))}
@@ -897,7 +1064,6 @@ function RecipeEditor({
         <label>
           Ингредиенты <span className="muted">· по одному на строку</span>
           <textarea
-            required
             rows={5}
             value={ingredientsText}
             onChange={(e) => setIngredientsText(e.target.value)}
@@ -906,7 +1072,6 @@ function RecipeEditor({
         <label>
           Метод приготовления
           <textarea
-            required
             rows={3}
             maxLength={1000}
             value={draft.method}
@@ -926,11 +1091,36 @@ function RecipeEditor({
           <button type="button" className="button secondary" onClick={onClose}>
             Отмена
           </button>
-          <button className="button primary">
+          <button className="button primary" disabled={busy}>
             Сохранить карту
             <Check size={15} />
           </button>
         </div>
+        {error && (
+          <p className="form-error" role="alert">
+            {error}
+          </p>
+        )}
+        {recipe !== 'new' && (
+          <button
+            type="button"
+            className="delete-recipe"
+            disabled={busy}
+            onClick={async () => {
+              if (!window.confirm('Удалить это блюдо? История описаний сохранится.')) return;
+              setBusy(true);
+              try {
+                await onDelete(recipe.id);
+              } catch (err) {
+                setError(errorMessage(err));
+              } finally {
+                setBusy(false);
+              }
+            }}
+          >
+            Удалить блюдо
+          </button>
+        )}
       </form>
     </Modal>
   );
@@ -1028,6 +1218,13 @@ function LibraryPage({
               <h2>{r.name}</h2>
               <p className="library-subtitle">{r.subtitle}</p>
               <p className="library-ingredients">{r.ingredients.join(' · ')}</p>
+              <div className="product-tags">
+                {r.tags?.map((tag) => (
+                  <span key={tag.id} title={`Источник: ${tag.evidence?.text ?? ''}`}>
+                    {tag.label}
+                  </span>
+                ))}
+              </div>
               <div className="row-between library-price">
                 <span>{r.weight} г</span>
                 <span>{money(r.price)}</span>
@@ -1067,7 +1264,7 @@ function LibraryPage({
       )}
       <div className="section-tail">
         <span className="eyebrow">LE RÉPERTOIRE GASTRONOMIQUE</span>
-        <span>Технологические карты сохраняются в вашем браузере.</span>
+        <span>Технологические карты сохраняются в вашем аккаунте на сервере.</span>
         <Leaf size={17} strokeWidth={1} />
       </div>
     </>
@@ -1084,7 +1281,7 @@ function ChannelsPage({
   brandOnly: boolean;
   settings: Settings;
   result: Result;
-  onSave: (s: Settings) => void;
+  onSave: (s: Settings) => Promise<void>;
   notify: (m: string) => void;
 }) {
   const [draft, setDraft] = useState(settings);
@@ -1092,20 +1289,28 @@ function ChannelsPage({
   const [channelLimit, setChannelLimit] = useState(250);
   const [sample, setSample] = useState<{ index: number; text: string } | null>(null);
   const [dirty, setDirty] = useState(false);
+  const [saving, setSaving] = useState(false);
   const update = (value: Partial<Settings>) => {
     setDraft({ ...draft, ...value });
     setDirty(true);
   };
-  const save = () => {
-    onSave(draft);
-    setDirty(false);
+  const save = async () => {
+    setSaving(true);
+    try {
+      await onSave(draft);
+      setDirty(false);
+    } catch (error) {
+      notify(errorMessage(error));
+    } finally {
+      setSaving(false);
+    }
   };
   return (
     <>
       <div className="config-kicker">
         <span>
           ATELIER CONFIGURATION <b>/</b>{' '}
-          {brandOnly ? 'BRAND VOICE & EDITORIAL DNA' : 'RAG KERNEL & DISTRIBUTION MATRIX'}
+          {brandOnly ? 'BRAND VOICE & EDITORIAL DNA' : 'BRAND PROFILE & CHANNELS'}
         </span>
         <span className="tag">
           <BookOpen size={12} /> CODEX: ED. 1903 [ESCOFFIER]
@@ -1132,14 +1337,14 @@ function ChannelsPage({
           <p className="page-description">
             {brandOnly
               ? 'У каждого ресторана свой почерк. Настройте точность формулировок, характер повествования и внимание к гастрономическим деталям.'
-              : 'Управление лимитами агрегаторов, фильтрами стоп-слов и RAG-профилем заведения. Контроль лексической чистоты и автоматической коррекции меню без потери гастрономического нарратива.'}
+              : 'Управление лимитами агрегаторов, фильтрами стоп-слов и профилем заведения. Контроль лексической чистоты и автоматической коррекции меню без потери гастрономического нарратива.'}
           </p>
         </div>
         <div className="config-status">
           <span className="tag">
             <ShieldCheck size={15} /> РЕДАКЦИОННЫЙ ПРОФИЛЬ
           </span>
-          <small>{dirty ? 'Есть несохранённые изменения' : 'Локальные настройки ресторана'}</small>
+          <small>{dirty ? 'Есть несохранённые изменения' : 'Настройки сохранены на сервере'}</small>
         </div>
       </div>
       {!brandOnly && (
@@ -1247,7 +1452,7 @@ function ChannelsPage({
       )}
       <div className="brand-grid">
         <section className="corpus-panel">
-          <p className="eyebrow">Векторная база знаний · RAG corpus</p>
+          <p className="eyebrow">Эталонные тексты · контекст бренда</p>
           <div className="row-between corpus-title">
             <h2>
               Эталонный банк Few-Shot образцов <span>({draft.samples.length} текста)</span>
@@ -1263,8 +1468,8 @@ function ChannelsPage({
             происхождению продукта и внимание к ремеслу.
           </p>
           <p className="corpus-description">
-            В этой версии тексты сохраняются как референсы. Векторный поиск подключается на стороне
-            сервера.
+            LLM получает два образца, выбранных по совпадению слов с техкартой. В шаблонном режиме
+            образцы не используются.
           </p>
           <div className="sample-grid">
             {draft.samples.map((text, i) => (
@@ -1299,7 +1504,7 @@ function ChannelsPage({
           </button>
           <div className="vector-panel">
             <div className="row-between">
-              <span className="eyebrow">Кластеры векторных якорей</span>
+              <span className="eyebrow">Ориентиры стиля</span>
               <span className="mono">EDITORIAL WEIGHTS</span>
             </div>
             <div className="vector-weights">
@@ -1318,7 +1523,7 @@ function ChannelsPage({
           </div>
         </section>
         <aside className="tone-regulators">
-          <p className="eyebrow">RAG hyperparameters</p>
+          <p className="eyebrow">НАСТРОЙКИ СТИЛЯ</p>
           <h2>Регуляторы тональности</h2>
           <p>Тонкая настройка баланса строгости и сенсорных дескрипторов.</p>
           {(
@@ -1341,7 +1546,8 @@ function ChannelsPage({
               {
                 key: 'strictness',
                 title: 'Строгость словаря',
-                description: 'При значении от 70% включается фильтрация рекламных штампов.',
+                description:
+                  'Стилевой ориентир для LLM. Запрет превосходных степеней и обещаний пользы действует всегда.',
                 left: 'МЯГКИЙ ФИЛЬТР',
                 right: 'ZERO-TOLERANCE',
               },
@@ -1368,12 +1574,12 @@ function ChannelsPage({
               </div>
             </div>
           ))}
-          <button className="button primary save-profile" onClick={save}>
+          <button className="button primary save-profile" disabled={saving} onClick={save}>
             <Flower2 size={18} />
             <span>Сохранить профиль ресторана</span>
           </button>
           <div className="generation-note">
-            <span>Maison Delacroix</span>
+            <span>Профиль ресторана</span>
             <span>{dirty ? 'НЕ СОХРАНЕНО' : 'СОХРАНЕНО'}</span>
           </div>
         </aside>
@@ -1381,7 +1587,7 @@ function ChannelsPage({
       <div className="section-tail">
         <span className="eyebrow">ESCOFFIER STANDARD CODEX</span>
         <span>Сохранённые настройки применяются при следующей генерации.</span>
-        <span className="mono">LOCAL PROFILE · V1.0</span>
+        <span className="mono">SERVER PROFILE · V1.0</span>
       </div>
       {activeChannel && (
         <Modal
@@ -1454,385 +1660,6 @@ function ChannelsPage({
           </form>
         </Modal>
       )}
-    </>
-  );
-}
-
-const apiExamples: Record<string, string> = {
-  cURL: `curl -X POST "$MISE_API_URL/v1/descriptions:generate" \\\n  -H "Authorization: Bearer $MISE_API_KEY" \\\n  -H "Idempotency-Key: <uuid-v4>" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "recipe_id": "rcp_8841_brx",\n    "channel": "yandex_eda",\n    "tone_override": "refined_editorial"\n  }'`,
-  Python: `import os\nimport uuid\nimport requests\n\nresponse = requests.post(\n    os.environ["MISE_API_URL"]\n    + "/v1/descriptions:generate",\n    headers={\n        "Authorization": "Bearer " +\n            os.environ["MISE_API_KEY"],\n        "Idempotency-Key": str(uuid.uuid4()),\n    },\n    json={\n        "recipe_id": "rcp_8841_brx",\n        "channel": "yandex_eda",\n    },\n)\nresponse.raise_for_status()\njob = response.json()`,
-  TypeScript: `const response = await fetch(\n  process.env.MISE_API_URL +\n    '/v1/descriptions:generate',\n  {\n    method: 'POST',\n    headers: {\n      Authorization:\n        'Bearer ' + process.env.MISE_API_KEY,\n      'Idempotency-Key': crypto.randomUUID(),\n      'Content-Type': 'application/json',\n    },\n    body: JSON.stringify({\n      recipe_id: 'rcp_8841_brx',\n      channel: 'yandex_eda',\n    }),\n  },\n);\nif (!response.ok) throw new Error(\n  'Generation request failed'\n);\nconst job = await response.json();`,
-  Go: `payload := strings.NewReader(\n  \x60{"recipe_id":"rcp_8841_brx",\n    "channel":"yandex_eda"}\x60,\n)\nreq, err := http.NewRequest(\n  "POST",\n  os.Getenv("MISE_API_URL") +\n    "/v1/descriptions:generate",\n  payload,\n)\nif err != nil { return err }\nreq.Header.Set("Authorization",\n  "Bearer " + os.Getenv("MISE_API_KEY"))\nreq.Header.Set("Content-Type",\n  "application/json")\nreq.Header.Set("Idempotency-Key",\n  uuid.NewString())\nres, err := http.DefaultClient.Do(req)\nif err != nil { return err }\ndefer res.Body.Close()`,
-};
-const endpoints = [
-  {
-    id: 'generate',
-    method: 'POST',
-    path: '/v1/descriptions:generate',
-    desc: 'Асинхронный запуск генерации. Заголовок Idempotency-Key позволяет повторить запрос, не создавая дубликат задания.',
-    fields: [
-      ['recipe_id', 'string', 'Да', 'Идентификатор технологической карты блюда.'],
-      ['channel', 'enum', 'Да', 'Канал дистрибуции: yandex_eda, wolt, white_label, print.'],
-      ['tone_override', 'string', 'Нет', 'Переопределение базового регистра повествования.'],
-      ['hero_ingredient', 'string', 'Нет', 'Акцентный продукт для редакционной подачи.'],
-      ['allergens_declared', 'array', 'Да', 'Подтверждённый рестораном список аллергенов.'],
-    ],
-  },
-  {
-    id: 'status',
-    method: 'GET',
-    path: '/v1/descriptions/{id}',
-    desc: 'Получение результата по идентификатору задания. Статусы: processing, completed и failed.',
-    fields: [['id', 'string', 'Да', 'Идентификатор задания из ответа на генерацию.']],
-  },
-  {
-    id: 'batch',
-    method: 'POST',
-    path: '/v1/descriptions:batch',
-    desc: 'Массовая генерация описаний для сезонного обновления меню. Каждый элемент обрабатывается как отдельное задание.',
-    fields: [
-      ['recipe_ids', 'array', 'Да', 'Список идентификаторов технологических карт.'],
-      ['channels', 'array', 'Да', 'Каналы, для которых нужны описания.'],
-    ],
-  },
-  {
-    id: 'constraints',
-    method: 'GET',
-    path: '/v1/channels/{channel}/constraints',
-    desc: 'Лимиты символов, формат, стоп-слова и правила выбранной витрины доставки.',
-    fields: [['channel', 'enum', 'Да', 'Идентификатор профиля канала.']],
-  },
-  {
-    id: 'recipes',
-    method: 'POST',
-    path: '/v1/recipes',
-    desc: 'Загрузка технологической карты. Предварительная детекция аллергенов требует подтверждения сотрудником ресторана.',
-    fields: [
-      ['name', 'string', 'Да', 'Название блюда.'],
-      ['ingredients', 'array', 'Да', 'Ингредиенты и их количества.'],
-      ['method', 'string', 'Да', 'Метод приготовления и температурный режим.'],
-    ],
-  },
-  {
-    id: 'preferences',
-    method: 'POST',
-    path: '/v1/preferences',
-    desc: 'Настройка голоса бренда, эталонных текстов и параметров генерации для организации.',
-    fields: [
-      ['samples', 'array', 'Да', 'Примеры текстов в стиле ресторана.'],
-      ['restraint', 'number', 'Нет', 'Уровень сдержанности: от 0 до 100.'],
-    ],
-  },
-];
-function DocsPage({ copied, copy }: { copied: string; copy: (text: string, key: string) => void }) {
-  const [language, setLanguage] = useState('cURL');
-  const [active, setActive] = useState('architecture');
-  const scrollTo = (id: string) => {
-    setActive(id);
-    document.getElementById(`doc-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-  return (
-    <>
-      <div className="docs-banner">
-        <span>
-          <span className="eyebrow mono">CODEX ARCHIVAL № 14-B</span>
-          <b>/</b> MISE EN PLACE ENGINE API SPEC
-        </span>
-        <span className="mono">
-          Schema: v1.4 <span className="tag">ПРОЕКТ КОНТРАКТА</span>
-        </span>
-      </div>
-      <div className="docs-layout">
-        <aside className="docs-sidebar">
-          <p className="eyebrow">INDEX RERUM</p>
-          <h2>Спецификация v1.4</h2>
-          <p>Регламент синтеза кулинарной прозы и интеграционных контрактов.</p>
-          <span className="sidebar-label">ОСНОВЫ АРХИТЕКТУРЫ</span>
-          <button
-            className={active === 'architecture' ? 'active' : ''}
-            onClick={() => scrollTo('architecture')}
-          >
-            Архитектурные принципы<span>01</span>
-          </button>
-          <button
-            className={active === 'pipeline' ? 'active' : ''}
-            onClick={() => scrollTo('pipeline')}
-          >
-            Асинхронные задачи & Webhooks<span>02</span>
-          </button>
-          <span className="sidebar-label">МЕТОДЫ API</span>
-          {endpoints.map((e, i) => (
-            <button
-              key={e.id}
-              className={active === e.id ? 'active endpoint-link' : 'endpoint-link'}
-              onClick={() => scrollTo(e.id)}
-            >
-              <span>
-                <em>{e.method}</em> {e.path}
-              </span>
-              <span>{String(i + 3).padStart(2, '0')}</span>
-            </button>
-          ))}
-          <div className="sidebar-note">
-            <ShieldCheck size={15} />
-            <span>SECURITY STANDARD</span>
-            <p>
-              Серверная архитектура предусматривает tenant isolation, ключи API и идемпотентные
-              запросы.
-            </p>
-          </div>
-        </aside>
-        <div className="docs-content">
-          <section id="doc-architecture">
-            <span className="tag chapter-tag">
-              <i className="status-dot" /> ГЛАВА I · ТРАКТАТ О СЕМАНТИКЕ
-            </span>
-            <h1>Генерация ресторанных описаний с контролем голоса бренда</h1>
-            <p className="docs-lead">
-              Промышленный гастрономический B2B требует предельной деликатности письма. Машинные
-              галлюцинации и шаблонные штампы вроде <em>«пальчики оближешь»</em> разрушают репутацию
-              дома мгновенно.
-            </p>
-            <p>
-              Архитектура Mise en Place предполагает баланс: литературная выверенность текста
-              высокой кухни синхронизируется с техническими ограничениями агрегаторов. Векторный
-              контекст сохраняет кулинарный лексикон ресторана во всех вариациях меню.
-            </p>
-            <div className="notice docs-notice">
-              <Code2 size={18} />
-              <p>
-                Это проект API из архитектурного брифа. Текущая React-студия работает локально;
-                перечисленные эндпоинты пока не развёрнуты.
-              </p>
-            </div>
-          </section>
-          <section id="doc-pipeline" className="pipeline-section">
-            <div className="row-between">
-              <span className="small-label">Сквозной поток данных</span>
-              <span className="mono text-brass">DATA PIPELINE</span>
-            </div>
-            <div className="pipeline">
-              {[
-                [
-                  'POS / ERP Source',
-                  'Технологическая карта, состав и список аллергенов поступают через защищённый коннектор.',
-                  'iiko / r_keeper',
-                ],
-                [
-                  'API Gateway & Tenant Auth',
-                  'Проверка API-ключа, изоляция организации и заголовок Idempotency-Key.',
-                  'API Gateway',
-                ],
-                [
-                  'Description Core Engine',
-                  'Голос бренда, рецептурная база, правила каналов и фильтр штампов.',
-                  'RAG + Guardrails',
-                ],
-                [
-                  'Delivery Channel Payload',
-                  'Результат доступен по GET-запросу. Событие description.ready отправляется в webhook.',
-                  'Webhook / SSE',
-                ],
-              ].map(([title, description, tag], i) => (
-                <div className="pipeline-step" key={title}>
-                  <div className="pipeline-row">
-                    <span className="step-number">0{i + 1}</span>
-                    <div>
-                      <div className="row-between">
-                        <h3>{title}</h3>
-                        <span className="tag mono">{tag}</span>
-                      </div>
-                      <p>{description}</p>
-                    </div>
-                  </div>
-                  {i < 3 && (
-                    <div className="pipeline-arrow">
-                      <ArrowDown size={17} />
-                      <span>
-                        {['Auth · Idempotent Session', 'Async dispatch', 'Channel validation'][i]}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-          {endpoints.map((endpoint, i) => (
-            <section className="endpoint-section" id={`doc-${endpoint.id}`} key={endpoint.id}>
-              <p className="eyebrow">Глава {i + 2} · Спецификация контракта</p>
-              <h2>
-                <span>{endpoint.method}</span> {endpoint.path}
-              </h2>
-              <p>{endpoint.desc}</p>
-              {i === 0 && (
-                <>
-                  <span className="small-label">Обязательные заголовки запроса</span>
-                  <dl className="request-headers">
-                    <div>
-                      <dt>Authorization</dt>
-                      <dd>Bearer &lt;api_key&gt;</dd>
-                    </div>
-                    <div>
-                      <dt>Idempotency-Key</dt>
-                      <dd>UUID v4</dd>
-                    </div>
-                    <div>
-                      <dt>Content-Type</dt>
-                      <dd>application/json</dd>
-                    </div>
-                  </dl>
-                </>
-              )}
-              <span className="small-label">
-                Параметры {endpoint.method === 'GET' ? 'пути' : 'тела запроса (JSON)'}
-              </span>
-              <div className="table-scroll">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Поле</th>
-                      <th>Тип</th>
-                      <th>Обяз.</th>
-                      <th>Назначение</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {endpoint.fields.map(([field, type, required, desc]) => (
-                      <tr key={field}>
-                        <td>{field}</td>
-                        <td>{type}</td>
-                        <td>
-                          <span className="tag">{required}</span>
-                        </td>
-                        <td>{desc}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          ))}
-          <div className="semantic-note">
-            <ShieldCheck size={21} />
-            <div>
-              <h3>Семантическая точность и аллергены</h3>
-              <p>
-                Описание не заменяет технологическую карту. Данные об аллергенах подтверждает
-                ресторан: литературная редактура не должна скрывать ингредиенты или приписывать
-                блюду неподтверждённые свойства.
-              </p>
-            </div>
-          </div>
-        </div>
-        <aside className="code-sidebar">
-          <div className="code-panel">
-            <div className="code-tabs" role="tablist" aria-label="Язык примера">
-              {Object.keys(apiExamples).map((lang) => (
-                <button
-                  role="tab"
-                  aria-selected={language === lang}
-                  className={language === lang ? 'active' : ''}
-                  onClick={() => setLanguage(lang)}
-                  key={lang}
-                >
-                  {lang}
-                </button>
-              ))}
-              <button
-                className="icon-button code-copy"
-                aria-label="Копировать пример API"
-                onClick={() => copy(apiExamples[language], 'code')}
-              >
-                {copied === 'code' ? <Check size={14} /> : <Copy size={14} />}
-              </button>
-            </div>
-            <pre role="tabpanel" aria-label={`Пример ${language}`}>
-              <code>{apiExamples[language]}</code>
-            </pre>
-          </div>
-          <div className="response-panel">
-            <div className="row-between">
-              <span>
-                <i className="status-dot" /> Response 202 Accepted
-              </span>
-              <span>ПРИМЕР</span>
-            </div>
-            <pre>
-              <code>
-                {JSON.stringify(
-                  {
-                    job_id: 'job_9921b',
-                    status: 'processing',
-                    recipe_id: 'rcp_8841_brx',
-                    channel: 'yandex_eda',
-                  },
-                  null,
-                  2,
-                )}
-              </code>
-            </pre>
-          </div>
-          <div className="response-panel completed-response">
-            <div className="row-between">
-              <span>GET /v1/descriptions/job_9921b</span>
-            </div>
-            <pre>
-              <code>
-                {JSON.stringify(
-                  {
-                    id: 'dsc_01H9A887K',
-                    job_id: 'job_9921b',
-                    status: 'completed',
-                    recipe_id: 'rcp_8841_brx',
-                    channel: 'yandex_eda',
-                    text: 'Томлёная говяжья щека с пюре из печёного сельдерея и демигласом.',
-                    tone: 'refined_editorial',
-                    prompt_version: '1.0',
-                    constraints_satisfied: { max_chars: 250, no_emoji: true },
-                    allergens_declared: ['celery', 'milk', 'sulphites'],
-                  },
-                  null,
-                  2,
-                )}
-              </code>
-            </pre>
-            <div className="code-note">
-              <ShieldCheck size={15} />
-              <span>Иллюстративный ответ · не live API</span>
-            </div>
-          </div>
-          <div className="code-info">
-            <BookOpen size={18} />
-            <div>
-              <h3>Сначала контракт. Затем интеграция.</h3>
-              <p>
-                Ключи API хранятся на сервере. Не размещайте секреты в клиентском React-приложении.
-              </p>
-            </div>
-          </div>
-          <button
-            className="button secondary download-spec"
-            onClick={() =>
-              download(
-                {
-                  version: '1.4',
-                  status: 'draft',
-                  endpoints: endpoints.map((e) => ({
-                    method: e.method,
-                    path: e.path,
-                    description: e.desc,
-                    fields: e.fields,
-                  })),
-                },
-                'mise-api-draft.json',
-              )
-            }
-          >
-            <ArrowDownToLine size={15} />
-            Скачать описание API
-          </button>
-        </aside>
-      </div>
     </>
   );
 }
