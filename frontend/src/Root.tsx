@@ -17,7 +17,15 @@ import { api, send, clearSession, errorMessage, ApiError, type User, type Worksp
 import { ApiDocs } from './components/ApiDocs';
 import './product.css';
 
-const studioRoutes = ['studio', 'channels', 'brand', 'library', 'profile', 'history'];
+const studioRoutes = [
+  'studio',
+  'channels',
+  'brand',
+  'library',
+  'profile',
+  'history',
+  'personalization',
+];
 function Brand() {
   return (
     <a className="product-brand" href="#home">

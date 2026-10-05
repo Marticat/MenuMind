@@ -611,6 +611,98 @@
   display: grid;
   gap: 26px;
 }
+.personalization-notice {
+  margin-bottom: 24px;
+}
+.personalization-fields {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+  display: grid;
+  gap: 20px;
+}
+.personalization-fields label {
+  display: grid;
+  gap: 8px;
+}
+.personalization-guest-picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.personalization-guest-picker label {
+  min-width: 0;
+}
+.personalization-guest-picker > .button {
+  min-height: 43px;
+}
+.personalization-grid select {
+  max-width: 100%;
+}
+.personalization-grid .product-field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.personalization-guest-picker .product-field {
+  margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .personalization-guest-picker {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.personalized-description {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--cream);
+  overflow-wrap: anywhere;
+}
+.personalized-text {
+  font-family: var(--serif);
+  font-size: 28px;
+  line-height: 1.4;
+  margin: 16px 0 24px;
+}
+.personalization-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.personalization-actions .button {
+  white-space: normal;
+  text-align: center;
+}
+.personalization-variants {
+  margin-top: 24px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.personalization-variants summary {
+  cursor: pointer;
+}
+.personalization-variants > div {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin-top: 14px;
+}
+.personalization-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 20px 0;
+}
+.personalization-metrics dt {
+  font-size: 11px;
+  color: var(--muted);
+}
+.personalization-metrics dd {
+  margin: 6px 0 0;
+  font-family: var(--serif);
+  font-size: 34px;
+}
 .product-form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

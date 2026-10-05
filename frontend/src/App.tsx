@@ -40,9 +40,11 @@ import {
 import { api, send, errorMessage, type Workspace, type Profile } from './api';
 import { Account, History } from './components/Account';
 import { ApiDocs } from './components/ApiDocs';
+import { Personalization } from './components/Personalization';
 
 const nav: { id: Page; label: string }[] = [
   { id: 'studio', label: 'Студия генерации' },
+  { id: 'personalization', label: 'Персонализация' },
   { id: 'channels', label: 'Витрины каналов' },
   { id: 'brand', label: 'Тон бренда' },
   { id: 'docs', label: 'API документация' },
@@ -760,6 +762,7 @@ function App({
           />
         )}
         {page === 'docs' && <ApiDocs />}
+        {page === 'personalization' && <Personalization recipes={recipes} />}
         {page === 'profile' && (
           <Account
             user={workspace.user}

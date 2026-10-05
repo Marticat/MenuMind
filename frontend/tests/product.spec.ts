@@ -112,3 +112,66 @@ test('public pages fit mobile and desktop without browser errors', async ({ page
   }
   expect(errors).toEqual([]);
 });
+
+test('two guest profiles receive different descriptions and demo feedback survives reload', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.request.post('/api/v1/auth/register', {
+    data: {
+      name: 'Chef',
+      email: `${crypto.randomUUID()}@example.test`,
+      password: 'Test-password-42',
+      restaurantName: 'Персональное меню',
+    },
+  });
+  await page.goto('/#personalization');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Персонализация описаний');
+  await page.getByLabel('Имя гостя').fill('Алия');
+  await page.getByLabel('Что важно в описании').selectOption('concise');
+  await page.getByRole('button', { name: 'Сохранить гостя', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('Профиль гостя сохранён');
+  await page.getByLabel('Блюдо для персонализации').selectOption('RCP-8843-VEG');
+  await page.getByRole('button', { name: 'Получить описание', exact: true }).click();
+  const description = page.getByRole('article', { name: 'Персональное описание' });
+  await expect(description).toContainText('Кратко');
+  const short = await description.locator('.personalized-text').innerText();
+  await expect(page.getByRole('button', { name: 'Добавить в тестовую корзину' })).toBeDisabled();
+
+  await page.getByRole('button', { name: 'Новый гость' }).click();
+  await page.getByLabel('Имя гостя').fill('Тимур');
+  await page.getByLabel('Что важно в описании').selectOption('ingredients');
+  await page.getByRole('button', { name: 'Сохранить гостя', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('Профиль гостя сохранён');
+  await page.getByRole('button', { name: 'Получить описание', exact: true }).click();
+  await expect(description).toContainText('Акцент на состав');
+  await expect(description.locator('.personalized-text')).not.toHaveText(short);
+  await expect(description).toContainText('В составе:');
+  await page.getByRole('button', { name: 'Подтвердить тестовый показ' }).click();
+  await expect(page.getByRole('status')).toContainText('Тестовый показ учтён');
+  await page.getByRole('button', { name: 'Добавить в тестовую корзину' }).click();
+  await expect(page.getByRole('status')).toContainText('Реакция учтена');
+  await expect(page.getByRole('button', { name: 'Добавление учтено' })).toBeDisabled();
+  await expect(page.locator('.personalization-metrics dd')).toHaveText(['1', '1', '0']);
+  const stats = (await (await page.request.get('/api/v1/personalization/stats')).json()).items;
+  expect(stats.every((item: { mode: string }) => item.mode === 'demo')).toBeTruthy();
+
+  await page.reload();
+  await expect(page.getByLabel('Имя гостя')).toHaveValue('Тимур');
+  await expect(page.locator('.personalization-metrics dd')).toHaveText(['1', '1', '0']);
+  await page.getByLabel('Сохранённый гость').selectOption({ label: 'Алия' });
+  await expect(page.getByLabel('Что важно в описании')).toHaveValue('concise');
+  await page.getByRole('button', { name: 'Получить описание', exact: true }).click();
+  await expect(description).toBeVisible();
+  for (const width of [1440, 390, 320]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.evaluate(() => document.fonts.ready);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+      `personalization at ${width}`,
+    ).toBeTruthy();
+    await page.screenshot({ path: `.cache/personalization-${width}.png`, fullPage: true });
+  }
+  expect(errors).toEqual([]);
+});

@@ -17,6 +17,7 @@ import {
 } from './auth.mjs';
 import { extractTags, tagCatalog, rankRecipes } from './tags.mjs';
 import { generateDescription } from './generation.mjs';
+import { registerPersonalization } from './personalization.mjs';
 import {
   recipeSchema,
   profileSchema,
@@ -71,6 +72,7 @@ export function createApp({
   db = openDatabase(config.databasePath),
   fetchImpl,
   disableRateLimits = false,
+  now = Date.now,
 }) {
   const app = express();
   app.disable('x-powered-by');
@@ -514,6 +516,7 @@ export function createApp({
       return { items: rankRecipes(listRecipes(req.user.id), readProfile(req.user.id), feedback) };
     },
   );
+  registerPersonalization({ route, db, config, fetchImpl, findRecipe, readProfile, now });
   const inFlight = new Set();
   route(
     'post',

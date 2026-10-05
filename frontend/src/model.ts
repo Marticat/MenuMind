@@ -1,4 +1,5 @@
-export type Page = 'studio' | 'channels' | 'brand' | 'docs' | 'library' | 'profile' | 'history';
+export type Page =
+  'studio' | 'channels' | 'brand' | 'docs' | 'library' | 'profile' | 'history' | 'personalization';
 export type Tone = 'editorial' | 'bistro' | 'concierge';
 export type ChannelId = 'yandex' | 'wolt' | 'website' | 'print';
 export interface Recipe {

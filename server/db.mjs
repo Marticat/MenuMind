@@ -49,6 +49,42 @@ export function openDatabase(filename) {
       db.prepare('INSERT INTO migrations VALUES (1, ?)').run(new Date().toISOString());
     })();
   }
+  if (!db.prepare('SELECT 1 FROM migrations WHERE version = 2').get()) {
+    db.transaction(() => {
+      db.exec(`
+        CREATE TABLE customers (
+          user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          id TEXT NOT NULL, data TEXT NOT NULL, updated_at TEXT NOT NULL,
+          PRIMARY KEY (user_id, id)
+        );
+        CREATE TABLE description_sets (
+          id TEXT PRIMARY KEY, user_id TEXT NOT NULL, recipe_id TEXT NOT NULL,
+          source_hash TEXT NOT NULL, data TEXT NOT NULL, created_at TEXT NOT NULL,
+          UNIQUE (user_id, recipe_id, source_hash),
+          FOREIGN KEY (user_id, recipe_id) REFERENCES recipes(user_id, id) ON DELETE CASCADE
+        );
+        CREATE TABLE personalization_decisions (
+          id TEXT PRIMARY KEY, user_id TEXT NOT NULL, customer_id TEXT NOT NULL,
+          request_id TEXT NOT NULL, input_hash TEXT NOT NULL,
+          mode TEXT NOT NULL CHECK(mode IN ('live', 'demo')),
+          model_version TEXT NOT NULL, arm TEXT NOT NULL, context TEXT NOT NULL,
+          selection TEXT NOT NULL, created_at INTEGER NOT NULL,
+          shown_at INTEGER, expires_at INTEGER,
+          reward INTEGER CHECK(reward IN (0, 1)), finalized_at INTEGER,
+          UNIQUE(user_id, request_id),
+          FOREIGN KEY (user_id, customer_id) REFERENCES customers(user_id, id) ON DELETE CASCADE
+        );
+        CREATE INDEX personalization_expiry ON personalization_decisions(user_id, mode, expires_at) WHERE reward IS NULL;
+        CREATE INDEX personalization_customer ON personalization_decisions(user_id, customer_id, mode);
+        CREATE TABLE bandit_models (
+          user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+          mode TEXT NOT NULL, version TEXT NOT NULL, arm TEXT NOT NULL, data TEXT NOT NULL,
+          PRIMARY KEY(user_id, mode, version, arm)
+        );
+      `);
+      db.prepare('INSERT INTO migrations VALUES (2, ?)').run(new Date().toISOString());
+    })();
+  }
   const insertTag = db.prepare('INSERT OR REPLACE INTO tags VALUES (?, ?, ?)');
   db.transaction(() => tagCatalog.forEach((tag) => insertTag.run(tag.id, tag.label, tag.kind)))();
   return db;

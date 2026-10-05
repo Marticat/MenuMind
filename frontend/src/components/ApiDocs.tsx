@@ -64,6 +64,41 @@ export function ApiDocs() {
             </div>
           </section>
           <section className="account-panel">
+            <h2>Персональные описания · LinUCB</h2>
+            <p>
+              Сохраните профиль через <code>PUT /customers/guest-42</code>: имя, язык,
+              <code> preferredTags</code> и <code>descriptionPreference</code>
+              (auto, concise, ingredients или method). Идентификатор гостя относится к ресторану
+              владельца API-ключа.
+            </p>
+            <p>
+              Подготовьте тексты через <code>POST /description-sets</code> с recipeId и language.
+              Для одного блюда сохраняются варианты с разными акцентами. Изменение техкарты или
+              голоса бренда требует новой подготовки.
+            </p>
+            <p>
+              <code>POST /personalizations</code> принимает requestId (UUID), customerId, recipeId,
+              channel и mode (live по умолчанию, demo для тестирования). Возвращает id, text, style
+              и сведения о выборе. Повтор того же requestId возвращает прежний выбор.
+            </p>
+            <p>
+              После отображения текста отправьте{' '}
+              <code>POST /personalizations/&#123;id&#125;/impression</code> с пустым JSON. При
+              добавлении блюда в корзину —{' '}
+              <code>POST /personalizations/&#123;id&#125;/feedback</code>с{' '}
+              <code>{'{"event":"add_to_cart"}'}</code>. Повтор события учитывается один раз.
+            </p>
+            <p>
+              Показ нужно подтвердить в течение 10 минут после выбора. Окно реакции — 30 минут после
+              подтверждения: добавление даёт 1, отсутствие добавления — 0. Просроченные показы
+              закрываются при следующем выборе, обратной связи или запросе{' '}
+              <code>GET /personalization/stats</code>. Непоказанные тексты не обучают модель.
+            </p>
+            <a className="text-button" href="#personalization">
+              Проверить на тестовых гостях ↗
+            </a>
+          </section>
+          <section className="account-panel">
             <h2>Методы API</h2>
             {error && (
               <p className="form-error" role="alert">
