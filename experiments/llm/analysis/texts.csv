@@ -1,0 +1,361 @@
+id,split,strategy,repetition,language,channel,text,chars,js_chars
+pumpkin-ru:simple:0,dev,simple,0,ru,yandex,"Нежный суп-пюре из тыквы с мягким сладковатым вкусом. Приготовлен из тыквы, воды и соли — просто, тепло и по-домашнему.",119,119
+pumpkin-ru:simple:0,dev,simple,0,ru,wolt,"Тёплый и нежный суп из тыквы с лёгкой природной сладостью. Минималистичный состав: тыква, вода и соль.",102,102
+pumpkin-ru:simple:0,dev,simple,0,ru,website,"Суп из тыквы — лёгкий, бархатистый и по-домашнему уютный. Натуральный вкус тыквы раскрывается в простом сочетании с водой и солью.",130,130
+pumpkin-ru:simple:0,dev,simple,0,ru,print,"Нежный тыквенный суп с мягким сладковатым вкусом. Тыква, вода и соль — ничего лишнего.",86,86
+pumpkin-ru:simple:0,dev,simple,0,ru,variant,Классический,12,12
+pumpkin-ru:detailed:0,dev,detailed,0,ru,yandex,"Суп из тыквы, приготовленный из тыквы, воды и соли.",51,51
+pumpkin-ru:detailed:0,dev,detailed,0,ru,wolt,Суп из тыквы с добавлением воды и соли.,39,39
+pumpkin-ru:detailed:0,dev,detailed,0,ru,website,"Тыквенный суп: тыква, вода и соль. Приготовлен методом варки.",61,61
+pumpkin-ru:detailed:0,dev,detailed,0,ru,print,"Суп из тыквы. Состав: тыква, вода, соль.",40,40
+pumpkin-ru:detailed:0,dev,detailed,0,ru,variant,"Суп из тыквы, приготовленный из тыквы, воды и соли.",51,51
+pumpkin-ru:detailed:1,dev,detailed,1,ru,yandex,"Суп из тыквы, приготовленный варкой с добавлением воды и соли.",62,62
+pumpkin-ru:detailed:1,dev,detailed,1,ru,wolt,"Тыквенный суп. Состав: тыква, вода, соль.",41,41
+pumpkin-ru:detailed:1,dev,detailed,1,ru,website,"Суп из тыквы, приготовленный методом варки. В составе — тыква, вода и соль.",75,75
+pumpkin-ru:detailed:1,dev,detailed,1,ru,print,"Тыквенный суп с водой и солью, приготовленный варкой.",53,53
+pumpkin-ru:detailed:1,dev,detailed,1,ru,variant,"Тыквенный суп, приготовленный варкой с водой и солью.",53,53
+pumpkin-kk:detailed:0,dev,detailed,0,kk,yandex,"Асқабақ, су және тұздан дайындалған сорпа. Қайнату әдісімен әзірленеді.",71,71
+pumpkin-kk:detailed:0,dev,detailed,0,kk,wolt,"Асқабақ, су және тұз қосылған сорпа. Қайнатылып дайындалады.",60,60
+pumpkin-kk:detailed:0,dev,detailed,0,kk,website,"Асқабақ, су және тұздан тұратын сорпа. Дайындау әдісі — қайнату.",64,64
+pumpkin-kk:detailed:0,dev,detailed,0,kk,print,"Асқабақ, су және тұз қосылған сорпа, қайнату әдісімен дайындалады.",66,66
+pumpkin-kk:detailed:0,dev,detailed,0,kk,variant,"Асқабақ, су және тұздан дайындалған сорпа. Қайнату әдісімен әзірленеді.",71,71
+pumpkin-kk:detailed:1,dev,detailed,1,kk,yandex,"Қайнату әдісімен әзірленген асқабақ сорпасы. Құрамында асқабақ, су және тұз бар.",80,80
+pumpkin-kk:detailed:1,dev,detailed,1,kk,wolt,"Асқабақ, су және тұздан дайындалатын сорпа. Қайнату әдісі қолданылады.",70,70
+pumpkin-kk:detailed:1,dev,detailed,1,kk,website,"Құрамы: асқабақ, су және тұз. Сорпа қайнату арқылы әзірленеді.",62,62
+pumpkin-kk:detailed:1,dev,detailed,1,kk,print,"Асқабақ, су және тұз қосылған сорпа. Қайнату әдісімен дайындалады.",66,66
+pumpkin-kk:detailed:1,dev,detailed,1,kk,variant,"Қайнату әдісімен әзірленген асқабақ сорпасы. Құрамында асқабақ, су және тұз бар.",80,80
+pumpkin-kk:simple:0,dev,simple,0,kk,yandex,"Жылы әрі жеңіл асқабақ сорпасы. Табиғи асқабақтың нәзік дәмі мен жұмсақ құрылымы үйлесіп, күнделікті асқа жайлы таңдау ұсынады.",127,127
+pumpkin-kk:simple:0,dev,simple,0,kk,wolt,"Нәзік дәмді асқабақ сорпасы — асқабақ, су және тұздан дайындалған жеңіл, жылы тағам. Қарапайым құрам, табиғи дәм.",113,113
+pumpkin-kk:simple:0,dev,simple,0,kk,website,Қарапайымдықтағы үйлесім: табиғи асқабақтан дайындалған жеңіл сорпа. Жұмсақ құрылымы мен нәзік дәмі жылы әрі жайлы әсер сыйлайды.,129,129
+pumpkin-kk:simple:0,dev,simple,0,kk,print,"Нәзік дәмді, жеңіл асқабақ сорпасы. Табиғи асқабақтан қарапайым тәсілмен дайындалады.",85,85
+pumpkin-kk:simple:0,dev,simple,0,kk,variant,editorial,9,9
+chicken-ru:simple:0,dev,simple,0,ru,yandex,Нежная курица с рассыпчатым рисом — простой и сытный домашний обед с лёгким вкусом и ароматом.,94,94
+chicken-ru:simple:0,dev,simple,0,ru,wolt,"Сочная отварная курица с мягким рисом. Сытное блюдо в домашнем стиле, приготовленное без лишних добавок.",104,104
+chicken-ru:simple:0,dev,simple,0,ru,website,"Курица с рисом — классическое горячее блюдо для тех, кто ценит простоту и натуральный вкус. Нежная курица и мягкий рис, приготовленные в лёгком бульоне.",152,152
+chicken-ru:simple:0,dev,simple,0,ru,print,"Курица с рисом — нежное, сытное блюдо с мягким вкусом и домашним характером.",76,76
+chicken-ru:simple:0,dev,simple,0,ru,variant,Домашняя классика,17,17
+chicken-ru:detailed:0,dev,detailed,0,ru,yandex,"Курица с рисом, приготовленные в воде с добавлением соли.",57,57
+chicken-ru:detailed:0,dev,detailed,0,ru,wolt,"Курица с рисом, сваренные с добавлением воды и соли.",52,52
+chicken-ru:detailed:0,dev,detailed,0,ru,website,"Курица с рисом — простое горячее блюдо, приготовленное варкой с добавлением соли.",81,81
+chicken-ru:detailed:0,dev,detailed,0,ru,print,"Курица с рисом, приготовленные варкой с добавлением соли.",57,57
+chicken-ru:detailed:0,dev,detailed,0,ru,variant,"Курица с рисом, приготовленные в воде с добавлением соли.",57,57
+chicken-kk:detailed:0,dev,detailed,0,kk,yandex,Күріш қосылған тауық еті. Тауық еті мен күріш суға тұз қосып қайнатылады.,73,73
+chicken-kk:detailed:0,dev,detailed,0,kk,wolt,Күріш қосылған тауық еті — тауық еті мен күріштен дайындалады. Су мен тұз қосылып қайнатылады.,94,94
+chicken-kk:detailed:0,dev,detailed,0,kk,website,"Күріш қосылған тауық еті. Құрамында тауық еті, күріш, су және тұз бар. Қайнатылып дайындалады.",94,94
+chicken-kk:detailed:0,dev,detailed,0,kk,print,"Күріш қосылған тауық еті, су мен тұз қосып қайнатылған күрішпен.",64,64
+chicken-kk:detailed:0,dev,detailed,0,kk,variant,Күріш қосылған тауық еті: тауық еті мен күріш суға тұз қосып қайнатылады.,73,73
+chicken-kk:simple:0,dev,simple,0,kk,yandex,Жұмсақ тауық еті мен үлпілдек күріштен дайындалған қарапайым әрі тойымды ыстық тағам. Жеңіл дәмі мен үйдегідей жылылығы әр қасықтан сезіледі.,141,141
+chicken-kk:simple:0,dev,simple,0,kk,wolt,"Тауық еті мен хош иісті күріш үйлесімі — күнделікті түскі асқа да, жеңіл кешкі асқа да тамаша таңдау. Тұзы үйлесімді, дәмі нәзік әрі тойымды.",141,141
+chicken-kk:simple:0,dev,simple,0,kk,website,"Нәзік тауық еті мен жұмсақ күріштен дайындалған жылы әрі тойымды тағам. Қарапайым құрам, табиғи дәм және үйдегідей жайлылық — бір табақта.",138,138
+chicken-kk:simple:0,dev,simple,0,kk,print,"Күрішпен ұсынылатын жұмсақ тауық еті. Жеңіл, тойымды және үйдегідей жылы дәм.",77,77
+chicken-kk:simple:0,dev,simple,0,kk,variant,Бистро стиліндегі жылы әрі қарапайым сипаттама,46,46
+tomato-ru:simple:0,dev,simple,0,ru,yandex,"Салат из сочных томатов и хрустящих огурцов с ароматным оливковым маслом — лёгкое, свежее и гармоничное блюдо.",110,110
+tomato-ru:simple:0,dev,simple,0,ru,wolt,"Свежий салат из спелых томатов и хрустящих огурцов, заправленный оливковым маслом. Лаконичный вкус и лёгкость в каждой порции.",126,126
+tomato-ru:simple:0,dev,simple,0,ru,website,"Салат из спелых томатов и хрустящих огурцов, дополненный нежным оливковым маслом. Чистый вкус свежих овощей и лёгкая средиземноморская нота.",140,140
+tomato-ru:simple:0,dev,simple,0,ru,print,"Спелые томаты, хрустящие огурцы и ароматное оливковое масло — свежий салат с лёгким средиземноморским характером.",113,113
+tomato-ru:simple:0,dev,simple,0,ru,variant,Свежий овощной салат,20,20
+tomato-ru:detailed:0,dev,detailed,0,ru,yandex,"Салат из томатов, огурцов и оливкового масла.",45,45
+tomato-ru:detailed:0,dev,detailed,0,ru,wolt,"Салат из томатов, огурцов и оливкового масла.",45,45
+tomato-ru:detailed:0,dev,detailed,0,ru,website,"Салат из томатов, огурцов и оливкового масла.",45,45
+tomato-ru:detailed:0,dev,detailed,0,ru,print,"Салат из томатов, огурцов и оливкового масла.",45,45
+tomato-ru:detailed:0,dev,detailed,0,ru,variant,"Салат из томатов, огурцов и оливкового масла.",45,45
+tomato-kk:detailed:0,dev,detailed,0,kk,yandex,"Қызанақ, қияр және зәйтүн майы қосылған салат.",46,46
+tomato-kk:detailed:0,dev,detailed,0,kk,wolt,"Қызанақ пен қиярдан, зәйтүн майы қосылған салат.",48,48
+tomato-kk:detailed:0,dev,detailed,0,kk,website,Қызанақ пен қиярға зәйтүн майы қосылған жеңіл салат.,52,52
+tomato-kk:detailed:0,dev,detailed,0,kk,print,"Қызанақ, қияр және зәйтүн майы қосылған салат.",46,46
+tomato-kk:detailed:0,dev,detailed,0,kk,variant,"Қызанақ, қияр және зәйтүн майы қосылған салат.",46,46
+tomato-kk:simple:0,dev,simple,0,kk,yandex,"Балғын қызанақ пен қиярдан дайындалған жеңіл салат, хош иісті зәйтүн майымен үйлескен. Күнделікті дастарханға тамаша таңдау.",124,124
+tomato-kk:simple:0,dev,simple,0,kk,wolt,"Балғын қызанақ пен қияр, нәзік зәйтүн майы қосылған сергітетін салат. Жеңіл әрі табиғи дәмді ұнататындарға.",107,107
+tomato-kk:simple:0,dev,simple,0,kk,website,"Жаздың балғын дәмін сезініңіз: шырынды қызанақ пен қытырлақ қияр хош иісті зәйтүн майымен үйлесіп, жеңіл әрі сергітетін салатқа айналады.",137,137
+tomato-kk:simple:0,dev,simple,0,kk,print,"Қызанақ пен қиярдан дайындалған жеңіл салат, зәйтүн майымен ұсынылады.",70,70
+tomato-kk:simple:0,dev,simple,0,kk,variant,Балғын көкөністердің табиғи дәмін айқындайтын жеңіл әрі сергітетін салат.,73,73
+salmon-ru:simple:0,dev,simple,0,ru,yandex,"Нежный лосось, запечённый до сочности с лимоном и щепоткой соли. Чистый вкус и аромат свежей рыбы.",98,98
+salmon-ru:simple:0,dev,simple,0,ru,wolt,Сочный запечённый лосось с лёгкой цитрусовой ноткой лимона и деликатной солёностью.,83,83
+salmon-ru:simple:0,dev,simple,0,ru,website,"Запечённый лосось — нежная рыба с естественным сочным вкусом, дополненная свежестью лимона и щепоткой соли.",107,107
+salmon-ru:simple:0,dev,simple,0,ru,print,Запечённый лосось с лимоном и солью — простой и выразительный вкус нежной рыбы.,79,79
+salmon-ru:simple:0,dev,simple,0,ru,variant,Классическая подача,19,19
+salmon-ru:detailed:0,dev,detailed,0,ru,yandex,"Лосось, запечённый с лимоном и солью.",37,37
+salmon-ru:detailed:0,dev,detailed,0,ru,wolt,"Лосось, запечённый с лимоном и солью.",37,37
+salmon-ru:detailed:0,dev,detailed,0,ru,website,"Лосось, запечённый с лимоном и солью.",37,37
+salmon-ru:detailed:0,dev,detailed,0,ru,print,"Лосось, запечённый с лимоном и солью.",37,37
+salmon-ru:detailed:0,dev,detailed,0,ru,variant,"Лосось, запечённый с лимоном и солью.",37,37
+salmon-kk:detailed:0,dev,detailed,0,kk,yandex,"Лимон мен тұз қосып, пеште пісірілген албырт.",45,45
+salmon-kk:detailed:0,dev,detailed,0,kk,wolt,"Албырт лимон және тұзбен дайындалып, пеште пісіріледі.",54,54
+salmon-kk:detailed:0,dev,detailed,0,kk,website,Пеште пісірілген албырт. Құрамында лимон мен тұз бар.,53,53
+salmon-kk:detailed:0,dev,detailed,0,kk,print,"Лимон және тұз қосылған, пеште пісірілген албырт.",49,49
+salmon-kk:detailed:0,dev,detailed,0,kk,variant,"Лимон мен тұз қосып, пеште пісірілген албырт.",45,45
+salmon-kk:simple:0,dev,simple,0,kk,yandex,Лимон мен тұздың нәзік үйлесімімен пеште пісірілген шырынды албырт. Табиғи дәмі мен жұмсақ құрылымы әр ауызда сезіледі.,119,119
+salmon-kk:simple:0,dev,simple,0,kk,wolt,"Пеште баяу пісірілген шырынды албырт, лимонның сергітетін хош иісімен және жеңіл тұзды дәмімен толықтырылған.",109,109
+salmon-kk:simple:0,dev,simple,0,kk,website,"Табиғи дәмін айқындайтын лимон мен тұзбен әзірленіп, пеште пісірілген нәзік албырт. Жеңіл әрі үйлесімді ыстық тағам.",116,116
+salmon-kk:simple:0,dev,simple,0,kk,print,Лимон мен тұз қосып пеште пісірілген шырынды албырт.,52,52
+salmon-kk:simple:0,dev,simple,0,kk,variant,Лимонның сергітетін хош иесімен үйлескен пеште пісірілген нәзік албырт.,71,71
+caesar-ru:simple:0,dev,simple,0,ru,yandex,"Классический салат «Цезарь» — хрустящие листья салата, нежная курица, ароматные сухарики, пармезан и фирменный соус.",116,116
+caesar-ru:simple:0,dev,simple,0,ru,wolt,"«Цезарь» с нежной курицей, свежими хрустящими листьями салата, золотистыми сухариками, пармезаном и фирменной заправкой.",120,120
+caesar-ru:simple:0,dev,simple,0,ru,website,"Салат «Цезарь» — гармония хрустящих салатных листьев, нежной курицы, золотистых сухариков, пармезана и фирменного соуса.",120,120
+caesar-ru:simple:0,dev,simple,0,ru,print,"«Цезарь» — нежная курица, хрустящие листья салата, золотистые сухарики, пармезан и фирменный соус.",98,98
+caesar-ru:simple:0,dev,simple,0,ru,variant,Классический «Цезарь» с курицей,31,31
+caesar-ru:detailed:0,dev,detailed,0,ru,yandex,Цезарь,6,6
+caesar-ru:detailed:0,dev,detailed,0,ru,wolt,Цезарь,6,6
+caesar-ru:detailed:0,dev,detailed,0,ru,website,Цезарь,6,6
+caesar-ru:detailed:0,dev,detailed,0,ru,print,Цезарь,6,6
+caesar-ru:detailed:0,dev,detailed,0,ru,variant,Цезарь,6,6
+caesar-ru:detailed:1,dev,detailed,1,ru,yandex,Салат «Цезарь».,15,15
+caesar-ru:detailed:1,dev,detailed,1,ru,wolt,Салат «Цезарь».,15,15
+caesar-ru:detailed:1,dev,detailed,1,ru,website,Салат «Цезарь».,15,15
+caesar-ru:detailed:1,dev,detailed,1,ru,print,Салат «Цезарь».,15,15
+caesar-ru:detailed:1,dev,detailed,1,ru,variant,Салат «Цезарь».,15,15
+caesar-kk:detailed:0,dev,detailed,0,kk,yandex,Цезарь салаты,13,13
+caesar-kk:detailed:0,dev,detailed,0,kk,wolt,Цезарь салаты,13,13
+caesar-kk:detailed:0,dev,detailed,0,kk,website,Цезарь салаты,13,13
+caesar-kk:detailed:0,dev,detailed,0,kk,print,Цезарь салаты,13,13
+caesar-kk:detailed:0,dev,detailed,0,kk,variant,Цезарь салаты,13,13
+caesar-kk:detailed:1,dev,detailed,1,kk,yandex,Цезарь салаты,13,13
+caesar-kk:detailed:1,dev,detailed,1,kk,wolt,Цезарь салаты,13,13
+caesar-kk:detailed:1,dev,detailed,1,kk,website,Цезарь салаты,13,13
+caesar-kk:detailed:1,dev,detailed,1,kk,print,Цезарь салаты,13,13
+caesar-kk:detailed:1,dev,detailed,1,kk,variant,Цезарь салаты,13,13
+caesar-kk:simple:0,dev,simple,0,kk,yandex,"Тауық еті, қытырлақ салат жапырақтары, хош иісті крутондар және нәзік Цезарь соусы үйлескен жеңіл әрі дәмді салат.",114,114
+caesar-kk:simple:0,dev,simple,0,kk,wolt,"Тауық еті, қытырлақ салат жапырақтары, алтын түсті крутондар және нәзік Цезарь соусы — күнделікті таңдауға лайық классикалық салат.",131,131
+caesar-kk:simple:0,dev,simple,0,kk,website,"Таныс дәмнің сүйікті үйлесімі: шырынды тауық еті, балғын қытырлақ салат жапырақтары, хош иісті крутондар және нәзік Цезарь соусы. Жеңіл, үйлесімді әрі тәбетті салат.",165,165
+caesar-kk:simple:0,dev,simple,0,kk,print,"Тауық еті, қытырлақ салат жапырақтары, хош иісті крутондар және нәзік Цезарь соусы.",83,83
+caesar-kk:simple:0,dev,simple,0,kk,variant,"Классикалық Цезарь салаты — жеңіл, қытырлақ және үйлесімді дәмімен.",67,67
+lagman-ru:simple:0,dev,simple,0,ru,yandex,"Лагман — насыщенный восточный суп с домашней лапшой, сочным мясом и ароматными овощами в пряном бульоне. Сытное блюдо с ярким характером.",137,137
+lagman-ru:simple:0,dev,simple,0,ru,wolt,"Ароматный лагман с домашней лапшой, нежным мясом и овощами в насыщенном пряном бульоне. Восточная классика для полноценного и согревающего обеда.",145,145
+lagman-ru:simple:0,dev,simple,0,ru,website,"Лагман — традиционное блюдо восточной кухни: домашняя лапша, нежное мясо, овощи и насыщенный пряный бульон. Гармоничное сочетание текстур и глубокий аромат в каждой порции.",172,172
+lagman-ru:simple:0,dev,simple,0,ru,print,"Лагман с домашней лапшой, нежным мясом, овощами и насыщенным пряным бульоном — сытная восточная классика с ярким ароматом.",122,122
+lagman-ru:simple:0,dev,simple,0,ru,variant,Классический восточный,22,22
+lagman-ru:detailed:0,dev,detailed,0,ru,yandex,Лагман,6,6
+lagman-ru:detailed:0,dev,detailed,0,ru,wolt,Лагман,6,6
+lagman-ru:detailed:0,dev,detailed,0,ru,website,Лагман,6,6
+lagman-ru:detailed:0,dev,detailed,0,ru,print,Лагман,6,6
+lagman-ru:detailed:0,dev,detailed,0,ru,variant,Лагман,6,6
+lagman-kk:detailed:0,dev,detailed,0,kk,yandex,Лағман — ыстық тағам.,21,21
+lagman-kk:detailed:0,dev,detailed,0,kk,wolt,Лағман — ыстық тағам.,21,21
+lagman-kk:detailed:0,dev,detailed,0,kk,website,Лағман — ыстық тағам.,21,21
+lagman-kk:detailed:0,dev,detailed,0,kk,print,Лағман — ыстық тағам.,21,21
+lagman-kk:detailed:0,dev,detailed,0,kk,variant,Лағман — ыстық тағам.,21,21
+lagman-kk:simple:0,dev,simple,0,kk,yandex,"Лағман — созылған кеспе, хош иісті көкөністер мен дәмдеуіштер қосылған қою әрі нәрлі ыстық тағам. Дәстүрлі дәм мен жылы әсер сыйлайды.",134,134
+lagman-kk:simple:0,dev,simple,0,kk,wolt,"Хош иісті көкөністер мен дәмдеуіштер үйлескен, созылған кеспеден дайындалған нәрлі лағман. Күніңізге жылу мен қанық дәм қосатын тамаша таңдау.",142,142
+lagman-kk:simple:0,dev,simple,0,kk,website,"Лағман — шығыс асханасының сүйікті тағамы: созылған кеспе, хош иісті көкөністер және үйлесімді дәмдеуіштерден тұратын қою, нәрлі әрі жылы ас.",141,141
+lagman-kk:simple:0,dev,simple,0,kk,print,"Лағман — созылған кеспе, хош иісті көкөністер мен дәмдеуіштерден дайындалған дәстүрлі, нәрлі ыстық тағам.",105,105
+lagman-kk:simple:0,dev,simple,0,kk,variant,Дәстүрлі әрі жылы сипаттама,27,27
+signature-ru:simple:0,dev,simple,0,ru,yandex,"Блюдо № 7 — фирменная позиция с особым характером. Идеальный выбор для тех, кто хочет попробовать что-то новое.",111,111
+signature-ru:simple:0,dev,simple,0,ru,wolt,"Блюдо № 7 — фирменная позиция для тех, кто любит открывать новые вкусы. Попробуйте и выберите своего фаворита.",110,110
+signature-ru:simple:0,dev,simple,0,ru,website,"Блюдо № 7 — фирменная позиция меню, созданная для знакомства с нашим особым стилем. Лаконично, выразительно и с характером.",123,123
+signature-ru:simple:0,dev,simple,0,ru,print,Блюдо № 7 — фирменная позиция с особым характером. Попробуйте новое и найдите своего фаворита.,94,94
+signature-ru:simple:0,dev,simple,0,ru,variant,Лаконичная редакционная подача,30,30
+signature-ru:detailed:0,dev,detailed,0,ru,yandex,Блюдо № 7,9,9
+signature-ru:detailed:0,dev,detailed,0,ru,wolt,Блюдо № 7,9,9
+signature-ru:detailed:0,dev,detailed,0,ru,website,Блюдо № 7,9,9
+signature-ru:detailed:0,dev,detailed,0,ru,print,Блюдо № 7,9,9
+signature-ru:detailed:0,dev,detailed,0,ru,variant,Блюдо № 7,9,9
+signature-kk:detailed:0,dev,detailed,0,kk,yandex,№ 7 тағам,9,9
+signature-kk:detailed:0,dev,detailed,0,kk,wolt,№ 7 тағам,9,9
+signature-kk:detailed:0,dev,detailed,0,kk,website,№ 7 тағам,9,9
+signature-kk:detailed:0,dev,detailed,0,kk,print,№ 7 тағам,9,9
+signature-kk:detailed:0,dev,detailed,0,kk,variant,№ 7 тағам,9,9
+signature-kk:simple:0,dev,simple,0,kk,yandex,№ 7 тағам — дәмі мен ұсынылуы көңілден шығатын ерекше ас. Күнделікті мәзірге жаңа леп қосатын таңдаулы тағам.,109,109
+signature-kk:simple:0,dev,simple,0,kk,wolt,"№ 7 тағам — ерекше дәм мен жағымды әсер сыйлайтын таңдаулы ас. Тапсырыс беріп, жаңа дәмді байқап көріңіз.",105,105
+signature-kk:simple:0,dev,simple,0,kk,website,"№ 7 тағам — дастарханға сән беріп, тәбетті ашатын ерекше ұсыныс. Оның үйлесімді дәмі әр қонаққа жағымды әсер қалдырады.",119,119
+signature-kk:simple:0,dev,simple,0,kk,print,№ 7 тағам — ерекше дәмі бар таңдаулы ас.,40,40
+signature-kk:simple:0,dev,simple,0,kk,variant,Бейтарап редакциялық сипаттама,30,30
+ramen-ru:simple:0,dev,simple,0,ru,yandex,Рамен — насыщенный японский суп с ароматным бульоном и нежной лапшой. Идеальный выбор для сытного и согревающего обеда.,119,119
+ramen-ru:simple:0,dev,simple,0,ru,wolt,"Рамен — горячий японский суп с глубоким ароматом, насыщенным бульоном и мягкой лапшой. Сытно, согревающе и по-бистро.",117,117
+ramen-ru:simple:0,dev,simple,0,ru,website,Рамен — уютная миска японского супа с насыщенным ароматным бульоном и нежной лапшой. Согревающий вкус для настоящего гастрономического комфорта.,144,144
+ramen-ru:simple:0,dev,simple,0,ru,print,"Рамен — ароматный японский суп с насыщенным бульоном и нежной лапшой. Сытно, тепло и по-домашнему уютно.",104,104
+ramen-ru:simple:0,dev,simple,0,ru,variant,Базовое бистро-описание,23,23
+ramen-ru:detailed:0,dev,detailed,0,ru,yandex,Рамен,5,5
+ramen-ru:detailed:0,dev,detailed,0,ru,wolt,Рамен,5,5
+ramen-ru:detailed:0,dev,detailed,0,ru,website,Рамен,5,5
+ramen-ru:detailed:0,dev,detailed,0,ru,print,Рамен,5,5
+ramen-ru:detailed:0,dev,detailed,0,ru,variant,Рамен,5,5
+ramen-kk:detailed:0,dev,detailed,0,kk,yandex,Рамен,5,5
+ramen-kk:detailed:0,dev,detailed,0,kk,wolt,Рамен,5,5
+ramen-kk:detailed:0,dev,detailed,0,kk,website,Рамен,5,5
+ramen-kk:detailed:0,dev,detailed,0,kk,print,Рамен,5,5
+ramen-kk:detailed:0,dev,detailed,0,kk,variant,Рамен,5,5
+ramen-kk:simple:0,dev,simple,0,kk,yandex,Жапон стиліндегі хош иісті рамен сорпасы.,41,41
+ramen-kk:simple:0,dev,simple,0,kk,wolt,Жылы әрі хош иісті жапон рамені — кез келген күнге тамаша таңдау.,65,65
+ramen-kk:simple:0,dev,simple,0,kk,website,Жапон асханасының сүйікті тағамы — хош иісті сорпасы мен жұмсақ кеспесі үйлескен рамен.,87,87
+ramen-kk:simple:0,dev,simple,0,kk,print,Рамен — хош иісті сорпада ұсынылатын жапон кеспесі.,51,51
+ramen-kk:simple:0,dev,simple,0,kk,variant,Классикалық рамен,17,17
+buckwheat-ru:simple:0,final,simple,0,ru,yandex,Рассыпчатая гречка с ароматными шампиньонами — простой и сытный вариант горячего блюда с насыщенным грибным вкусом.,115,115
+buckwheat-ru:simple:0,final,simple,0,ru,wolt,"Ароматная гречка с шампиньонами: рассыпчатая крупа, нежные грибы и мягкий натуральный вкус.",91,91
+buckwheat-ru:simple:0,final,simple,0,ru,website,"Гречка с шампиньонами — уютное горячее блюдо с рассыпчатой крупой и выразительным ароматом свежих грибов. Просто, сытно и по-домашнему.",135,135
+buckwheat-ru:simple:0,final,simple,0,ru,print,"Гречка с шампиньонами — рассыпчатая крупа и ароматные грибы в лёгком, сытном горячем блюде.",91,91
+buckwheat-ru:simple:0,final,simple,0,ru,variant,Базовый вариант,15,15
+buckwheat-ru:detailed:0,final,detailed,0,ru,yandex,"Гречка с шампиньонами, приготовленная методом варки с водой и солью.",68,68
+buckwheat-ru:detailed:0,final,detailed,0,ru,wolt,"Гречка с шампиньонами, приготовленная методом варки с водой и солью.",68,68
+buckwheat-ru:detailed:0,final,detailed,0,ru,website,"Гречка с шампиньонами, приготовленная методом варки с водой и солью.",68,68
+buckwheat-ru:detailed:0,final,detailed,0,ru,print,"Гречка с шампиньонами, приготовленная методом варки с водой и солью.",68,68
+buckwheat-ru:detailed:0,final,detailed,0,ru,variant,"Гречка с шампиньонами, приготовленная методом варки с водой и солью.",68,68
+buckwheat-ru:detailed:1,final,detailed,1,ru,yandex,"Гречка, отваренная с шампиньонами, водой и солью.",49,49
+buckwheat-ru:detailed:1,final,detailed,1,ru,wolt,"Отварная гречка с шампиньонами, водой и солью.",46,46
+buckwheat-ru:detailed:1,final,detailed,1,ru,website,"Гречка с шампиньонами, приготовленная варкой с добавлением воды и соли.",71,71
+buckwheat-ru:detailed:1,final,detailed,1,ru,print,"Гречка с шампиньонами, отваренная с водой и солью.",50,50
+buckwheat-ru:detailed:1,final,detailed,1,ru,variant,"Гречка, отваренная с шампиньонами, водой и солью.",49,49
+buckwheat-kk:detailed:0,final,detailed,0,kk,yandex,"Қайнатылған қарақұмық пен қозықұйрық, су және тұз қосылған.",59,59
+buckwheat-kk:detailed:0,final,detailed,0,kk,wolt,"Қарақұмық пен қозықұйрықтан дайындалған, суға қайнатылып, тұзбен дәмделген ыстық тағам.",87,87
+buckwheat-kk:detailed:0,final,detailed,0,kk,website,Суға қайнатылған қарақұмыққа қозықұйрық пен тұз қосылады.,57,57
+buckwheat-kk:detailed:0,final,detailed,0,kk,print,"Қозықұйрық қосылған қайнатылған қарақұмық, тұзбен дәмделген.",60,60
+buckwheat-kk:detailed:0,final,detailed,0,kk,variant,Қозықұйрық қосылған қайнатылған қарақұмық.,42,42
+buckwheat-kk:detailed:1,final,detailed,1,kk,yandex,"Қарақұмық пен қозықұйрық суға қайнатылып, тұзбен дәмделеді.",59,59
+buckwheat-kk:detailed:1,final,detailed,1,kk,wolt,"Суға қайнатылған қарақұмық пен қозықұйрықтан тұратын ыстық тағам, тұз қосылған.",79,79
+buckwheat-kk:detailed:1,final,detailed,1,kk,website,"Қайнатылған қарақұмыққа қозықұйрық қосылып, тұзбен дәмделеді.",61,61
+buckwheat-kk:detailed:1,final,detailed,1,kk,print,"Қозықұйрықпен бірге қайнатылған қарақұмық, тұз қосылған.",56,56
+buckwheat-kk:detailed:1,final,detailed,1,kk,variant,"Қарақұмық пен қозықұйрық суға қайнатылып, тұзбен дәмделеді.",59,59
+buckwheat-kk:simple:0,final,simple,0,kk,yandex,Қозықұйрық қосылған қарақұмық — нәрлі қарақұмық пен хош иісті саңырауқұлақтардың үйлесімі. Қарапайым әрі дәмді ыстық тағам.,123,123
+buckwheat-kk:simple:0,final,simple,0,kk,wolt,"Қарақұмық пен жұмсақ қозықұйрықтан дайындалған нәрлі ыстық тағам. Жеңіл, хош иісті және күнделікті асқа тамаша таңдау.",118,118
+buckwheat-kk:simple:0,final,simple,0,kk,website,Қозықұйрық қосылған қарақұмық — дәнді дақылдың қанық дәмі мен саңырауқұлақтың нәзік хош иесін біріктіретін үйдегідей жылы тағам.,128,128
+buckwheat-kk:simple:0,final,simple,0,kk,print,Қозықұйрық қосылған қарақұмық — хош иісті саңырауқұлақпен үйлескен нәрлі әрі дәмді ыстық тағам.,95,95
+buckwheat-kk:simple:0,final,simple,0,kk,variant,"Қарапайым, жылы әрі тәбетті сипаттама",37,37
+tofu-ru:simple:0,final,simple,0,ru,yandex,"Тофу с брокколи — нежный тофу и хрустящая брокколи, тушённые в ароматном соевом соусе. Лёгкое, насыщенное и сбалансированное горячее блюдо.",139,139
+tofu-ru:simple:0,final,simple,0,ru,wolt,"Нежный тофу и хрустящая брокколи, тушённые в ароматном соевом соусе. Сбалансированное горячее блюдо с насыщенным вкусом.",120,120
+tofu-ru:simple:0,final,simple,0,ru,website,"Тофу с брокколи — гармоничное сочетание нежного тофу и свежей брокколи, тушённых в соевом соусе. Лаконичное блюдо с насыщенным вкусом и приятной текстурой.",155,155
+tofu-ru:simple:0,final,simple,0,ru,print,"Тофу с брокколи, тушённые в соевом соусе — лёгкое блюдо с насыщенным вкусом и приятным сочетанием нежной и хрустящей текстур.",125,125
+tofu-ru:simple:0,final,simple,0,ru,variant,Нежное сочетание тофу и брокколи в насыщенном соевом соусе.,59,59
+tofu-ru:detailed:0,final,detailed,0,ru,yandex,"Тофу с брокколи, тушённые с соевым соусом.",42,42
+tofu-ru:detailed:0,final,detailed,0,ru,wolt,"Тофу и брокколи, тушённые с соевым соусом.",42,42
+tofu-ru:detailed:0,final,detailed,0,ru,website,Тушёные тофу и брокколи с соевым соусом.,40,40
+tofu-ru:detailed:0,final,detailed,0,ru,print,"Тофу с брокколи и соевым соусом, тушённые.",42,42
+tofu-ru:detailed:0,final,detailed,0,ru,variant,"Тофу с брокколи, тушённые с соевым соусом.",42,42
+tofu-kk:detailed:0,final,detailed,0,kk,yandex,"Бұқтырылған тофу, брокколи және соя тұздығы.",44,44
+tofu-kk:detailed:0,final,detailed,0,kk,wolt,Тофу мен брокколи соя тұздығымен бұқтырылып дайындалады.,56,56
+tofu-kk:detailed:0,final,detailed,0,kk,website,Тофу мен брокколи соя тұздығымен бұқтырылған.,45,45
+tofu-kk:detailed:0,final,detailed,0,kk,print,"Брокколи қосылған, соя тұздығымен бұқтырылған тофу.",51,51
+tofu-kk:detailed:0,final,detailed,0,kk,variant,Тофу мен брокколи соя тұздығымен бұқтырылып дайындалады.,56,56
+tofu-kk:simple:0,final,simple,0,kk,yandex,"Жұмсақ тофу мен балғын брокколи соя тұздығымен бұқтырылып, жеңіл әрі үйлесімді ыстық тағамға айналады.",102,102
+tofu-kk:simple:0,final,simple,0,kk,wolt,"Тофу мен брокколи соя тұздығымен бұқтырылған. Жеңіл, дәмді әрі көкөністі таңдауды ұнататындарға арналған ыстық тағам.",117,117
+tofu-kk:simple:0,final,simple,0,kk,website,"Брокколи қосылған тофу — нәзік тофу мен балғын брокколидің соя тұздығымен баяу бұқтырылған үйлесімі. Қарапайым, жеңіл және дәмі үйлесімді.",138,138
+tofu-kk:simple:0,final,simple,0,kk,print,Брокколи мен жұмсақ тофу соя тұздығымен бұқтырылған жеңіл әрі дәмді ыстық тағам.,80,80
+tofu-kk:simple:0,final,simple,0,kk,variant,editorial,9,9
+fruit-ru:simple:0,final,simple,0,ru,yandex,"Лёгкий фруктовый салат из сочного яблока и ароматной груши — свежий, натуральный десерт на каждый день.",103,103
+fruit-ru:simple:0,final,simple,0,ru,wolt,Свежий фруктовый салат из хрустящего яблока и сочной груши. Лёгкий десерт с натуральной сладостью фруктов.,106,106
+fruit-ru:simple:0,final,simple,0,ru,website,"Фруктовый салат из свежих яблока и груши — простой, лёгкий и освежающий десерт с ярким натуральным вкусом.",106,106
+fruit-ru:simple:0,final,simple,0,ru,print,"Фруктовый салат из свежих яблока и груши — лёгкий, сочный и освежающий десерт.",78,78
+fruit-ru:simple:0,final,simple,0,ru,variant,Лёгкий свежий десерт,20,20
+fruit-ru:detailed:0,final,detailed,0,ru,yandex,Фруктовый салат с яблоком и грушей.,35,35
+fruit-ru:detailed:0,final,detailed,0,ru,wolt,Фруктовый салат с яблоком и грушей.,35,35
+fruit-ru:detailed:0,final,detailed,0,ru,website,Фруктовый салат с яблоком и грушей.,35,35
+fruit-ru:detailed:0,final,detailed,0,ru,print,Фруктовый салат с яблоком и грушей.,35,35
+fruit-ru:detailed:0,final,detailed,0,ru,variant,Фруктовый салат с яблоком и грушей.,35,35
+fruit-kk:detailed:0,final,detailed,0,kk,yandex,Алма мен алмұрттан дайындалған жеміс салаты.,44,44
+fruit-kk:detailed:0,final,detailed,0,kk,wolt,Алма мен алмұрт қосылған жеңіл жеміс салаты.,44,44
+fruit-kk:detailed:0,final,detailed,0,kk,website,Алма мен алмұрттан жасалған жеміс салаты.,41,41
+fruit-kk:detailed:0,final,detailed,0,kk,print,Жеміс салаты: алма мен алмұрт.,30,30
+fruit-kk:detailed:0,final,detailed,0,kk,variant,Алма мен алмұрттан дайындалған жеміс салаты.,44,44
+fruit-kk:simple:0,final,simple,0,kk,yandex,"Балғын алма мен шырынды алмұрттан дайындалған жеңіл әрі табиғи жеміс салаты. Күнделікті асқа да, тәтті үзіліске де тамаша таңдау.",129,129
+fruit-kk:simple:0,final,simple,0,kk,wolt,Балғын алма мен шырынды алмұрттан жасалған жеңіл жеміс салаты. Табиғи дәмі мен сергітетін үйлесімі тәттіге деген қалауыңызды нәзік қанағаттандырады.,148,148
+fruit-kk:simple:0,final,simple,0,kk,website,Балғын алма мен шырынды алмұрттың үйлесімінен жасалған жеңіл жеміс салаты. Табиғи тәттілігі мен сергітетін дәмі десертті жеңіл әрі жағымды етеді.,145,145
+fruit-kk:simple:0,final,simple,0,kk,print,Балғын алма мен шырынды алмұрттан жасалған жеңіл жеміс салаты.,62,62
+fruit-kk:simple:0,final,simple,0,kk,variant,Балғын алма мен шырынды алмұрттан жасалған жеңіл жеміс салаты,61,61
+porridge-ru:simple:0,final,simple,0,ru,yandex,"Нежная овсяная каша на молоке с лёгкой солёной ноткой. Тёплый, питательный и уютный завтрак.",92,92
+porridge-ru:simple:0,final,simple,0,ru,wolt,"Классическая овсяная каша на молоке — мягкая, сливочная и с деликатной щепоткой соли. Идеальный вариант для доброго начала дня.",127,127
+porridge-ru:simple:0,final,simple,0,ru,website,"Овсяная каша, приготовленная на молоке с добавлением соли. Нежная текстура, мягкий сливочный вкус и тёплое настроение домашнего завтрака.",137,137
+porridge-ru:simple:0,final,simple,0,ru,print,Овсяная каша на молоке с лёгкой солёной ноткой — нежный и питательный завтрак.,78,78
+porridge-ru:simple:0,final,simple,0,ru,variant,Нежная классика,15,15
+porridge-ru:detailed:0,final,detailed,0,ru,yandex,"Овсяная каша, сваренная на молоке с добавлением соли.",53,53
+porridge-ru:detailed:0,final,detailed,0,ru,wolt,Овсяная каша на молоке с добавлением соли.,42,42
+porridge-ru:detailed:0,final,detailed,0,ru,website,"Овсяная каша из овсяных хлопьев, приготовленная на молоке с добавлением соли.",77,77
+porridge-ru:detailed:0,final,detailed,0,ru,print,Овсяная каша на молоке с добавлением соли.,42,42
+porridge-ru:detailed:0,final,detailed,0,ru,variant,Овсяная каша на молоке с добавлением соли.,42,42
+porridge-kk:detailed:0,final,detailed,0,kk,yandex,Сүт пен аз мөлшердегі тұз қосып қайнатылған сұлы үлпектерінен дайындалған ботқа.,80,80
+porridge-kk:detailed:0,final,detailed,0,kk,wolt,Сұлы үлпектері сүт пен тұз қосылып қайнатылады.,47,47
+porridge-kk:detailed:0,final,detailed,0,kk,website,"Сүтте қайнатылған сұлы үлпектерінен дайындалған ботқа, құрамында тұз бар.",73,73
+porridge-kk:detailed:0,final,detailed,0,kk,print,"Сұлы үлпектері, сүт және тұз қосылған ботқа.",44,44
+porridge-kk:detailed:0,final,detailed,0,kk,variant,Сүт пен аз мөлшердегі тұз қосып қайнатылған сұлы үлпектерінен дайындалған ботқа.,80,80
+porridge-kk:simple:0,final,simple,0,kk,yandex,Сүтте баяу қайнатылған нәзік сұлы ботқасы. Жеңіл әрі тойымды таңғы ас.,70,70
+porridge-kk:simple:0,final,simple,0,kk,wolt,Сүтте дайындалған жұмсақ сұлы ботқасы — күнді жайлы әрі нәрлі бастауға арналған тамаша таңдау.,94,94
+porridge-kk:simple:0,final,simple,0,kk,website,"Сүтте баяу қайнатылған, дәмі үйлесімді сұлы ботқасы. Қарапайым, жылы әрі тойымды таңғы ас.",90,90
+porridge-kk:simple:0,final,simple,0,kk,print,Сүтте қайнатылған нәзік сұлы ботқасы — жеңіл әрі нәрлі таңғы ас.,64,64
+porridge-kk:simple:0,final,simple,0,kk,variant,concierge,9,9
+beshbarmak-ru:simple:0,final,simple,0,ru,yandex,"Бешбармак — традиционное блюдо с нежным мясом и тонкими пластами теста, поданное с ароматным бульоном и луком.",110,110
+beshbarmak-ru:simple:0,final,simple,0,ru,wolt,"Бешбармак — сытное блюдо с нежным мясом, домашним тестом, луком и ароматным бульоном.",85,85
+beshbarmak-ru:simple:0,final,simple,0,ru,website,"Бешбармак — классическое блюдо кочевой кухни: нежное мясо, тонкие пласты теста, лук и насыщенный бульон в гармоничном сочетании.",128,128
+beshbarmak-ru:simple:0,final,simple,0,ru,print,"Бешбармак — нежное мясо, тонкое тесто, ароматный лук и насыщенный бульон. Традиционный вкус, созданный для уютной трапезы.",122,122
+beshbarmak-ru:simple:0,final,simple,0,ru,variant,Классическая подача,19,19
+beshbarmak-ru:detailed:0,final,detailed,0,ru,yandex,Бешбармак,9,9
+beshbarmak-ru:detailed:0,final,detailed,0,ru,wolt,Бешбармак,9,9
+beshbarmak-ru:detailed:0,final,detailed,0,ru,website,Бешбармак,9,9
+beshbarmak-ru:detailed:0,final,detailed,0,ru,print,Бешбармак,9,9
+beshbarmak-ru:detailed:0,final,detailed,0,ru,variant,Бешбармак,9,9
+beshbarmak-ru:detailed:1,final,detailed,1,ru,yandex,Бешбармак — горячее блюдо.,26,26
+beshbarmak-ru:detailed:1,final,detailed,1,ru,wolt,Бешбармак — горячее блюдо.,26,26
+beshbarmak-ru:detailed:1,final,detailed,1,ru,website,Бешбармак — горячее блюдо.,26,26
+beshbarmak-ru:detailed:1,final,detailed,1,ru,print,Бешбармак — горячее блюдо.,26,26
+beshbarmak-ru:detailed:1,final,detailed,1,ru,variant,Бешбармак — горячее блюдо.,26,26
+beshbarmak-kk:detailed:0,final,detailed,0,kk,yandex,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:0,final,detailed,0,kk,wolt,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:0,final,detailed,0,kk,website,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:0,final,detailed,0,kk,print,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:0,final,detailed,0,kk,variant,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:1,final,detailed,1,kk,yandex,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:1,final,detailed,1,kk,wolt,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:1,final,detailed,1,kk,website,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:1,final,detailed,1,kk,print,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:detailed:1,final,detailed,1,kk,variant,Бешбармақ — ыстық тағам.,24,24
+beshbarmak-kk:simple:0,final,simple,0,kk,yandex,"Дәстүрлі қазақ тағамы: нәзік ет, жайма қамыр және хош иісті пияз сорпасы үйлескен тойымды бешбармақ.",100,100
+beshbarmak-kk:simple:0,final,simple,0,kk,wolt,"Қазақ дастарқанының сүйікті тағамы — жұмсақ ет, жұқа жайма қамыр және хош иісті пияз сорпасымен ұсынылатын бешбармақ.",117,117
+beshbarmak-kk:simple:0,final,simple,0,kk,website,"Бешбармақ — қазақ асханасының айрықша тағамы. Нәзік ет, жайма қамыр және хош иісті пияз сорпасы үйлесіп, қанық әрі үйдегідей дәм қалыптастырады.",144,144
+beshbarmak-kk:simple:0,final,simple,0,kk,print,"Бешбармақ — нәзік ет, жайма қамыр және хош иісті пияз сорпасынан тұратын дәстүрлі қазақ тағамы.",95,95
+beshbarmak-kk:simple:0,final,simple,0,kk,variant,Дәстүрлі қазақ асханасының дәмі,31,31
+poke-ru:simple:0,final,simple,0,ru,yandex,Поке — современное блюдо с яркими свежими вкусами и лёгкой подачей. Идеальный выбор для сытного и сбалансированного обеда.,122,122
+poke-ru:simple:0,final,simple,0,ru,wolt,"Поке — свежо, ярко и легко. Сбалансированное блюдо для вкусного обеда или ужина.",80,80
+poke-ru:simple:0,final,simple,0,ru,website,"Поке — гармония свежести, вкуса и лёгкости в одной аппетитной подаче. Современный выбор для полноценного обеда или ужина.",121,121
+poke-ru:simple:0,final,simple,0,ru,print,Поке — яркое современное блюдо со свежим вкусом и лёгкой подачей.,65,65
+poke-ru:simple:0,final,simple,0,ru,variant,Свежесть в каждой ложке,23,23
+poke-ru:detailed:0,final,detailed,0,ru,yandex,Поке,4,4
+poke-ru:detailed:0,final,detailed,0,ru,wolt,Поке,4,4
+poke-ru:detailed:0,final,detailed,0,ru,website,Поке,4,4
+poke-ru:detailed:0,final,detailed,0,ru,print,Поке,4,4
+poke-ru:detailed:0,final,detailed,0,ru,variant,Поке,4,4
+poke-kk:detailed:0,final,detailed,0,kk,yandex,Поке,4,4
+poke-kk:detailed:0,final,detailed,0,kk,wolt,Поке,4,4
+poke-kk:detailed:0,final,detailed,0,kk,website,Поке,4,4
+poke-kk:detailed:0,final,detailed,0,kk,print,Поке,4,4
+poke-kk:detailed:0,final,detailed,0,kk,variant,Поке,4,4
+poke-kk:simple:0,final,simple,0,kk,yandex,Жаңа әрі жеңіл поке — күнделікті асқа арналған дәмді таңдау.,60,60
+poke-kk:simple:0,final,simple,0,kk,wolt,"Жаңа өнімдермен дайындалған жеңіл әрі үйлесімді поке. Дәмді, нәрлі және кез келген көңіл күйге сай.",99,99
+poke-kk:simple:0,final,simple,0,kk,website,Поке — балғын дәмдер мен жеңілдік үйлесімі. Күнделікті мәзірге жарасатын заманауи тағам.,88,88
+poke-kk:simple:0,final,simple,0,kk,print,"Поке — балғын, жеңіл әрі дәмді тағам.",37,37
+poke-kk:simple:0,final,simple,0,kk,variant,Балғын әрі жеңіл поке,21,21
+smoothie-ru:simple:0,final,simple,0,ru,yandex,Смузи — густой и освежающий напиток с мягкой фруктовой текстурой. Лёгкий выбор для бодрого начала дня или приятной паузы.,121,121
+smoothie-ru:simple:0,final,simple,0,ru,wolt,Освежающий смузи с нежной фруктовой текстурой — лёгкий и приятный напиток на любой момент дня.,94,94
+smoothie-ru:simple:0,final,simple,0,ru,website,Нежный смузи с насыщенной фруктовой текстурой и естественной свежестью. Идеален для лёгкого перекуса или бодрого начала дня.,124,124
+smoothie-ru:simple:0,final,simple,0,ru,print,Смузи — освежающий напиток с нежной фруктовой текстурой.,56,56
+smoothie-ru:simple:0,final,simple,0,ru,variant,Нейтральное универсальное описание без уточнения состава,56,56
+smoothie-ru:detailed:0,final,detailed,0,ru,yandex,Смузи,5,5
+smoothie-ru:detailed:0,final,detailed,0,ru,wolt,Смузи,5,5
+smoothie-ru:detailed:0,final,detailed,0,ru,website,Смузи,5,5
+smoothie-ru:detailed:0,final,detailed,0,ru,print,Смузи,5,5
+smoothie-ru:detailed:0,final,detailed,0,ru,variant,Смузи,5,5
+smoothie-kk:detailed:0,final,detailed,0,kk,yandex,Смузи,5,5
+smoothie-kk:detailed:0,final,detailed,0,kk,wolt,Смузи,5,5
+smoothie-kk:detailed:0,final,detailed,0,kk,website,Смузи,5,5
+smoothie-kk:detailed:0,final,detailed,0,kk,print,Смузи,5,5
+smoothie-kk:detailed:0,final,detailed,0,kk,variant,Смузи,5,5
+smoothie-kk:simple:0,final,simple,0,kk,yandex,Жемістер мен жидектердің табиғи дәмі үйлескен сергітетін смузи.,63,63
+smoothie-kk:simple:0,final,simple,0,kk,wolt,"Жеңіл, сергітетін және табиғи жеміс-жидек дәміне толы смузи.",60,60
+smoothie-kk:simple:0,final,simple,0,kk,website,Күнделікті көңіл күйіңізге балғындық қосатын нәзік әрі сергітетін смузи.,72,72
+smoothie-kk:simple:0,final,simple,0,kk,print,Сергітетін смузи — табиғи жеміс-жидек дәмі мен жеңілдіктің үйлесімі.,68,68
+smoothie-kk:simple:0,final,simple,0,kk,variant,Негізгі,7,7
+cheesecake-ru:simple:0,final,simple,0,ru,yandex,"Нежный чизкейк с бархатистой кремовой текстурой и тонкой основой. Лёгкий, гармоничный десерт к кофе или чаю.",108,108
+cheesecake-ru:simple:0,final,simple,0,ru,wolt,Классический чизкейк с нежной кремовой текстурой и тонкой основой — идеальное завершение обеда или приятное дополнение к кофе.,126,126
+cheesecake-ru:simple:0,final,simple,0,ru,website,"Чизкейк с гладкой, бархатистой текстурой и деликатным сливочным вкусом. Элегантный десерт, который прекрасно сочетается с кофе, чаем и неспешными разговорами.",158,158
+cheesecake-ru:simple:0,final,simple,0,ru,print,Чизкейк — нежный десерт с бархатистой текстурой и гармоничным сливочным вкусом.,79,79
+cheesecake-ru:simple:0,final,simple,0,ru,variant,Классический,12,12
+cheesecake-ru:detailed:0,final,detailed,0,ru,yandex,Чизкейк — десерт.,17,17
+cheesecake-ru:detailed:0,final,detailed,0,ru,wolt,Чизкейк — десерт.,17,17
+cheesecake-ru:detailed:0,final,detailed,0,ru,website,Чизкейк — десерт.,17,17
+cheesecake-ru:detailed:0,final,detailed,0,ru,print,Чизкейк — десерт.,17,17
+cheesecake-ru:detailed:0,final,detailed,0,ru,variant,Чизкейк — десерт.,17,17
+cheesecake-kk:detailed:0,final,detailed,0,kk,yandex,Чизкейк,7,7
+cheesecake-kk:detailed:0,final,detailed,0,kk,wolt,Чизкейк,7,7
+cheesecake-kk:detailed:0,final,detailed,0,kk,website,Чизкейк,7,7
+cheesecake-kk:detailed:0,final,detailed,0,kk,print,Чизкейк,7,7
+cheesecake-kk:detailed:0,final,detailed,0,kk,variant,Чизкейк,7,7
+cheesecake-kk:simple:0,final,simple,0,kk,yandex,Нәзік әрі кремді чизкейк — ауызда еритін жұмсақ десерт. Кофе немесе шаймен тамаша үйлеседі.,91,91
+cheesecake-kk:simple:0,final,simple,0,kk,wolt,Кремді құрылымы мен нәзік дәмі үйлескен классикалық чизкейк. Кез келген сәтке арналған тәтті таңдау.,100,100
+cheesecake-kk:simple:0,final,simple,0,kk,website,Классикалық чизкейк — нәзік кремді құрылымы мен үйлесімді тәтті дәмі бар сүйікті десерт. Кофе немесе шаймен бірге ләззат алыңыз.,128,128
+cheesecake-kk:simple:0,final,simple,0,kk,print,Нәзік әрі кремді классикалық чизкейк — тәтті көңіл-күй сыйлайтын тамаша десерт.,79,79
+cheesecake-kk:simple:0,final,simple,0,kk,variant,Классикалық чизкейк,19,19

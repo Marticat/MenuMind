@@ -1,0 +1,18 @@
+{
+  "phase": "dev",
+  "startedAt": "2026-10-06T20:09:06.401Z",
+  "hashes": {
+    "server/generation.mjs": "30a4ad30268fdc48a565191aade0b7b3f3fbe52253ad0652e9bef2efbeb4f193",
+    "server/grounding.mjs": "7085da00cc2f50347f00144fbd58084b1de9f3194004f29c643868d091aea29b",
+    "server/tags.mjs": "b8be676b1938c7e392f4cb1d63859785e7afce4cc45a4b9257e0454315033fa8",
+    "server/db.mjs": "b479da70d4359a07d6677981a459b189f6a6d15d571f53ce1139f980a5792895",
+    "server/config.mjs": "cb0f05b9e975ed3edd2890671b77ce2314c200e51180a0ad8d5726d24c95906b",
+    "server/schemas.mjs": "f8df0c0f5b609bef389f7edb6130e005d11af10413db4540ff6490c34866e580",
+    "experiments/llm-v2/run.mjs": "b12efcef94980e1151a6d57fd45f0f6d3391ab6f08ab910f78c4f7028a113b1b",
+    "experiments/llm-v2/inputs.json": "a38568336a90ef7f1f2693aaebb91d41abb41db4873e6e35d09ba985e5a23953",
+    "experiments/llm/run.mjs": "913851087de5df7b963b294973938f3e76a1d49df48d2cef2fa3a139c88714d6"
+  },
+  "model": "gpt-5.6-luna",
+  "timeoutMs": 8500,
+  "completedAt": "2026-10-06T20:09:34.677Z"
+}

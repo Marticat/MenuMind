@@ -7,7 +7,8 @@ import { join, resolve, sep } from 'node:path';
 import { createApp } from '../app.mjs';
 import { loadConfig } from '../config.mjs';
 import { extractTags } from '../tags.mjs';
-import { buildMessages } from '../generation.mjs';
+import { buildMessages, generateDescription } from '../generation.mjs';
+import { checkGrounding } from '../grounding.mjs';
 import { defaultProfile } from '../db.mjs';
 import { createServer } from 'node:http';
 
@@ -18,6 +19,123 @@ function setup(t, options = {}) {
   t.after(() => instance.db.close());
   return { ...instance, config };
 }
+
+test('grounding rejects invented quantities, textures, inflected noodles and numbers, but permits supplied facts', () => {
+  for (const text of [
+    'Суп с лапшой.',
+    'Суп со щепоткой соли.',
+    'Жеңіл сорпа.',
+    'Аз мөлшердегі тұз қосылған сорпа.',
+    'Варить 25 минут.',
+  ])
+    assert.throws(() => checkGrounding(text, { name: 'Суп', ingredients: ['соль'] }), {
+      code: 'UNSUPPORTED_FACT',
+    });
+  assert.doesNotThrow(() =>
+    checkGrounding('Лапша с луком.', { name: 'Лапша', ingredients: ['лук'] }),
+  );
+  assert.doesNotThrow(() =>
+    checkGrounding('25 минут.', { name: 'Суп', method: 'Варка 25 минут.' }),
+  );
+});
+
+test('repair changes repeated channels, keeps real provider text and accounts for both calls', async () => {
+  const previous = {
+    texts: Object.fromEntries(['yandex', 'wolt', 'website', 'print'].map((id) => [id, 'Суп.'])),
+    variant: 'Суп.',
+  };
+  let count = 0;
+  const result = await generateDescription({
+    recipe: { name: 'Суп', ingredients: [] },
+    profile: defaultProfile('Test'),
+    language: 'ru',
+    tone: 'editorial',
+    previous,
+    config: loadConfig({
+      LLM_PROVIDER: 'openai-compatible',
+      LLM_API_KEY: 'test',
+      LLM_MODEL: 'test',
+    }).llm,
+    fetchImpl: async (_url, options) => {
+      count++;
+      if (count === 2)
+        assert.equal(
+          JSON.parse(JSON.parse(options.body).messages[1].content).correction.reason,
+          'LLM_REPEATED_OUTPUT',
+        );
+      const value = count === 1 ? 'Суп!' : 'В меню — суп.';
+      return Response.json({
+        id: `response-${count}`,
+        usage: { prompt_tokens: 10, completion_tokens: 5, total_tokens: 15 },
+        choices: [
+          {
+            finish_reason: 'stop',
+            message: {
+              content: JSON.stringify({
+                texts: Object.fromEntries(
+                  ['yandex', 'wolt', 'website', 'print'].map((id) => [id, value]),
+                ),
+                variant: value,
+              }),
+            },
+          },
+        ],
+      });
+    },
+  });
+  assert.equal(count, 2);
+  assert.equal(result.texts.yandex, 'В меню — суп.');
+  assert.equal(result.providerResponseId, 'response-2');
+  assert.equal(result.usage.totalTokens, 30);
+  assert.equal(result.providerAttempts[0].code, 'LLM_REPEATED_OUTPUT');
+});
+
+test('repair shares a total timeout rather than resetting the latency budget', async () => {
+  const upstream = createServer((_req, res) => {
+    setTimeout(() => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify({
+          choices: [
+            {
+              finish_reason: 'stop',
+              message: {
+                content: JSON.stringify({
+                  texts: { yandex: 'Суп с лапшой.', wolt: 'Суп.', website: 'Суп.', print: 'Суп.' },
+                  variant: 'Суп.',
+                }),
+              },
+            },
+          ],
+        }),
+      );
+    }, 600);
+  });
+  await new Promise((resolve) => upstream.listen(0, '127.0.0.1', resolve));
+  const start = Date.now();
+  try {
+    await assert.rejects(
+      generateDescription({
+        recipe: { name: 'Суп', ingredients: [] },
+        profile: defaultProfile('Test'),
+        language: 'ru',
+        tone: 'editorial',
+        config: loadConfig({
+          LLM_PROVIDER: 'openai-compatible',
+          LLM_API_KEY: 'test',
+          LLM_MODEL: 'test',
+          LLM_TIMEOUT_MS: '1150',
+          LLM_BASE_URL: `http://127.0.0.1:${upstream.address().port}/v1`,
+        }).llm,
+      }),
+      { code: 'LLM_TIMEOUT' },
+    );
+    assert.ok(Date.now() - start < 1500);
+  } finally {
+    upstream.closeAllConnections();
+    await new Promise((resolve) => upstream.close(resolve));
+  }
+});
 async function account(app, email = 'chef@example.test') {
   const client = request.agent(app);
   const response = await client
@@ -317,6 +435,14 @@ test('provider prompt uses real facts, selected references and the requested lan
 });
 
 for (const [name, fetchImpl, status, code] of [
+  [
+    'connection failure',
+    async () => {
+      throw new TypeError('fetch failed');
+    },
+    502,
+    'LLM_UNAVAILABLE',
+  ],
   ['upstream unavailable', async () => new Response('{}', { status: 503 }), 502, 'LLM_UNAVAILABLE'],
   [
     'upstream rate limited',
@@ -382,6 +508,9 @@ for (const reasoningEffort of [undefined, 'none'])
         assert.equal(body.reasoning_effort, reasoningEffort);
         assert.equal(body.response_format.type, 'json_object');
         return Response.json({
+          id: 'chatcmpl-verification',
+          model: 'test-model-snapshot',
+          usage: { prompt_tokens: 100, completion_tokens: 40, total_tokens: 140 },
           choices: [
             {
               finish_reason: 'stop',
@@ -399,6 +528,12 @@ for (const reasoningEffort of [undefined, 'none'])
       language: 'kk',
     }).expect(201);
     assert.equal(body.provider, 'openai-compatible');
+    assert.equal(body.providerResponseId, 'chatcmpl-verification');
+    assert.equal(body.providerModel, 'test-model-snapshot');
+    assert.equal(body.usage.totalTokens, 140);
+    assert.deepEqual(body.limits, { yandex: 250, wolt: 250, website: 250, print: 250 });
+    const saved = (await a.client.get(`/api/v1/generations/${body.id}`)).body;
+    assert.deepEqual(saved.usage, body.usage);
     assert.deepEqual(body.texts, texts);
   });
 

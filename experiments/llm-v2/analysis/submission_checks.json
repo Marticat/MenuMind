@@ -1,0 +1,10 @@
+{
+  "notebook_executed": true,
+  "report_pages": 2,
+  "slides": 8,
+  "frozen_sources_match": true,
+  "secret_scan": "passed",
+  "server_tests": 39,
+  "browser_tests": 9,
+  "human_language_review": false
+}

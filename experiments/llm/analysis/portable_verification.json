@@ -1,0 +1,7 @@
+{
+  "fresh_kernel": "passed",
+  "standalone_notebook_without_adjacent_data": "passed",
+  "metrics_equal": true,
+  "figure_count": 8,
+  "note": "Executed locally, not in hosted Google Colab. No LLM calls during notebook execution."
+}

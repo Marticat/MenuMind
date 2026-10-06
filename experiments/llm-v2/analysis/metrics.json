@@ -1,0 +1,45 @@
+{
+  "final": [
+    {
+      "strategy": "detailed",
+      "n": 16,
+      "accepted": 16,
+      "first_pass": 16,
+      "mean_s": 2.140125,
+      "p95_s": 2.505,
+      "max_s": 2.535,
+      "mean_tokens": 677.625,
+      "usd_per_1000": 0.25565,
+      "provider_calls": 16
+    },
+    {
+      "strategy": "simple",
+      "n": 16,
+      "accepted": 14,
+      "first_pass": 0,
+      "mean_s": 4.4349375,
+      "p95_s": 4.93375,
+      "max_s": 5.035,
+      "mean_tokens": 598.1875,
+      "usd_per_1000": 0.383325,
+      "provider_calls": 32
+    }
+  ],
+  "final_regenerations": 16,
+  "regeneration_changed": 16,
+  "final_max_seconds": 5.035,
+  "final_model_calls": 66,
+  "total_model_calls": 106,
+  "total_tokens": 64493,
+  "total_estimated_usd": 0.026846600000000005,
+  "browser_passed": true,
+  "tone_examples": 6,
+  "figures": 8,
+  "human_review_completed": false,
+  "qualitative_venue_flags": 1,
+  "contract_successes": 3,
+  "contract_checks": 4,
+  "regeneration_usd_per_1000": 0.3122125,
+  "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+  "pricing_date": "2026-10-07"
+}

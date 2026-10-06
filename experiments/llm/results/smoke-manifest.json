@@ -1,0 +1,20 @@
+{
+  "runId": "84d9f048-1154-4184-853e-86751ca61a7f",
+  "phase": "smoke",
+  "startedAt": "2026-10-06T18:18:07.385Z",
+  "provider": "openai-compatible",
+  "model": "gpt-5.6-luna",
+  "reasoningEffort": "none",
+  "timeoutMs": 8500,
+  "fingerprints": {
+    "server/generation.mjs": "bb37abdae21ad6cf9892e3ea17c84e24f95bf2e7b0f1bf216c3dcfbfc18bd3fd",
+    "server/tags.mjs": "b8be676b1938c7e392f4cb1d63859785e7afce4cc45a4b9257e0454315033fa8",
+    "server/schemas.mjs": "f8df0c0f5b609bef389f7edb6130e005d11af10413db4540ff6490c34866e580",
+    "server/db.mjs": "b479da70d4359a07d6677981a459b189f6a6d15d571f53ce1139f980a5792895",
+    "experiments/llm/run.mjs": "913851087de5df7b963b294973938f3e76a1d49df48d2cef2fa3a139c88714d6",
+    "experiments/llm/inputs.json": "9e9855b0270d2487deac165b27acd255d5f3b46dd8926d4e323e772971436b18"
+  },
+  "protocol": "One attempt per arm; paired prompts; alternating arm order; grouped holdout; no automatic retries; raw rejected responses retained.",
+  "completedAt": "2026-10-06T18:18:11.066Z",
+  "rejectedAttempts": 0
+}

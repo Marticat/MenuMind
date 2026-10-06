@@ -1,0 +1,390 @@
+[
+  {
+    "id": "caesar-ru",
+    "group": "caesar",
+    "split": "dev",
+    "language": "ru",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe": {
+      "name": "Цезарь",
+      "category": "Салат",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "caesar-kk",
+    "group": "caesar",
+    "split": "dev",
+    "language": "kk",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe": {
+      "name": "Цезарь",
+      "category": "Салат",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "porridge-ru",
+    "group": "porridge",
+    "split": "dev",
+    "language": "ru",
+    "tone": "concierge",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe": {
+      "name": "Овсяная каша",
+      "category": "Завтрак",
+      "ingredients": [
+        "овсяные хлопья",
+        "молоко",
+        "соль"
+      ],
+      "method": "Варка."
+    }
+  },
+  {
+    "id": "porridge-kk",
+    "group": "porridge",
+    "split": "dev",
+    "language": "kk",
+    "tone": "concierge",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe": {
+      "name": "Сұлы ботқасы",
+      "category": "Таңғы ас",
+      "ingredients": [
+        "сұлы үлпектері",
+        "сүт",
+        "тұз"
+      ],
+      "method": "Қайнату."
+    }
+  },
+  {
+    "id": "beshbarmak-ru",
+    "group": "beshbarmak",
+    "split": "dev",
+    "language": "ru",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe": {
+      "name": "Бешбармак",
+      "category": "Горячее",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "beshbarmak-kk",
+    "group": "beshbarmak",
+    "split": "dev",
+    "language": "kk",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe": {
+      "name": "Бешбармақ",
+      "category": "Ыстық тағам",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "lentil-ru",
+    "group": "lentil",
+    "split": "final",
+    "language": "ru",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Чечевичный суп",
+      "category": "Суп",
+      "ingredients": [
+        "чечевица",
+        "вода",
+        "соль"
+      ],
+      "method": "Варка."
+    }
+  },
+  {
+    "id": "lentil-kk",
+    "group": "lentil",
+    "split": "final",
+    "language": "kk",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Жасымық сорпасы",
+      "category": "Сорпа",
+      "ingredients": [
+        "жасымық",
+        "су",
+        "тұз"
+      ],
+      "method": "Қайнату."
+    }
+  },
+  {
+    "id": "beet-ru",
+    "group": "beet",
+    "split": "final",
+    "language": "ru",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Салат из свёклы",
+      "category": "Салат",
+      "ingredients": [
+        "свёкла",
+        "растительное масло"
+      ],
+      "method": ""
+    }
+  },
+  {
+    "id": "beet-kk",
+    "group": "beet",
+    "split": "final",
+    "language": "kk",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Қызылша салаты",
+      "category": "Салат",
+      "ingredients": [
+        "қызылша",
+        "өсімдік майы"
+      ],
+      "method": ""
+    }
+  },
+  {
+    "id": "potato-ru",
+    "group": "potato",
+    "split": "final",
+    "language": "ru",
+    "tone": "concierge",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Картофельное пюре",
+      "category": "Гарнир",
+      "ingredients": [
+        "картофель",
+        "молоко",
+        "соль"
+      ],
+      "method": "Варка."
+    }
+  },
+  {
+    "id": "potato-kk",
+    "group": "potato",
+    "split": "final",
+    "language": "kk",
+    "tone": "concierge",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Картоп езбесі",
+      "category": "Гарнир",
+      "ingredients": [
+        "картоп",
+        "сүт",
+        "тұз"
+      ],
+      "method": "Қайнату."
+    }
+  },
+  {
+    "id": "compote-ru",
+    "group": "compote",
+    "split": "final",
+    "language": "ru",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Грушевый компот",
+      "category": "Напиток",
+      "ingredients": [
+        "груша",
+        "вода"
+      ],
+      "method": "Варка."
+    }
+  },
+  {
+    "id": "compote-kk",
+    "group": "compote",
+    "split": "final",
+    "language": "kk",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "complete",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Алмұрт компоты",
+      "category": "Сусын",
+      "ingredients": [
+        "алмұрт",
+        "су"
+      ],
+      "method": "Қайнату."
+    }
+  },
+  {
+    "id": "khachapuri-ru",
+    "group": "khachapuri",
+    "split": "final",
+    "language": "ru",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Хачапури",
+      "category": "Выпечка",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "khachapuri-kk",
+    "group": "khachapuri",
+    "split": "final",
+    "language": "kk",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Хачапури",
+      "category": "Пісірме",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "udon-ru",
+    "group": "udon",
+    "split": "final",
+    "language": "ru",
+    "tone": "concierge",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Удон",
+      "category": "Горячее",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "udon-kk",
+    "group": "udon",
+    "split": "final",
+    "language": "kk",
+    "tone": "concierge",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Удон",
+      "category": "Ыстық тағам",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "shakshuka-ru",
+    "group": "shakshuka",
+    "split": "final",
+    "language": "ru",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Шакшука",
+      "category": "Завтрак",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "shakshuka-kk",
+    "group": "shakshuka",
+    "split": "final",
+    "language": "kk",
+    "tone": "editorial",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Шакшука",
+      "category": "Таңғы ас",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "manty-ru",
+    "group": "manty",
+    "split": "final",
+    "language": "ru",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Манты",
+      "category": "Горячее",
+      "ingredients": [],
+      "method": ""
+    }
+  },
+  {
+    "id": "manty-kk",
+    "group": "manty",
+    "split": "final",
+    "language": "kk",
+    "tone": "bistro",
+    "maxLength": 250,
+    "completeness": "name_category_only",
+    "source": "authored acceptance fixture; only explicitly supplied fields are facts",
+    "recipe": {
+      "name": "Мәнті",
+      "category": "Ыстық тағам",
+      "ingredients": [],
+      "method": ""
+    }
+  }
+]

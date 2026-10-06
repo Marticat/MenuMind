@@ -1,0 +1,676 @@
+[
+  {
+    "id":"pumpkin-ru",
+    "group":"pumpkin",
+    "split":"dev",
+    "language":"ru",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Суп из тыквы",
+      "category":"Суп",
+      "ingredients":[
+        "тыква",
+        "вода",
+        "соль"
+      ],
+      "method":"Варка."
+    },
+    "ingredient_count":3,
+    "name_chars":12
+  },
+  {
+    "id":"pumpkin-kk",
+    "group":"pumpkin",
+    "split":"dev",
+    "language":"kk",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Асқабақ сорпасы",
+      "category":"Сорпа",
+      "ingredients":[
+        "асқабақ",
+        "су",
+        "тұз"
+      ],
+      "method":"Қайнату."
+    },
+    "ingredient_count":3,
+    "name_chars":15
+  },
+  {
+    "id":"chicken-ru",
+    "group":"chicken",
+    "split":"dev",
+    "language":"ru",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Курица с рисом",
+      "category":"Горячее",
+      "ingredients":[
+        "курица",
+        "рис",
+        "вода",
+        "соль"
+      ],
+      "method":"Варка."
+    },
+    "ingredient_count":4,
+    "name_chars":14
+  },
+  {
+    "id":"chicken-kk",
+    "group":"chicken",
+    "split":"dev",
+    "language":"kk",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Күріш қосылған тауық",
+      "category":"Ыстық тағам",
+      "ingredients":[
+        "тауық еті",
+        "күріш",
+        "су",
+        "тұз"
+      ],
+      "method":"Қайнату."
+    },
+    "ingredient_count":4,
+    "name_chars":20
+  },
+  {
+    "id":"tomato-ru",
+    "group":"tomato",
+    "split":"dev",
+    "language":"ru",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Салат из томатов",
+      "category":"Салат",
+      "ingredients":[
+        "томаты",
+        "огурцы",
+        "оливковое масло"
+      ],
+      "method":""
+    },
+    "ingredient_count":3,
+    "name_chars":16
+  },
+  {
+    "id":"tomato-kk",
+    "group":"tomato",
+    "split":"dev",
+    "language":"kk",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Қызанақ салаты",
+      "category":"Салат",
+      "ingredients":[
+        "қызанақ",
+        "қияр",
+        "зәйтүн майы"
+      ],
+      "method":""
+    },
+    "ingredient_count":3,
+    "name_chars":14
+  },
+  {
+    "id":"salmon-ru",
+    "group":"salmon",
+    "split":"dev",
+    "language":"ru",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Запечённый лосось",
+      "category":"Горячее",
+      "ingredients":[
+        "лосось",
+        "лимон",
+        "соль"
+      ],
+      "method":"Запекание."
+    },
+    "ingredient_count":3,
+    "name_chars":17
+  },
+  {
+    "id":"salmon-kk",
+    "group":"salmon",
+    "split":"dev",
+    "language":"kk",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Пеште пісірілген албырт",
+      "category":"Ыстық тағам",
+      "ingredients":[
+        "албырт",
+        "лимон",
+        "тұз"
+      ],
+      "method":"Пеште пісіру."
+    },
+    "ingredient_count":3,
+    "name_chars":23
+  },
+  {
+    "id":"caesar-ru",
+    "group":"caesar",
+    "split":"dev",
+    "language":"ru",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Цезарь",
+      "category":"Салат",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":6
+  },
+  {
+    "id":"caesar-kk",
+    "group":"caesar",
+    "split":"dev",
+    "language":"kk",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Цезарь",
+      "category":"Салат",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":6
+  },
+  {
+    "id":"lagman-ru",
+    "group":"lagman",
+    "split":"dev",
+    "language":"ru",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Лагман",
+      "category":"Горячее",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":6
+  },
+  {
+    "id":"lagman-kk",
+    "group":"lagman",
+    "split":"dev",
+    "language":"kk",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Лағман",
+      "category":"Ыстық тағам",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":6
+  },
+  {
+    "id":"signature-ru",
+    "group":"signature",
+    "split":"dev",
+    "language":"ru",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Блюдо № 7",
+      "category":"",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":9
+  },
+  {
+    "id":"signature-kk",
+    "group":"signature",
+    "split":"dev",
+    "language":"kk",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"№ 7 тағам",
+      "category":"",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":9
+  },
+  {
+    "id":"ramen-ru",
+    "group":"ramen",
+    "split":"dev",
+    "language":"ru",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Рамен",
+      "category":"Суп",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":5
+  },
+  {
+    "id":"ramen-kk",
+    "group":"ramen",
+    "split":"dev",
+    "language":"kk",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Рамен",
+      "category":"Сорпа",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":5
+  },
+  {
+    "id":"buckwheat-ru",
+    "group":"buckwheat",
+    "split":"final",
+    "language":"ru",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Гречка с грибами",
+      "category":"Горячее",
+      "ingredients":[
+        "гречка",
+        "шампиньоны",
+        "вода",
+        "соль"
+      ],
+      "method":"Варка."
+    },
+    "ingredient_count":4,
+    "name_chars":16
+  },
+  {
+    "id":"buckwheat-kk",
+    "group":"buckwheat",
+    "split":"final",
+    "language":"kk",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Саңырауқұлақ қосылған қарақұмық",
+      "category":"Ыстық тағам",
+      "ingredients":[
+        "қарақұмық",
+        "қозықұйрық",
+        "су",
+        "тұз"
+      ],
+      "method":"Қайнату."
+    },
+    "ingredient_count":4,
+    "name_chars":31
+  },
+  {
+    "id":"tofu-ru",
+    "group":"tofu",
+    "split":"final",
+    "language":"ru",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Тофу с брокколи",
+      "category":"Горячее",
+      "ingredients":[
+        "тофу",
+        "брокколи",
+        "соевый соус"
+      ],
+      "method":"Тушение."
+    },
+    "ingredient_count":3,
+    "name_chars":15
+  },
+  {
+    "id":"tofu-kk",
+    "group":"tofu",
+    "split":"final",
+    "language":"kk",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Брокколи қосылған тофу",
+      "category":"Ыстық тағам",
+      "ingredients":[
+        "тофу",
+        "брокколи",
+        "соя тұздығы"
+      ],
+      "method":"Бұқтыру."
+    },
+    "ingredient_count":3,
+    "name_chars":22
+  },
+  {
+    "id":"fruit-ru",
+    "group":"fruit",
+    "split":"final",
+    "language":"ru",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Фруктовый салат",
+      "category":"Десерт",
+      "ingredients":[
+        "яблоко",
+        "груша"
+      ],
+      "method":""
+    },
+    "ingredient_count":2,
+    "name_chars":15
+  },
+  {
+    "id":"fruit-kk",
+    "group":"fruit",
+    "split":"final",
+    "language":"kk",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Жеміс салаты",
+      "category":"Десерт",
+      "ingredients":[
+        "алма",
+        "алмұрт"
+      ],
+      "method":""
+    },
+    "ingredient_count":2,
+    "name_chars":12
+  },
+  {
+    "id":"porridge-ru",
+    "group":"porridge",
+    "split":"final",
+    "language":"ru",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Овсяная каша",
+      "category":"Завтрак",
+      "ingredients":[
+        "овсяные хлопья",
+        "молоко",
+        "соль"
+      ],
+      "method":"Варка."
+    },
+    "ingredient_count":3,
+    "name_chars":12
+  },
+  {
+    "id":"porridge-kk",
+    "group":"porridge",
+    "split":"final",
+    "language":"kk",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"complete",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Сұлы ботқасы",
+      "category":"Таңғы ас",
+      "ingredients":[
+        "сұлы үлпектері",
+        "сүт",
+        "тұз"
+      ],
+      "method":"Қайнату."
+    },
+    "ingredient_count":3,
+    "name_chars":12
+  },
+  {
+    "id":"beshbarmak-ru",
+    "group":"beshbarmak",
+    "split":"final",
+    "language":"ru",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Бешбармак",
+      "category":"Горячее",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":9
+  },
+  {
+    "id":"beshbarmak-kk",
+    "group":"beshbarmak",
+    "split":"final",
+    "language":"kk",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Бешбармақ",
+      "category":"Ыстық тағам",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":9
+  },
+  {
+    "id":"poke-ru",
+    "group":"poke",
+    "split":"final",
+    "language":"ru",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Поке",
+      "category":"Горячее",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":4
+  },
+  {
+    "id":"poke-kk",
+    "group":"poke",
+    "split":"final",
+    "language":"kk",
+    "tone":"bistro",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Поке",
+      "category":"Ыстық тағам",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":4
+  },
+  {
+    "id":"smoothie-ru",
+    "group":"smoothie",
+    "split":"final",
+    "language":"ru",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Смузи",
+      "category":"Напиток",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":5
+  },
+  {
+    "id":"smoothie-kk",
+    "group":"smoothie",
+    "split":"final",
+    "language":"kk",
+    "tone":"concierge",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Смузи",
+      "category":"Сусын",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":5
+  },
+  {
+    "id":"cheesecake-ru",
+    "group":"cheesecake",
+    "split":"final",
+    "language":"ru",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Чизкейк",
+      "category":"Десерт",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":7
+  },
+  {
+    "id":"cheesecake-kk",
+    "group":"cheesecake",
+    "split":"final",
+    "language":"kk",
+    "tone":"editorial",
+    "maxLength":250,
+    "completeness":"name_category_only",
+    "source":"authored acceptance fixture; supplied fields are the only ground truth",
+    "recipe":{
+      "name":"Чизкейк",
+      "category":"Десерт",
+      "ingredients":[
+
+      ],
+      "method":""
+    },
+    "ingredient_count":0,
+    "name_chars":7
+  }
+]

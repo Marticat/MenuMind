@@ -7,7 +7,7 @@ export const defaultSettings = {
   restraint: 88,
   sensory: 64,
   strictness: 100,
-  limits: { yandex: 250, wolt: 180, website: 450, print: 300 },
+  limits: { yandex: 250, wolt: 250, website: 250, print: 250 },
   samples: [],
 };
 export function defaultProfile(restaurantName) {

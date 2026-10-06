@@ -1,0 +1,49 @@
+id,group,language,tone,strategy,repetition,accepted,calls,first_pass,seconds,tokens,usd,max_chars,error,text
+lentil-ru:simple:0,lentil,ru,editorial,simple,0,True,2,False,5.035,681,0.00046119999999999993,88,,"Чечевичный суп, приготовленный варкой из чечевицы, воды и соли."
+lentil-ru:detailed:0,lentil,ru,editorial,detailed,0,True,1,True,2.242,683,0.0002676,71,,"Чечевичный суп — суп из чечевицы, воды и соли, приготовленный варкой."
+lentil-ru:detailed:1,lentil,ru,editorial,detailed,1,True,1,True,2.377,805,0.000292,78,,"Чечевичный суп — чечевица, вода и соль; приготовлен варкой."
+lentil-kk:detailed:0,lentil,kk,editorial,detailed,0,True,1,True,2.113,676,0.0002542,56,,"Жасымық сорпасы — жасымық, су және тұздан тұратын сорпа."
+lentil-kk:detailed:1,lentil,kk,editorial,detailed,1,True,1,True,2.448,805,0.000299,70,,"Жасымық сорпасы. Құрамы: жасымық, су және тұз; қайнатылып дайындалады."
+lentil-kk:simple:0,lentil,kk,editorial,simple,0,True,2,False,4.49,623,0.00039559999999999997,65,,"Жасымық, су және тұздан дайындалған сорпа."
+beet-ru:simple:0,beet,ru,bistro,simple,0,True,2,False,4.401,581,0.0003602,76,,Салат из свёклы с растительным маслом.
+beet-ru:detailed:0,beet,ru,bistro,detailed,0,True,1,True,1.673,671,0.0002392,58,,В меню: салат из свёклы с растительным маслом.
+beet-ru:detailed:1,beet,ru,bistro,detailed,1,True,1,True,1.803,767,0.0002584,60,,В меню: салат из свёклы и растительного масла.
+beet-kk:detailed:0,beet,kk,bistro,detailed,0,True,1,True,2.343,707,0.00028139999999999996,68,,Мәзірде: Қызылша салаты — қызылша мен өсімдік майынан тұратын салат.
+beet-kk:detailed:1,beet,kk,bistro,detailed,1,True,1,True,2.386,827,0.0002944,55,,"Мәзірде: Қызылша салаты. Құрамы: қызылша, өсімдік майы."
+beet-kk:simple:0,beet,kk,bistro,simple,0,True,2,False,4.9,673,0.0004576,55,,"Қызылша салаты, өсімдік майымен дайындалады."
+potato-ru:simple:0,potato,ru,concierge,simple,0,True,2,False,4.672,660,0.000433,55,,Картофельное пюре с молоком и солью. Гарнир.
+potato-ru:detailed:0,potato,ru,concierge,detailed,0,True,1,True,2.276,733,0.0002996,100,,"Предлагаем картофельное пюре — гарнир из картофеля с молоком и солью, приготовленный варкой."
+potato-ru:detailed:1,potato,ru,concierge,detailed,1,True,1,True,2.46,891,0.00034520000000000004,103,,"Предлагаем картофельное пюре — гарнир из картофеля, молока и соли, приготовленный варкой."
+potato-kk:detailed:0,potato,kk,concierge,detailed,0,True,1,True,2.278,773,0.00034659999999999997,102,,"Ұсынамыз: картоп езбесі — картоп, сүт және тұздан тұратын гарнир. Қайнату әдісімен дайындалады."
+potato-kk:detailed:1,potato,kk,concierge,detailed,1,True,1,True,2.487,960,0.000388,95,,"Ұсынамыз: картоп езбесі — картоп, сүт және тұздан тұратын гарнир. Дайындау тәсілі — қайнату."
+potato-kk:simple:0,potato,kk,concierge,simple,0,True,2,False,4.648,649,0.0004178,55,,Сүт пен тұз қосылған картоп езбесі.
+compote-ru:simple:0,compote,ru,editorial,simple,0,True,2,False,4.437,606,0.00038720000000000003,78,,"Грушевый компот: груша, вода. Приготовлен методом варки."
+compote-ru:detailed:0,compote,ru,editorial,detailed,0,True,1,True,2.273,666,0.0002492,72,,"Грушевый компот — напиток из груши и воды, приготовленный варкой."
+compote-ru:detailed:1,compote,ru,editorial,detailed,1,True,1,True,2.4,781,0.0002802,72,,Грушевый компот — напиток из груши и воды. Приготовлен методом варки.
+compote-kk:detailed:0,compote,kk,editorial,detailed,0,True,1,True,2.535,706,0.00029519999999999997,79,,"Алмұрт компоты — алмұрт пен судан дайындалып, қайнату арқылы әзірленетін сусын."
+compote-kk:detailed:1,compote,kk,editorial,detailed,1,True,1,True,2.58,847,0.00031939999999999996,75,,Алмұрт компоты — суға алмұрт қосып қайнату арқылы әзірленетін сусын.
+compote-kk:simple:0,compote,kk,editorial,simple,0,False,2,False,4.107,599,0.0003788,63,UNSUPPORTED_FACT,Алмұрт пен судан қайнатылған компот.
+khachapuri-ru:simple:0,khachapuri,ru,bistro,simple,0,True,2,False,4.195,595,0.00038399999999999996,47,,Хачапури — выпечка.
+khachapuri-ru:detailed:0,khachapuri,ru,bistro,detailed,0,True,1,True,1.878,656,0.00023319999999999998,48,,В меню: хачапури — выпечка в бистро.
+khachapuri-ru:detailed:1,khachapuri,ru,bistro,detailed,1,True,2,False,3.418,1546,0.0004971999999999999,52,,"В меню: хачапури, выпечка."
+khachapuri-kk:detailed:0,khachapuri,kk,bistro,detailed,0,True,1,True,2.415,669,0.0002478,48,,Мәзірде: хачапури — пісірме санатындағы тағам.
+khachapuri-kk:detailed:1,khachapuri,kk,bistro,detailed,1,True,1,True,2.568,772,0.00026639999999999997,45,,Мәзірде: хачапури — пісірме тағам.
+khachapuri-kk:simple:0,khachapuri,kk,bistro,simple,0,True,2,False,4.029,552,0.00034639999999999996,37,,Хачапури
+udon-ru:simple:0,udon,ru,concierge,simple,0,True,2,False,3.929,567,0.0003584,46,,Удон
+udon-ru:detailed:0,udon,ru,concierge,detailed,0,True,1,True,1.949,662,0.00023339999999999998,49,,Предлагаем удон — блюдо из категории «Горячее».
+udon-ru:detailed:1,udon,ru,concierge,detailed,1,True,1,True,2.323,750,0.000247,48,,Предлагаем «Удон» — горячее блюдо меню.
+udon-kk:detailed:0,udon,kk,concierge,detailed,0,True,1,True,1.913,678,0.0002516,49,,Ұсынамыз: «Удон» — ыстық тағамдар санатындағы ас.
+udon-kk:detailed:1,udon,kk,concierge,detailed,1,True,1,True,2.076,793,0.00028260000000000004,62,,Ұсынамыз: «Удон» — ыстық тағамдар санатындағы мәзір позициясы.
+udon-kk:simple:0,udon,kk,concierge,simple,0,True,2,False,4.55,517,0.0003094,45,,Удон
+shakshuka-ru:simple:0,shakshuka,ru,editorial,simple,0,False,2,False,4.607,594,0.00039079999999999996,69,UNSUPPORTED_FACT,Шакшука — блюдо из яиц.
+shakshuka-ru:detailed:0,shakshuka,ru,editorial,detailed,0,True,1,True,2.133,623,0.00020960000000000003,49,,Шакшука — блюдо из меню завтраков.
+shakshuka-ru:detailed:1,shakshuka,ru,editorial,detailed,1,True,1,True,1.994,702,0.0002284,57,,Шакшука — блюдо из раздела завтраков.
+shakshuka-kk:detailed:0,shakshuka,kk,editorial,detailed,0,True,1,True,1.947,632,0.0002194,46,,Шакшука — таңғы ас мәзіріндегі тағам.
+shakshuka-kk:detailed:1,shakshuka,kk,editorial,detailed,1,True,1,True,2.063,717,0.0002374,46,,Шакшука — таңғы ас мәзіріндегі тағам атауы.
+shakshuka-kk:simple:0,shakshuka,kk,editorial,simple,0,True,2,False,4.787,646,0.00044219999999999996,37,,Шакшука
+manty-ru:simple:0,manty,ru,bistro,simple,0,True,2,False,3.975,496,0.0002892,100,,Манты
+manty-ru:detailed:0,manty,ru,bistro,detailed,0,True,1,True,1.779,649,0.0002268,47,,В меню: манты — блюдо категории «Горячее».
+manty-ru:detailed:1,manty,ru,bistro,detailed,1,True,2,False,3.46,1529,0.0004967999999999999,49,,В меню: манты — позиция раздела «Горячее».
+manty-kk:detailed:0,manty,kk,bistro,detailed,0,True,1,True,2.495,658,0.00023560000000000003,49,,Мәзірде: Мәнті — ыстық тағам.
+manty-kk:detailed:1,manty,kk,bistro,detailed,1,True,1,True,2.301,760,0.000263,50,,Мәзірде: Мәнті — мәзірдегі ыстық тағам.
+manty-kk:simple:0,manty,kk,bistro,simple,0,True,2,False,4.197,532,0.0003214,27,,Мәнті

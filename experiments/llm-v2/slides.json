@@ -1,0 +1,91 @@
+[
+  {
+    "title": "AI-powered dish descriptions",
+    "tag": "MENUMIND / AAI-2602M",
+    "bullets": [
+      "Controlled generation in Russian and Kazakh",
+      "Live API verification and a reproducible prompt experiment",
+      "Adilzhan Kurmet · Nursultan Tolegenov · Zeiin Issakulov"
+    ],
+    "note": "Показываем работающий сервис и измеренный эксперимент. Не заявляем обучение LLM или доказанную конверсию."
+  },
+  {
+    "title": "The task: attractive, factual text",
+    "tag": "01 / REQUIREMENTS",
+    "bullets": [
+      "Dish name + category + optional ingredients and method",
+      "Russian / Kazakh, three tones, default 250 characters",
+      "No invented ingredients, quantities or health claims",
+      "Regenerate, report errors clearly, respond within 10 seconds"
+    ],
+    "note": "Пустой состав намеренно сохраняется пустым. Знакомое название не даёт права восстанавливать рецепт."
+  },
+  {
+    "title": "A working end-to-end service",
+    "tag": "02 / IMPLEMENTATION",
+    "bullets": [
+      "React UI → Express API → prompt → real LLM → validation",
+      "SQLite stores recipes, generations and provider metadata",
+      "At most one repair call, within a shared 8.5-second budget",
+      "Browser checks: provider response = API response = visible text"
+    ],
+    "note": "Во время проверки не было шаблонной подмены. Ошибки провайдера воспроизведены отдельно локальным fault injection."
+  },
+  {
+    "title": "A separate final evaluation",
+    "tag": "03 / DATA & PROTOCOL",
+    "bullets": [
+      "48 authored examples: 24 dish groups × RU/KK",
+      "32 development examples; 16 final examples from 8 new dishes",
+      "Translations stay together; code frozen before held-out calls",
+      "Paired prompts, saved raw responses, tokens and elapsed time"
+    ],
+    "note": "Финальные блюда не встречались в первой итерации. Это оценка промптов, а не train/test обучения весов.",
+    "image": "02_split.png"
+  },
+  {
+    "title": "Detailed prompts need fewer repairs",
+    "tag": "04 / FINAL RESULTS",
+    "bullets": [
+      "Detailed: 16/16 first-pass; 16/16 accepted",
+      "Simple: 0/16 first-pass; 14/16 after repair",
+      "API acceptance is not proof of factual accuracy"
+    ],
+    "note": "Обе ветки могли получить одно исправление. Поэтому разделены результат первой попытки и итог запроса.",
+    "image": "06_acceptance.png"
+  },
+  {
+    "title": "Regeneration, tone and remaining risk",
+    "tag": "05 / QUALITY",
+    "bullets": [
+      "16/16 regenerations changed all four channel texts",
+      "Three distinguishable tone examples on the same dish, RU/KK",
+      "One unsupported venue claim: “in a bistro”",
+      "Human RU/KK review pending; one 60-character request rejected"
+    ],
+    "note": "Не скрываем остаточную ошибку. Состав не выдуман в просмотренных подробных ответах, но общая точность не гарантирована. 60-символьный ответ не прошёл длину и не показан как успешный."
+  },
+  {
+    "title": "Measured latency and model cost",
+    "tag": "06 / PERFORMANCE & COST",
+    "bullets": [
+      "Detailed: 2.14s mean; $0.256 per 1,000 requests",
+      "Simple + repairs: 4.43s; $0.383 per 1,000",
+      "Maximum final latency: 5.035s",
+      "Public list price, 7 Oct 2026; hosting and taxes excluded"
+    ],
+    "note": "Считаем все попытки по usage провайдера. Один запрос даёт четыре канала и вариант. Это оценка на малой последовательной выборке, не SLA.",
+    "image": "07_cost.png"
+  },
+  {
+    "title": "Reproducible submission",
+    "tag": "07 / DELIVERABLES",
+    "bullets": [
+      "Executed Notebook + HTML: cleaning, EDA and eight figures",
+      "Full inputs, prompts, responses, usage and source snapshots",
+      "PDF report, editable slides and a human review worksheet",
+      "Run All reproduces analysis offline, without an API key"
+    ],
+    "note": "Цель — управляемый генератор с измеренными ограничениями. Следующий шаг качества — редактор и носитель казахского; затем новая независимая выборка."
+  }
+]

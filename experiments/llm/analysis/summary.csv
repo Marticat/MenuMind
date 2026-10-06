@@ -1,0 +1,5 @@
+split,strategy,n,accepted,acceptance_rate,raw_length_rate,latency_mean_s,latency_p95_s,latency_max_s,prompt_tokens_mean,completion_tokens_mean,tokens_total
+dev,detailed,16,16,1.0,1.0,2.040625,3.34975,3.631,373.5,86.875,7366
+dev,simple,16,7,0.4375,1.0,2.8705625,3.8785,4.207,124.875,189.6875,5033
+final,detailed,16,16,1.0,1.0,1.9023124999999999,2.8629999999999995,4.648,375.3125,84.75,7361
+final,simple,16,11,0.6875,1.0,2.553,3.3617500000000002,4.426,126.5625,174.3125,4814

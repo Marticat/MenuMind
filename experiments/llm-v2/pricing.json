@@ -1,0 +1,13 @@
+{
+  "model": "gpt-5.6-luna",
+  "checked_on": "2026-10-07",
+  "currency": "USD",
+  "per_million": {
+    "input": 0.2,
+    "cached_input": 0.02,
+    "cache_write": 0.25,
+    "output": 1.2
+  },
+  "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+  "scope": "Standard short-context public list price; excludes hosting, taxes, regional premiums and negotiated rates."
+}
