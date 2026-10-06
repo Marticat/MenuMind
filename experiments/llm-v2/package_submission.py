@@ -12,7 +12,8 @@ assert len(PdfReader(root/'MenuMind_report.pdf').pages)==2
 assert len(PdfReader(root/'MenuMind_presentation.pdf').pages)==8
 freeze=json.loads((root/'results/freeze.json').read_text(encoding='utf-8'))
 for p,h in freeze['hashes'].items():
-    assert hashlib.sha256((root.parent.parent/p).read_bytes()).hexdigest()==h,p
+    assert hashlib.sha256(freeze['sources'][p].encode()).hexdigest()==h,p
+    assert (root.parent.parent/p).read_text(encoding='utf-8').replace('\r\n','\n')==freeze['sources'][p].replace('\r\n','\n'),p
 env=root.parent.parent/'.env'
 keylines=env.read_text(encoding='utf-8').splitlines() if env.exists() else []
 keys=[s.split('=',1)[1].strip().strip('\"').strip("'") for s in keylines if s.startswith('LLM_API_KEY=')]
