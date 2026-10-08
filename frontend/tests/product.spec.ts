@@ -63,6 +63,9 @@ test('name-only generation, regeneration, history and failed saves', async ({ pa
   await page.getByLabel('Название блюда', { exact: true }).fill('Сорпа');
   await page.getByRole('button', { name: 'Сохранить карту' }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
+  const soupCard = page.locator('.library-card').filter({ hasText: 'Сорпа' });
+  await expect(soupCard).not.toContainText('0 ₽');
+  await expect(soupCard).not.toContainText('0 г');
   await page
     .locator('.library-card')
     .filter({ has: page.getByRole('heading', { name: 'Сорпа', exact: true }) })
@@ -74,6 +77,8 @@ test('name-only generation, regeneration, history and failed saves', async ({ pa
   await expect(generate).toBeEnabled();
   const first = await page.locator('.marketplace .editorial-text').innerText();
   expect(first).toContain('Сорпа');
+  await expect(page.locator('.marketplace')).not.toContainText('0 ₽');
+  await expect(page.locator('.marketplace')).not.toContainText('0 г');
   await generate.click();
   await expect(generate).toBeEnabled();
   await expect(page.locator('.marketplace .editorial-text')).not.toHaveText(first);

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "executed_code_cells": 21,
+  "report_pages": 2,
+  "slides": 7,
+  "plots": 9,
+  "model_load_and_predict": true,
+  "portable_metrics_identical": true,
+  "test_rows": 2651
+}

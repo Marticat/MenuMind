@@ -3,13 +3,14 @@ import { tagCatalog } from './tags.mjs';
 import { descriptionStyles } from './description-styles.mjs';
 
 // Bump when features, their ordering, normalization or arm meanings change.
-export const MODEL_VERSION = 'linucb-descriptions-v1';
+export const MODEL_VERSION = 'linucb-descriptions-v2-tags';
 export const ALPHA = 0.5;
 export const arms = Object.keys(descriptionStyles);
 
-export function buildContext(customer, recipe, channel, history = {}) {
+export function buildContext(customer, recipe, channel, history = {}, descriptionTags = null) {
   const preferred = new Set(customer.preferredTags);
   const tags = new Set(recipe.tags.map((tag) => tag.id));
+  const mentions = new Set(descriptionTags?.mentioned.map((tag) => tag.id) ?? []);
   const features = [
     1,
     ...arms.map((arm) => Number(customer.descriptionPreference === arm)),
@@ -22,6 +23,10 @@ export function buildContext(customer, recipe, channel, history = {}) {
       const { rewards = 0, observations = 0 } = history[arm] ?? {};
       return (rewards + 1) / (observations + 2);
     }),
+    ...tagCatalog.map((tag) => Number(mentions.has(tag.id))),
+    ...tagCatalog.map((tag) => Number(preferred.has(tag.id) && mentions.has(tag.id))),
+    Number(descriptionTags?.short ?? false),
+    Math.min(descriptionTags?.charLength ?? 0, 2000) / 2000,
   ];
   const norm = Math.hypot(...features);
   return features.map((value) => value / norm);
@@ -77,7 +82,11 @@ export function scoreArm(model, context, alpha = ALPHA) {
 export function chooseArm(models, context, candidates, preference = 'auto', alpha = ALPHA) {
   const scores = candidates.map((arm) => ({
     arm,
-    ...scoreArm(models[arm] ?? initialModel(context.length), context, alpha),
+    ...scoreArm(
+      models[arm] ?? initialModel((Array.isArray(context) ? context : context[arm]).length),
+      Array.isArray(context) ? context : context[arm],
+      alpha,
+    ),
   }));
   const maximum = Math.max(...scores.map((item) => item.score));
   const ties = scores.filter((item) => Math.abs(item.score - maximum) < 1e-10);

@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { ApiError, editSchema } from './schemas.mjs';
 import { extractTags } from './tags.mjs';
+import { describeChannels, describeText } from './description-tags.mjs';
 import { descriptionStyles } from './description-styles.mjs';
 import { checkGrounding } from './grounding.mjs';
 
@@ -298,6 +299,8 @@ async function generateAttempt({
     usage,
     limits,
     tags: extractTags(recipe),
+    descriptionTags: describeChannels(output.texts, extractTags(recipe), descriptionStyle),
+    variantTags: describeText(output.variant, extractTags(recipe), descriptionStyle),
     requiresReview: true,
     durationMs: Date.now() - started,
     referencesUsed:

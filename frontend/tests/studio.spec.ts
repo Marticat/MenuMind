@@ -58,10 +58,33 @@ test('channel limits and brand settings apply to generation', async ({ page }) =
   await expect(page.getByRole('button', { name: 'Сгенерировать для всех каналов' })).toBeEnabled();
   const description = await page.locator('.marketplace .editorial-text').innerText();
   expect(description.length - 2).toBeLessThanOrEqual(75);
+
+  // Existing descriptions keep the limits accepted by the API when created.
+  await page.getByRole('link', { name: 'Витрины каналов', exact: true }).click();
+  await page.getByRole('button', { name: 'Настроить канал' }).first().click();
+  await page.getByLabel('Максимальная длина описания').fill('250');
+  await page.getByRole('button', { name: 'Применить', exact: true }).click();
+  await page.getByRole('button', { name: 'Сохранить профиль ресторана' }).click();
+  await expect(page.getByText('Профиль ресторана сохранён', { exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Студия генерации', exact: true }).click();
+  await expect(page.locator('.marketplace .card-caption')).toContainText('75');
+  await page.getByRole('button', { name: 'Редактировать yandex', exact: true }).click();
+  await expect(page.getByLabel('Текст для Яндекс.Еда')).toHaveAttribute('maxlength', '75');
+  await page.getByLabel('Текст для Яндекс.Еда').fill('Говяжья щека в меню.');
+  await page.getByRole('button', { name: 'Сохранить редакцию' }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.reload();
+  await expect(page.locator('.marketplace .editorial-text')).toContainText('Говяжья щека в меню.');
+  await expect(page.locator('.marketplace .card-caption')).toContainText('75');
 });
 
 test('recipe library creates, searches and selects a recipe', async ({ page }) => {
   await page.goto('/#library');
+  const scallops = page.locator('.library-card').filter({ hasText: 'Гребешок Сен-Жак' });
+  await scallops.getByRole('button', { name: 'Открыть в студии' }).click();
+  await page.getByRole('button', { name: 'Сгенерировать для всех каналов' }).click();
+  await expect(page.locator('.dish-title')).toContainText('Гребешок Сен-Жак');
+  await page.getByRole('link', { name: 'Библиотека рецептов', exact: true }).click();
   await page.getByRole('button', { name: 'Добавить блюдо' }).click();
   await page.getByLabel('Название блюда', { exact: true }).fill('Сезонный тестовый суп');
   await page.getByRole('textbox', { name: /Ингредиенты/ }).fill('Томаты\nБазилик');
@@ -74,7 +97,6 @@ test('recipe library creates, searches and selects a recipe', async ({ page }) =
   await expect(page.locator('.selected-recipe')).toContainText('Сезонный тестовый суп');
   await page.getByRole('button', { name: 'Сгенерировать для всех каналов' }).click();
   await expect(page.locator('.dish-title')).toContainText('Сезонный тестовый суп');
-  await expect(page.locator('.dish-placeholder')).toBeVisible();
 });
 
 test('API examples and publication dialog are honest and functional', async ({ page, context }) => {

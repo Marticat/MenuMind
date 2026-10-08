@@ -3,3 +3,4 @@
 *.pptx binary
 *.zip binary
 *.png binary
+*.joblib binary

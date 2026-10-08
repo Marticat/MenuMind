@@ -22,6 +22,7 @@ type Selection = {
   provider: string;
   shownAt: string | null;
   reward: number | null;
+  descriptionTags?: { mentioned: Tag[]; short: boolean };
 };
 type Stats = {
   items: {
@@ -328,6 +329,15 @@ export function Personalization({ recipes }: { recipes: Recipe[] }) {
                     {selection.label} · {selection.provider === 'template' ? 'ШАБЛОН' : 'LLM'}
                   </p>
                   <p className="personalized-text">{selection.text}</p>
+                  {!!selection.descriptionTags?.mentioned.length && (
+                    <div className="product-tags" aria-label="Упоминания в описании">
+                      {selection.descriptionTags.mentioned.map((tag) => (
+                        <span key={tag.id} title={tag.evidence?.text}>
+                          {tag.label}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <div className="personalization-actions">
                     <button
                       className="button secondary"

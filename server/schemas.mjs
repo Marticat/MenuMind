@@ -16,7 +16,7 @@ export const recipeSchema = z.object({
   price: z.number().min(0).max(1000000).default(0),
   weight: z.number().min(0).max(20000).default(0),
   pairing: text(200).default(''),
-  image: z.literal('/dish.jpg').optional(),
+  image: z.enum(['/dish.jpg', '/dishes/scallops.png', '/dishes/mushroom-risotto.png']).optional(),
 });
 export const settingsSchema = z.object({
   restraint: z.number().int().min(0).max(100),

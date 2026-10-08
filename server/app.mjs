@@ -16,6 +16,7 @@ import {
   publicUser,
 } from './auth.mjs';
 import { extractTags, tagCatalog, rankRecipes } from './tags.mjs';
+import { describeChannels, describeText } from './description-tags.mjs';
 import { generateDescription } from './generation.mjs';
 import { registerPersonalization } from './personalization.mjs';
 import {
@@ -46,6 +47,7 @@ const starters = [
   {
     id: 'RCP-8842-SEA',
     name: 'Гребешок Сен-Жак',
+    image: '/dishes/scallops.png',
     subtitle: 'с цветной капустой',
     ingredients: ['Морской гребешок', 'Цветная капуста', 'Сливочное масло'],
     method: 'Обжарка на сливочном масле.',
@@ -57,6 +59,7 @@ const starters = [
   {
     id: 'RCP-8843-VEG',
     name: 'Ризотто с лесными грибами',
+    image: '/dishes/mushroom-risotto.png',
     subtitle: 'с пармезаном',
     ingredients: ['Рис карнароли', 'Белые грибы', 'Пармезан', 'Сливочное масло', 'Овощной бульон'],
     method: 'Постепенное введение горячего бульона.',
@@ -66,6 +69,20 @@ const starters = [
     pairing: '',
   },
 ];
+
+// Old accounts keep their recipe data. Supply the new demo photo only when the
+// original dish facts still match; a renamed or edited dish must not inherit it.
+const withStarterImage = (recipe) => {
+  if (recipe.image !== undefined) return recipe;
+  const original = starters.find(
+    (starter) =>
+      starter.id === recipe.id &&
+      ['name', 'subtitle', 'ingredients', 'method', 'category'].every(
+        (field) => JSON.stringify(starter[field]) === JSON.stringify(recipe[field]),
+      ),
+  );
+  return original ? { ...recipe, image: original.image } : recipe;
+};
 
 export function createApp({
   config,
@@ -180,7 +197,7 @@ export function createApp({
   const readProfile = (userId) =>
     JSON.parse(db.prepare('SELECT data FROM profiles WHERE user_id = ?').get(userId).data);
   const recipeFromRow = (row) => {
-    const data = JSON.parse(row.data);
+    const data = withStarterImage(JSON.parse(row.data));
     return { ...data, tags: extractTags(data) };
   };
   const listRecipes = (userId) =>
@@ -216,7 +233,17 @@ export function createApp({
       .prepare('SELECT * FROM generations WHERE id = ? AND user_id = ?')
       .get(id, userId);
     if (!row) fail(404, 'NOT_FOUND', 'Описание не найдено.');
-    return { ...JSON.parse(row.data), feedback: row.feedback };
+    const data = JSON.parse(row.data);
+    if (data.image === undefined && data.sourceFingerprint) {
+      // Restore the image from the original generation input, not a newer recipe.
+      try {
+        const source = JSON.parse(data.sourceFingerprint).recipe;
+        if (source?.id === data.recipeId) data.image = withStarterImage(source).image;
+      } catch {
+        // Older results without a readable input snapshot retain their placeholder.
+      }
+    }
+    return { ...data, feedback: row.feedback };
   };
   const spec = {
     openapi: '3.1.0',
@@ -550,7 +577,13 @@ export function createApp({
           : { ...input.recipe, id: null };
         const profile = readProfile(req.user.id);
         let previous = input.previousId ? findGeneration(req.user.id, input.previousId) : null;
-        if (previous && previous.recipeId !== recipe.id)
+        if (
+          previous &&
+          (previous.recipeId !== recipe.id ||
+            (!recipe.id &&
+              JSON.stringify(JSON.parse(previous.sourceFingerprint).recipe) !==
+                JSON.stringify(recipe)))
+        )
           fail(422, 'RECIPE_MISMATCH', 'Предыдущая генерация относится к другому блюду.');
         const sequence = db
           .prepare('SELECT COUNT(*) AS n FROM generations WHERE user_id = ?')
@@ -561,6 +594,19 @@ export function createApp({
               'SELECT id FROM generations WHERE user_id = ? AND recipe_id = ? ORDER BY created_at DESC, rowid DESC LIMIT 1',
             )
             .get(req.user.id, recipe.id);
+          if (row) previous = findGeneration(req.user.id, row.id);
+        }
+        if (!previous && !recipe.id) {
+          // Inline API requests have no saved recipe ID. Match the normalized
+          // input snapshot so a repeated request still receives a new variant.
+          const row = db
+            .prepare(
+              `SELECT id FROM generations
+               WHERE user_id = ? AND recipe_id IS NULL
+                 AND json_extract(json_extract(data, '$.sourceFingerprint'), '$.recipe') = ?
+               ORDER BY created_at DESC, rowid DESC LIMIT 1`,
+            )
+            .get(req.user.id, JSON.stringify(recipe));
           if (row) previous = findGeneration(req.user.id, row.id);
         }
         const result = await generateDescription({
@@ -623,6 +669,8 @@ export function createApp({
       const result = {
         ...previous,
         ...input,
+        descriptionTags: describeChannels(input.texts, previous.tags),
+        variantTags: describeText(input.variant, previous.tags),
         editedAt: new Date().toISOString(),
         requiresReview: true,
       };

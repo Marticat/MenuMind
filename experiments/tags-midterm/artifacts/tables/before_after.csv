@@ -1,0 +1,6 @@
+﻿measure,before,after
+rows,20130,17722
+missing_or_blank_title,19,0
+missing_or_blank_desc,6635,5851
+exact_duplicates,1834,0
+duplicate_normalized_title,2394,0

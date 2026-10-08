@@ -1,0 +1,49 @@
+{
+  "beef": [
+    "beef",
+    "beef tenderloin",
+    "ground beef",
+    "beef rib",
+    "beef shank"
+  ],
+  "chicken": [
+    "chicken"
+  ],
+  "lamb": [
+    "lamb",
+    "lamb shank",
+    "lamb chop",
+    "ground lamb",
+    "rack of lamb"
+  ],
+  "fish": [
+    "fish",
+    "salmon",
+    "tuna",
+    "swordfish"
+  ],
+  "mushrooms": [
+    "mushroom"
+  ],
+  "rice": [
+    "rice",
+    "brown rice",
+    "wild rice"
+  ],
+  "vegetables": [
+    "vegetable",
+    "root vegetable"
+  ],
+  "roasted": [
+    "roast",
+    "bake"
+  ],
+  "braised": [
+    "braise",
+    "stew"
+  ],
+  "grilled": [
+    "grill",
+    "grill/barbecue"
+  ]
+}

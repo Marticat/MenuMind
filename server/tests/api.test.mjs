@@ -152,6 +152,57 @@ async function account(app, email = 'chef@example.test') {
 const mutation = (actor, method, path, body) =>
   actor.client[method](`/api/v1${path}`).set('X-CSRF-Token', actor.csrf).send(body);
 
+test('demo images load for new and legacy recipes and saved results without rewriting recipe data', async (t) => {
+  const { app, db } = setup(t);
+  const actor = await account(app);
+  const recipes = (await actor.client.get('/api/v1/recipes').expect(200)).body.items;
+  assert.deepEqual(
+    new Set(recipes.map((r) => r.image)),
+    new Set(['/dish.jpg', '/dishes/scallops.png', '/dishes/mushroom-risotto.png']),
+  );
+  const id = 'RCP-8842-SEA';
+  const row = db
+    .prepare('SELECT data FROM recipes WHERE user_id = ? AND id = ?')
+    .get(actor.user.id, id);
+  const legacy = JSON.parse(row.data);
+  delete legacy.image;
+  const original = JSON.stringify(legacy);
+  db.prepare('UPDATE recipes SET data = ? WHERE user_id = ? AND id = ?').run(
+    original,
+    actor.user.id,
+    id,
+  );
+  assert.equal(
+    (await actor.client.get(`/api/v1/recipes/${id}`).expect(200)).body.image,
+    '/dishes/scallops.png',
+  );
+  assert.equal(
+    db.prepare('SELECT data FROM recipes WHERE user_id = ? AND id = ?').get(actor.user.id, id).data,
+    original,
+  );
+  const generated = (await mutation(actor, 'post', '/generations', { recipeId: id }).expect(201))
+    .body;
+  assert.equal(generated.image, '/dishes/scallops.png');
+  const oldGeneration = { ...generated, sourceFingerprint: JSON.stringify({ recipe: legacy }) };
+  delete oldGeneration.image;
+  db.prepare('UPDATE generations SET data = ? WHERE user_id = ? AND id = ?').run(
+    JSON.stringify(oldGeneration),
+    actor.user.id,
+    generated.id,
+  );
+  const edited = { ...legacy, name: 'Новое блюдо', ingredients: ['Томат'] };
+  await mutation(actor, 'put', `/recipes/${id}`, edited).expect(200);
+  assert.equal((await actor.client.get(`/api/v1/recipes/${id}`).expect(200)).body.image, undefined);
+  assert.equal(
+    (await actor.client.get(`/api/v1/generations/${generated.id}`).expect(200)).body.image,
+    '/dishes/scallops.png',
+  );
+  await mutation(actor, 'put', `/recipes/${id}`, {
+    ...legacy,
+    image: '/dishes/scallops.png',
+  }).expect(200);
+});
+
 test('registration, normalized email, hashed passwords, cookie flags, login and logout', async (t) => {
   const { app, db } = setup(t);
   const actor = await account(app, 'CHEF@EXAMPLE.TEST');
@@ -279,6 +330,54 @@ test('generation for both languages fits limits and name-only input adds no reci
       assert.doesNotMatch(text, /куриц|тауық|морков|сәбіз/iu);
     }
   }
+});
+
+test('inline recipe requests retain regeneration context and reject another dish as previous', async (t) => {
+  const contexts = [];
+  const config = loadConfig({
+    DATABASE_PATH: ':memory:',
+    LLM_PROVIDER: 'openai-compatible',
+    LLM_API_KEY: 'test',
+    LLM_MODEL: 'test',
+  });
+  const { app } = setup(t, {
+    config,
+    fetchImpl: async (_url, options) => {
+      const context = JSON.parse(JSON.parse(options.body).messages[1].content);
+      contexts.push(context);
+      const value = context.previous ? 'В меню — суп.' : 'Суп — блюдо в меню.';
+      return Response.json({
+        choices: [
+          {
+            finish_reason: 'stop',
+            message: {
+              content: JSON.stringify({
+                texts: Object.fromEntries(
+                  ['yandex', 'wolt', 'website', 'print'].map((id) => [id, value]),
+                ),
+                variant: value,
+              }),
+            },
+          },
+        ],
+      });
+    },
+  });
+  const actor = await account(app);
+  const input = { recipe: { name: 'Суп' } };
+  const first = (await mutation(actor, 'post', '/generations', input).expect(201)).body;
+  const next = (await mutation(actor, 'post', '/generations', input).expect(201)).body;
+  assert.equal(contexts[0].previous, null);
+  assert.deepEqual(contexts[1].previous.texts, first.texts);
+  assert.notEqual(next.texts.yandex, first.texts.yandex);
+  const mismatch = await mutation(actor, 'post', '/generations', {
+    recipe: { name: 'Рис' },
+    previousId: first.id,
+  }).expect(422);
+  assert.equal(mismatch.body.error.code, 'RECIPE_MISMATCH');
+  const other = await account(app, 'other-inline@example.test');
+  await mutation(other, 'post', '/generations', input).expect(201);
+  assert.equal(contexts[2].previous, null);
 });
 
 test('regeneration varies, idempotency persists and different payloads conflict', async (t) => {

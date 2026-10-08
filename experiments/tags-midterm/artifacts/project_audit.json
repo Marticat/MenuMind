@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-08",
+  "server_tests": {
+    "passed": 44,
+    "failed": 0
+  },
+  "browser_tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "build": true,
+  "format": true,
+  "clean_install_and_build": true,
+  "notebook_portable_run": true,
+  "notebook_code_cells": 21,
+  "metrics_identical": true,
+  "model_load_predict": true,
+  "report_pages": 2,
+  "slides": 7,
+  "figures": 9,
+  "live_api_requests": 4,
+  "live_api_successes": 4,
+  "live_api_max_wall_ms": 2866,
+  "npm_audit_vulnerabilities_after_update": 0,
+  "customer_30_item_acceptance": false,
+  "human_language_review": false,
+  "real_conversion_evaluation": false
+}

@@ -7,10 +7,50 @@ import { tmpdir } from 'node:os';
 import { join, resolve, sep } from 'node:path';
 import { createApp } from '../app.mjs';
 import { loadConfig } from '../config.mjs';
-import { initialModel, scoreArm, chooseArm, updateModel } from '../bandit.mjs';
+import { initialModel, scoreArm, chooseArm, updateModel, buildContext } from '../bandit.mjs';
+import { describeText } from '../description-tags.mjs';
+import { extractTags } from '../tags.mjs';
 import { REWARD_WINDOW_MS, DECISION_TTL_MS } from '../personalization.mjs';
 
 const recipeId = 'RCP-8843-VEG';
+
+test('description tags reflect the exact RU/KK text and retain evidence from supplied facts', () => {
+  const tags = extractTags({ name: 'Блюдо', ingredients: ['Курица', 'Рис'] });
+  const short = describeText('Блюдо в меню.', tags, 'concise');
+  assert.deepEqual(short.mentioned, []);
+  assert.equal(short.short, true);
+  const detailed = describeText('Курица с рисом.', tags, 'ingredients');
+  assert.deepEqual(
+    detailed.mentioned.map((t) => t.id),
+    ['chicken', 'rice'],
+  );
+  assert.equal(detailed.mentioned[0].evidence.field, 'description');
+  assert.equal(detailed.mentioned[0].sourceEvidence.field, 'ingredients');
+  assert.deepEqual(
+    describeText('Тауық және күріш.', tags).mentioned.map((t) => t.id),
+    ['chicken', 'rice'],
+  );
+  assert.deepEqual(describeText('Рыба.', tags).mentioned, []);
+  const customer = { preferredTags: ['chicken'], language: 'ru', descriptionPreference: 'auto' };
+  const a = buildContext(customer, { tags }, 'website', {}, short);
+  const b = buildContext(customer, { tags }, 'website', {}, detailed);
+  assert.equal(a.length, b.length);
+  assert.notDeepEqual(a, b);
+  assert.ok(Math.abs(Math.hypot(...b) - 1) < 1e-12);
+});
+
+test('LinUCB evaluates and learns the actual per-variant context', () => {
+  const contexts = { concise: [0, 1], ingredients: [1, 0] };
+  const learned = updateModel(initialModel(2), [1, 0], 1);
+  const choice = chooseArm(
+    { concise: learned, ingredients: learned },
+    contexts,
+    ['concise', 'ingredients'],
+    'auto',
+    0,
+  );
+  assert.equal(choice.arm, 'ingredients');
+});
 async function account(app, email = `${randomUUID()}@example.test`) {
   const client = request.agent(app);
   const response = await client
@@ -106,11 +146,34 @@ test('guest preferences choose descriptions for the same dish; templates and fea
   assert.equal(b.style, 'ingredients');
   assert.notEqual(a.text, b.text);
   assert.equal(a.algorithm, 'LinUCB');
+  assert.equal(a.descriptionTags.charLength, a.text.length);
+  assert.deepEqual(a.descriptionTags, set.variants[0].descriptionTags.website);
   assert.equal(a.shownAt, null);
   const contexts = db.prepare('SELECT context FROM personalization_decisions ORDER BY rowid').all();
   assert.notEqual(contexts[0].context, contexts[1].context);
   assert.ok(Math.abs(Math.hypot(...JSON.parse(contexts[0].context)) - 1) < 1e-12);
   assert.equal((await prepare(actor)).body.id, set.id);
+});
+
+test('editing a description recomputes text tags instead of retaining stale mentions', async (t) => {
+  const { actor } = await setup(t);
+  const generated = (
+    await mutate(actor, 'post', '/generations', {
+      recipe: { name: 'Обед', ingredients: ['Курица', 'Рис'] },
+    }).expect(201)
+  ).body;
+  assert.ok(generated.descriptionTags.website.mentioned.some((tag) => tag.id === 'chicken'));
+  const texts = Object.fromEntries(
+    ['yandex', 'wolt', 'website', 'print'].map((channel) => [channel, 'Обед в меню.']),
+  );
+  const edited = (
+    await mutate(actor, 'patch', `/generations/${generated.id}`, {
+      texts,
+      variant: 'Сегодня в меню: обед.',
+    }).expect(200)
+  ).body;
+  assert.deepEqual(edited.descriptionTags.website.mentioned, []);
+  assert.deepEqual(edited.variantTags.mentioned, []);
 });
 
 test('impressions and feedback are idempotent, train only the selected arm and retain decision-time context', async (t) => {

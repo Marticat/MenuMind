@@ -1,0 +1,417 @@
+{
+  "checkedAt": "2026-10-08T13:46:52.823Z",
+  "scope": "Four live API requests in an isolated in-memory database; not the customer 30-item acceptance set",
+  "humanLanguageReview": false,
+  "results": [
+    {
+      "language": "ru",
+      "kind": "initial",
+      "input": {
+        "language": "ru",
+        "recipe": {
+          "name": "Суп",
+          "ingredients": [
+            "Тыква",
+            "Вода",
+            "Соль"
+          ]
+        }
+      },
+      "status": 201,
+      "wallMs": 2866,
+      "texts": {
+        "yandex": "Суп — блюдо из тыквы, воды и соли.",
+        "wolt": "Суп с тыквой, водой и солью.",
+        "website": "Суп приготовлен из тыквы, воды и соли.",
+        "print": "Суп: тыква, вода, соль."
+      },
+      "descriptionTags": {
+        "yandex": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "тыквы"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 34,
+          "requestedStyle": null
+        },
+        "wolt": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "тыквой"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 28,
+          "requestedStyle": null
+        },
+        "website": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "тыквы"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 38,
+          "requestedStyle": null
+        },
+        "print": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "тыква"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 23,
+          "requestedStyle": null
+        }
+      },
+      "limits": {
+        "yandex": 250,
+        "wolt": 250,
+        "website": 250,
+        "print": 250
+      },
+      "provider": "openai-compatible",
+      "providerModel": "gpt-5.6-luna",
+      "usage": {
+        "promptTokens": 542,
+        "completionTokens": 84,
+        "totalTokens": 626,
+        "cachedTokens": 0,
+        "reasoningTokens": 0
+      },
+      "attempts": 1,
+      "withinLimits": true,
+      "changed": null
+    },
+    {
+      "language": "ru",
+      "kind": "regeneration",
+      "input": {
+        "language": "ru",
+        "recipe": {
+          "name": "Суп",
+          "ingredients": [
+            "Тыква",
+            "Вода",
+            "Соль"
+          ]
+        }
+      },
+      "status": 201,
+      "wallMs": 1972,
+      "texts": {
+        "yandex": "Суп из тыквы с водой и солью.",
+        "wolt": "Тыквенный суп с добавлением воды и соли.",
+        "website": "Суп на основе тыквы, воды и соли.",
+        "print": "Тыква, вода и соль — состав супа."
+      },
+      "descriptionTags": {
+        "yandex": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "тыквы"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 29,
+          "requestedStyle": null
+        },
+        "wolt": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "Тыквенный"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 40,
+          "requestedStyle": null
+        },
+        "website": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "тыквы"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 33,
+          "requestedStyle": null
+        },
+        "print": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [
+            {
+              "id": "vegetables",
+              "label": "Овощи",
+              "kind": "ingredient",
+              "evidence": {
+                "field": "description",
+                "text": "Тыква"
+              },
+              "confirmed": false,
+              "sourceEvidence": {
+                "field": "ingredients",
+                "text": "Тыква"
+              }
+            }
+          ],
+          "short": true,
+          "charLength": 33,
+          "requestedStyle": null
+        }
+      },
+      "limits": {
+        "yandex": 250,
+        "wolt": 250,
+        "website": 250,
+        "print": 250
+      },
+      "provider": "openai-compatible",
+      "providerModel": "gpt-5.6-luna",
+      "usage": {
+        "promptTokens": 617,
+        "completionTokens": 88,
+        "totalTokens": 705,
+        "cachedTokens": 0,
+        "reasoningTokens": 0
+      },
+      "attempts": 1,
+      "withinLimits": true,
+      "changed": true
+    },
+    {
+      "language": "kk",
+      "kind": "initial",
+      "input": {
+        "language": "kk",
+        "recipe": {
+          "name": "Сорпа"
+        }
+      },
+      "status": 201,
+      "wallMs": 2033,
+      "texts": {
+        "yandex": "Сорпа — мәзірдегі тағам.",
+        "wolt": "Мәзірде ұсынылатын тағам — Сорпа.",
+        "website": "Сорпа тағамдар мәзіріне кіреді.",
+        "print": "Сорпа — мәзірдегі тағам түрі."
+      },
+      "descriptionTags": {
+        "yandex": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 24,
+          "requestedStyle": null
+        },
+        "wolt": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 33,
+          "requestedStyle": null
+        },
+        "website": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 31,
+          "requestedStyle": null
+        },
+        "print": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 29,
+          "requestedStyle": null
+        }
+      },
+      "limits": {
+        "yandex": 250,
+        "wolt": 250,
+        "website": 250,
+        "print": 250
+      },
+      "provider": "openai-compatible",
+      "providerModel": "gpt-5.6-luna",
+      "usage": {
+        "promptTokens": 534,
+        "completionTokens": 81,
+        "totalTokens": 615,
+        "cachedTokens": 0,
+        "reasoningTokens": 0
+      },
+      "attempts": 1,
+      "withinLimits": true,
+      "changed": null
+    },
+    {
+      "language": "kk",
+      "kind": "regeneration",
+      "input": {
+        "language": "kk",
+        "recipe": {
+          "name": "Сорпа"
+        }
+      },
+      "status": 201,
+      "wallMs": 2300,
+      "texts": {
+        "yandex": "Сорпа — мәзірде ұсынылатын тағам атауы.",
+        "wolt": "Сорпа атауы мәзірдегі тағамдар қатарында берілген.",
+        "website": "Сорпа мәзірдегі тағам атауы ретінде ұсынылады.",
+        "print": "Сорпа — мәзірге енгізілген тағам атауы."
+      },
+      "descriptionTags": {
+        "yandex": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 39,
+          "requestedStyle": null
+        },
+        "wolt": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 50,
+          "requestedStyle": null
+        },
+        "website": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 46,
+          "requestedStyle": null
+        },
+        "print": {
+          "version": "description-tags-v1",
+          "method": "source-grounded-dictionary",
+          "mentioned": [],
+          "short": true,
+          "charLength": 39,
+          "requestedStyle": null
+        }
+      },
+      "limits": {
+        "yandex": 250,
+        "wolt": 250,
+        "website": 250,
+        "print": 250
+      },
+      "provider": "openai-compatible",
+      "providerModel": "gpt-5.6-luna",
+      "usage": {
+        "promptTokens": 606,
+        "completionTokens": 96,
+        "totalTokens": 702,
+        "cachedTokens": 0,
+        "reasoningTokens": 0
+      },
+      "attempts": 1,
+      "withinLimits": true,
+      "changed": true
+    }
+  ]
+}

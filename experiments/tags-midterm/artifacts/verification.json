@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "portable": false,
+  "code_cells": 21,
+  "test_metrics": [
+    {
+      "model": "title_and_ingredients",
+      "micro_f1": 0.5906962222916016,
+      "macro_f1": 0.585985444878147,
+      "micro_ap": 0.5987384695842475,
+      "hamming_loss": 0.049453036589966054,
+      "exact_match": 0.5869483213881554
+    },
+    {
+      "model": "title_only",
+      "micro_f1": 0.6144685918428103,
+      "macro_f1": 0.6568680215711773,
+      "micro_ap": 0.6266600879169381,
+      "hamming_loss": 0.04884949075820445,
+      "exact_match": 0.5869483213881554
+    },
+    {
+      "model": "frequency",
+      "micro_f1": 0.24027072758037224,
+      "macro_f1": 0.03157560355781448,
+      "micro_ap": 0.12065685218095262,
+      "hamming_loss": 0.11855903432666919,
+      "exact_match": 0.14221048660882685
+    },
+    {
+      "model": "dictionary",
+      "micro_f1": 0.49240681086056143,
+      "macro_f1": 0.618940632996165,
+      "micro_ap": 0.28508296236246733,
+      "hamming_loss": 0.08321388155413052,
+      "exact_match": 0.43681629573745756
+    }
+  ],
+  "workspace": "C:\\Users\\ARYSLAN Kurmetov\\MenuMind\\MenuMind\\experiments\\tags-midterm",
+  "raw_sha256": "268811bcb6bc65621b29b8f0745e1ff51c04a222eb3c72bd055b030c1741d3bc"
+}

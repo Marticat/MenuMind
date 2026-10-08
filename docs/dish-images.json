@@ -1,0 +1,16 @@
+{
+  "tool": "Built-in ImageGen",
+  "mode": "generation",
+  "purpose": "Illustrations of seeded demo recipes, not photographs of actual restaurant dishes.",
+  "transparent_background": false,
+  "images": [
+    {
+      "path": "frontend/public/dishes/scallops.png",
+      "prompt": "Create one photorealistic restaurant dish photograph for a recipe card in a refined restaurant menu app. Landscape horizontal 3:2 composition. Subject: three pan-seared sea scallops with golden brown tops on smooth cauliflower puree, with a little melted butter sauce, served in an ivory speckled shallow ceramic plate on a pale oak table. Only scallops, cauliflower puree and butter visible as food. Warm natural window light from the left, softly blurred neutral cream restaurant background, editorial food photography, realistic textures, restrained plating, slight overhead 40-degree angle. Dish centered and comfortably inside the frame for cropping. No text, lettering, logos, hands or utensils covering the dish. This is a demo illustration of scallops with cauliflower for MenuMind."
+    },
+    {
+      "path": "frontend/public/dishes/mushroom-risotto.png",
+      "prompt": "Create one photorealistic restaurant dish photograph for a recipe card in a refined restaurant menu app. Landscape horizontal 3:2 composition. Subject: creamy carnaroli mushroom risotto with visible porcini mushroom pieces and a small scattering of shaved parmesan, served in an ivory speckled shallow ceramic plate on a pale oak table. Only rice, porcini mushrooms, parmesan, butter and vegetable broth represented as ingredients; no green herb garnish, no meat, no decorative extras. Warm natural window light from the left, softly blurred neutral cream restaurant background, editorial food photography, realistic textures, restrained plating, slight overhead 40-degree angle. Dish centered and comfortably inside frame for cropping. No text, lettering, logos, hands or utensils covering the dish. This is a demo illustration of mushroom risotto for MenuMind."
+    }
+  ]
+}

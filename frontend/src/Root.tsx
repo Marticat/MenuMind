@@ -214,11 +214,18 @@ function Landing({
             </div>
           </div>
           <div className="hero-visual">
-            <div className="hero-photo">
-              <img src="/dish.jpg" alt="Томлёная говяжья щека с пюре и соусом" />
-              <div className="photo-caption">
-                <span>ИЗ КУХНИ — В МЕНЮ</span>
-                <span>01 / 04</span>
+            <div className="hero-recipe">
+              <p className="eyebrow">ИЗ КУХНИ — В МЕНЮ · 01</p>
+              <h2>Томлёная говяжья щека</h2>
+              <p className="hero-recipe-subtitle">с пюре из печёного сельдерея</p>
+              <div className="hero-recipe-facts">
+                <span className="eyebrow">СОСТАВ</span>
+                <p>Говяжья щека · сельдерей · сливочное масло · демиглас</p>
+              </div>
+              <div className="product-tags">
+                <span>Основное блюдо</span>
+                <span>Говядина</span>
+                <span>Томление</span>
               </div>
             </div>
             <div className="hero-description-card">
@@ -448,7 +455,13 @@ function AuthPage({
             <br />
             нужны <em>свои слова.</em>
           </h1>
-          <img src="/dish.jpg" alt="Ресторанное блюдо" />
+          <blockquote className="auth-menu-example">
+            <span className="eyebrow">ИЗ РЕЦЕПТА В МЕНЮ</span>
+            <p>
+              Томлёная говяжья щека с пюре из печёного сельдерея. Сливочное масло и демиглас
+              завершают подачу.
+            </p>
+          </blockquote>
           <p>Рецепты, голос бренда и готовые описания — в одном пространстве.</p>
         </div>
         <section className="auth-card">

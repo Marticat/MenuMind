@@ -1,0 +1,13 @@
+{
+  "dataset": "Epicurious - Recipes with Rating and Nutrition",
+  "publisher": "hugodarwood",
+  "source_page": "https://www.kaggle.com/datasets/hugodarwood/epirecipes",
+  "download_url": "https://www.kaggle.com/api/v1/datasets/download/hugodarwood/epirecipes?datasetVersionNumber=2",
+  "dataset_version": 2,
+  "retrieved_at_utc": "2026-10-04T09:35:33.210999+00:00",
+  "license_reported_by_kaggle": "Unknown",
+  "raw_file": "full_format_recipes.json",
+  "raw_bytes": 35249903,
+  "raw_sha256": "268811bcb6bc65621b29b8f0745e1ff51c04a222eb3c72bd055b030c1741d3bc",
+  "archive_sha256": "2b52b8b5ab6683d78eae5644376eee90f91e58c707f4156efb50af7a89668672"
+}

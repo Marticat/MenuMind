@@ -19,7 +19,6 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Sparkles,
-  UtensilsCrossed,
   Wine,
   X,
 } from 'lucide-react';
@@ -265,11 +264,12 @@ function App({
   const stale =
     !!recipe &&
     result.sourceFingerprint !== generationFingerprint(recipe, tone, settings, language, profile);
+  const resultLimits = result.limits ?? settings.limits;
   const publishValid =
     !!result.id &&
     channels.every(
       (c) =>
-        result.texts[c.id].trim().length > 0 && result.texts[c.id].length <= settings.limits[c.id],
+        result.texts[c.id].trim().length > 0 && result.texts[c.id].length <= resultLimits[c.id],
     );
   const actionButtons = (key: ChannelId | 'variant') => (
     <div className="card-actions">
@@ -398,9 +398,9 @@ function App({
                     {recipe.name} {recipe.subtitle}
                   </h3>
                   <div className="recipe-meta">
-                    <span>Курс: {recipe.category}</span>
-                    <span>{recipe.weight} г</span>
-                    <span>{money(recipe.price)}</span>
+                    {recipe.category && <span>Курс: {recipe.category}</span>}
+                    {recipe.weight > 0 && <span>{recipe.weight} г</span>}
+                    {recipe.price > 0 && <span>{money(recipe.price)}</span>}
                     <PencilLine size={14} />
                   </div>
                 </button>
@@ -560,32 +560,23 @@ function App({
                         <div>
                           <span className="channel-tag">Канал: Яндекс.Еда</span>
                           <span className="card-caption">
-                            Лимит витрины: {settings.limits.yandex} симв.
+                            Лимит витрины: {resultLimits.yandex} симв.
                           </span>
                         </div>
                         {actionButtons('yandex')}
                       </div>
                       <div className="dish-preview">
-                        {result.image ? (
-                          <div className="dish-photo">
-                            <img src={result.image} alt={result.name} />
-                            <span>{result.weight} г</span>
-                          </div>
-                        ) : (
-                          <div className="dish-placeholder">
-                            <UtensilsCrossed size={30} />
-                          </div>
-                        )}
                         <div className="dish-description">
                           <div className="row-between dish-title">
                             <h3>{result.name}</h3>
-                            <span>{money(result.price)}</span>
+                            {result.price > 0 && <span>{money(result.price)}</span>}
                           </div>
+                          {result.weight > 0 && <p className="dish-weight">{result.weight} г</p>}
                           <p className="editorial-text">«{result.texts.yandex}»</p>
                           <div className="result-meta">
                             <CharacterCount
                               text={result.texts.yandex}
-                              limit={settings.limits.yandex}
+                              limit={resultLimits.yandex}
                             />
                             <span className="tag">
                               {/\p{Extended_Pictographic}/u.test(result.texts.yandex)
@@ -602,14 +593,14 @@ function App({
                         <div>
                           <span className="channel-tag brass">Канал: Wolt Global</span>
                           <span className="card-caption">
-                            Editorial формат до {settings.limits.wolt} симв.
+                            Editorial формат до {resultLimits.wolt} симв.
                           </span>
                         </div>
                         {actionButtons('wolt')}
                       </div>
                       <div className="row-between">
                         <span className="eyebrow">Компактная подача</span>
-                        <CharacterCount text={result.texts.wolt} limit={settings.limits.wolt} />
+                        <CharacterCount text={result.texts.wolt} limit={resultLimits.wolt} />
                       </div>
                       <p className="editorial-text wolt-text">«{result.texts.wolt}»</p>
                       <div className="card-bottom">
@@ -625,7 +616,7 @@ function App({
                         <div>
                           <span className="channel-tag">Фирменное приложение & carte des mets</span>
                           <span className="card-caption">
-                            Full storytelling · {settings.limits.website} симв.
+                            Full storytelling · {resultLimits.website} симв.
                           </span>
                         </div>
                         {actionButtons('website')}
@@ -648,10 +639,7 @@ function App({
                         </div>
                       )}
                       <div className="card-bottom">
-                        <CharacterCount
-                          text={result.texts.website}
-                          limit={settings.limits.website}
-                        />
+                        <CharacterCount text={result.texts.website} limit={resultLimits.website} />
                         <span className="mono">
                           Стиль: {tones.find((t) => t.id === result.tone)?.id.toUpperCase()}
                         </span>
@@ -668,7 +656,7 @@ function App({
                       <p className="editorial-text">«{result.texts.print}»</p>
                       <div className="card-bottom">
                         <span>Готово для вёрстки меню</span>
-                        <CharacterCount text={result.texts.print} limit={settings.limits.print} />
+                        <CharacterCount text={result.texts.print} limit={resultLimits.print} />
                       </div>
                     </article>
                     <article className="result-card variant-card">
@@ -878,13 +866,13 @@ function App({
               className="edit-description"
               required
               value={editText.text}
-              maxLength={settings.limits[editText.key === 'variant' ? 'yandex' : editText.key]}
+              maxLength={resultLimits[editText.key === 'variant' ? 'yandex' : editText.key]}
               onChange={(e) => setEditText({ ...editText, text: e.target.value })}
             />
             <div className="row-between">
               <CharacterCount
                 text={editText.text}
-                limit={settings.limits[editText.key === 'variant' ? 'yandex' : editText.key]}
+                limit={resultLimits[editText.key === 'variant' ? 'yandex' : editText.key]}
               />
               <span className="muted">Проверьте состав по техкарте</span>
             </div>
@@ -917,7 +905,7 @@ function App({
                   <CheckCircle2 size={17} />
                   {c.name}
                 </span>
-                <CharacterCount text={result.texts[c.id]} limit={settings.limits[c.id]} />
+                <CharacterCount text={result.texts[c.id]} limit={resultLimits[c.id]} />
               </div>
             ))}
           </div>
@@ -1201,25 +1189,17 @@ function LibraryPage({
       <div className="recipe-library">
         {filtered.map((r, index) => (
           <article className="library-card" key={r.id}>
-            <div className="library-image">
-              {r.image ? (
-                <img src={r.image} alt={r.name} />
-              ) : (
-                <div className="recipe-illustration">
-                  <UtensilsCrossed size={44} strokeWidth={0.7} />
-                  <span>LA COLLECTION</span>
-                </div>
-              )}
-              <span className="library-number">{String(index + 1).padStart(2, '0')}</span>
-              <span className="library-category">{r.category}</span>
-            </div>
             <div className="library-body">
+              <div className="library-card-heading">
+                <span className="library-number">{String(index + 1).padStart(2, '0')}</span>
+                <span className="library-category">{r.category}</span>
+              </div>
               <div className="row-between">
                 <span className="eyebrow">{r.id}</span>
                 {selectedId === r.id && <span className="tag">В СТУДИИ</span>}
               </div>
               <h2>{r.name}</h2>
-              <p className="library-subtitle">{r.subtitle}</p>
+              {r.subtitle && <p className="library-subtitle">{r.subtitle}</p>}
               <p className="library-ingredients">{r.ingredients.join(' · ')}</p>
               <div className="product-tags">
                 {r.tags?.map((tag) => (
@@ -1228,10 +1208,12 @@ function LibraryPage({
                   </span>
                 ))}
               </div>
-              <div className="row-between library-price">
-                <span>{r.weight} г</span>
-                <span>{money(r.price)}</span>
-              </div>
+              {(r.weight > 0 || r.price > 0) && (
+                <div className="row-between library-price">
+                  <span>{r.weight > 0 ? `${r.weight} г` : ''}</span>
+                  {r.price > 0 && <span>{money(r.price)}</span>}
+                </div>
+              )}
               <div className="library-actions">
                 <button className="text-button" onClick={() => onSelect(r)}>
                   Открыть в студии

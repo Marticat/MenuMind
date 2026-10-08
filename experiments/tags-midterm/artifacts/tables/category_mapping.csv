@@ -1,0 +1,675 @@
+﻿original,normalized,occurrences
+Sandwich,sandwich,411
+Bean,bean,552
+Fruit,fruit,1833
+Tomato,tomato,2002
+turkey,turkey,383
+Vegetable,vegetable,1929
+Kid-Friendly,kid-friendly,1681
+Apple,apple,622
+Lentil,lentil,95
+Lettuce,lettuce,214
+Cookie,cookie,65
+Food Processor,food processor,885
+Onion,onion,2003
+Pork,pork,880
+Bake,bake,4109
+Bastille Day,bastille day,28
+New Year's Eve,new year's eve,148
+Dried Fruit,dried fruit,201
+Port,port,103
+Winter,winter,2843
+Chill,chill,1024
+Bon Appétit,bon appétit,8654
+Soup/Stew,soup/stew,1081
+Dairy,dairy,1369
+Potato,potato,1053
+Fennel,fennel,344
+Gourmet,gourmet,5950
+New York,new york,48
+Fish,fish,892
+Olive,olive,525
+Sauté,sauté,1926
+Low Fat,low fat,844
+Low Cal,low cal,956
+High Fiber,high fiber,975
+Dinner,dinner,2555
+Healthy,healthy,2192
+Simmer,simmer,762
+Pescatarian,pescatarian,5508
+Dairy Free,dairy free,2901
+Peanut Free,peanut free,7698
+Tree Nut Free,tree nut free,6425
+Soy Free,soy free,7415
+Kosher,kosher,5621
+Cheese,cheese,1292
+Pasta,pasta,939
+Side,side,2776
+Vegetarian,vegetarian,6168
+Quick & Easy,quick & easy,4853
+Fall,fall,2751
+California,california,140
+Basil,basil,531
+Bacon,bacon,557
+Summer,summer,3845
+Salad,salad,1454
+Easter,easter,210
+Ham,ham,212
+Asparagus,asparagus,200
+Spinach,spinach,357
+Carrot,carrot,636
+Spring,spring,1571
+Sugar Snap Pea,sugar snap pea,75
+Boil,boil,383
+Wheat/Gluten-Free,wheat/gluten-free,4446
+No Sugar Added,no sugar added,2843
+Egg,egg,1639
+No-Cook,no-cook,1061
+Cocktail Party,cocktail party,1099
+Kumquat,kumquat,39
+Beef,beef,756
+Ginger,ginger,1050
+Stir-Fry,stir-fry,217
+Soy Sauce,soy sauce,266
+Mustard,mustard,543
+Picnic,picnic,485
+Lunch,lunch,1294
+Mayonnaise,mayonnaise,349
+Pea,pea,201
+Sugar Conscious,sugar conscious,2218
+Milk/Cream,milk/cream,1841
+Thanksgiving,thanksgiving,1282
+Rosemary,rosemary,341
+Sweet Potato/Yam,sweet potato/yam,275
+Nutmeg,nutmeg,100
+Chicken,chicken,1272
+Garlic,garlic,1477
+Pepper,pepper,554
+Breakfast,breakfast,684
+Coconut,coconut,343
+Shrimp,shrimp,489
+Lemongrass,lemongrass,77
+Cake,cake,677
+Chocolate,chocolate,783
+Dessert,dessert,3234
+Tropical Fruit,tropical fruit,59
+Banana,banana,173
+Party,party,837
+Peanut Butter,peanut butter,32
+Birthday,birthday,172
+Low Carb,low carb,333
+Father's Day,father's day,267
+Beef Tenderloin,beef tenderloin,67
+Brandy,brandy,254
+Massachusetts,massachusetts,45
+Sauce,sauce,751
+Peach,peach,181
+Chive,chive,229
+Escarole,escarole,42
+Bread,bread,444
+Brunch,brunch,799
+Christmas,christmas,928
+Mother's Day,mother's day,160
+New Year's Day,new year's day,75
+Honey,honey,371
+Jam or Jelly,jam or jelly,142
+Kidney Friendly,kidney friendly,2015
+Braise,braise,308
+Tuna,tuna,131
+Radish,radish,194
+Capers,capers,172
+Asian Pear,asian pear,20
+Watercress,watercress,133
+Sesame,sesame,130
+Self,self,299
+Low Sodium,low sodium,348
+Cod,cod,72
+Halibut,halibut,86
+Leafy Green,leafy green,864
+Parmesan,parmesan,622
+Family Reunion,family reunion,287
+Endive,endive,109
+Breadcrumbs,breadcrumbs,52
+Nut,nut,838
+Super Bowl,super bowl,292
+Pecan,pecan,317
+Shower,shower,310
+Condiment/Spread,condiment/spread,725
+Fry,fry,394
+Pan-Fry,pan-fry,237
+Herb,herb,1531
+Cucumber,cucumber,366
+Advance Prep Required,advance prep required,103
+Paleo,paleo,697
+Pear,pear,269
+Spice,spice,613
+Blender,blender,553
+Roast,roast,1183
+Green Bean,green bean,212
+Vegan,vegan,1586
+Apricot,apricot,247
+Cherry,cherry,229
+Back to School,back to school,190
+Steak,steak,236
+Bell Pepper,bell pepper,716
+Poker/Game Night,poker/game night,127
+Lemon,lemon,1019
+Australia,australia,5
+Vinegar,vinegar,564
+Casserole/Gratin,casserole/gratin,190
+Squash,squash,143
+Butternut Squash,butternut squash,174
+Swiss Cheese,swiss cheese,73
+Sage,sage,170
+Fontina,fontina,36
+Avocado,avocado,256
+Fortified Wine,fortified wine,74
+White Wine,white wine,452
+Deep-Fry,deep-fry,82
+Cinnamon,cinnamon,428
+Broccoli Rabe,broccoli rabe,45
+Grill,grill,513
+Grill/Barbecue,grill/barbecue,1021
+Lime,lime,505
+Lime Juice,lime juice,123
+Bitters,bitters,125
+Liqueur,liqueur,311
+Alcoholic,alcoholic,823
+Cocktail,cocktail,372
+Rye,rye,19
+Drink,drink,1064
+Crab,crab,148
+Backyard BBQ,backyard bbq,844
+Citrus,citrus,780
+Freeze/Chill,freeze/chill,373
+Rice,rice,478
+Appetizer,appetizer,1315
+Oscars,oscars,104
+Goat Cheese,goat cheese,299
+Mint,mint,569
+Christmas Eve,christmas eve,298
+Engagement Party,engagement party,176
+Potluck,potluck,459
+Jalapeño,jalapeño,320
+Cilantro,cilantro,549
+Grapefruit,grapefruit,116
+Orange,orange,789
+Pomegranate,pomegranate,72
+Mushroom,mushroom,800
+Hot Pepper,hot pepper,425
+Mixer,mixer,578
+Artichoke,artichoke,148
+One-Pot Meal,one-pot meal,11
+HarperCollins,harpercollins,121
+Prosciutto,prosciutto,150
+Quick and Healthy,quick and healthy,65
+Collard Greens,collard greens,29
+Fig,fig,144
+Mozzarella,mozzarella,182
+Ground Beef,ground beef,87
+Veal,veal,113
+Pumpkin,pumpkin,109
+Seed,seed,132
+Fruit Juice,fruit juice,457
+Eggplant,eggplant,208
+Santa Monica,santa monica,9
+Fourth of July,fourth of july,343
+Corn,corn,349
+Chile Pepper,chile pepper,217
+Molasses,molasses,106
+Buttermilk,buttermilk,71
+Cornmeal,cornmeal,240
+Clove,clove,172
+Blackberry,blackberry,136
+Strawberry,strawberry,291
+Almond,almond,548
+Microwave,microwave,36
+Tofu,tofu,90
+Thyme,thyme,302
+Parsley,parsley,463
+Coffee Grinder,coffee grinder,14
+Salad Dressing,salad dressing,137
+Oregano,oregano,93
+Berry,berry,422
+Double Boiler,double boiler,30
+Bulgur,bulgur,29
+Blue Cheese,blue cheese,229
+Arugula,arugula,260
+Valentine's Day,valentine's day,223
+Cream Cheese,cream cheese,355
+Raspberry,raspberry,323
+Hazelnut,hazelnut,169
+Peanut,peanut,146
+Tree Nut,tree nut,99
+Cashew,cashew,63
+Ricotta,ricotta,153
+Jícama,jícama,33
+Chestnut,chestnut,66
+Maple Syrup,maple syrup,142
+Anniversary,anniversary,110
+Poultry,poultry,573
+Pistachio,pistachio,164
+Saffron,saffron,101
+Horseradish,horseradish,154
+Dill,dill,250
+Low/No Sugar,low/no sugar,255
+Cinco de Mayo,cinco de mayo,161
+Tomatillo,tomatillo,66
+Cranberry,cranberry,343
+Beer,beer,103
+Bourbon,bourbon,119
+Meat,meat,267
+Brisket,brisket,33
+Pork Chop,pork chop,91
+Grains,grains,9
+Mango,mango,225
+Salmon,salmon,300
+Yogurt,yogurt,494
+Kansas,kansas,3
+Lamb Shank,lamb shank,16
+Anise,anise,103
+Condiment,condiment,81
+Portland,portland,14
+Oregon,oregon,18
+Cabbage,cabbage,289
+Beet,beet,198
+Leek,leek,247
+Parsnip,parsnip,130
+Shallot,shallot,313
+Beef Rib,beef rib,52
+Frozen Dessert,frozen dessert,325
+Pastry,pastry,80
+Duck,duck,90
+Broil,broil,455
+Noodle,noodle,158
+Lunar New Year,lunar new year,44
+Stuffing/Dressing,stuffing/dressing,111
+Sausage,sausage,364
+Rum,rum,319
+Pineapple,pineapple,246
+Curry,curry,259
+Cheddar,cheddar,245
+Fat Free,fat free,313
+Quince,quince,27
+Non-Alcoholic,non-alcoholic,206
+St. Patrick's Day,st. patrick's day,52
+Punch,punch,68
+Guava,guava,19
+Passion Fruit,passion fruit,42
+30 Days of Groceries,30 days of groceries,7
+Chickpea,chickpea,153
+Feta,feta,223
+Chard,chard,78
+Soy,soy,105
+Root Vegetable,root vegetable,175
+Oktoberfest,oktoberfest,33
+Blueberry,blueberry,172
+Sour Cream,sour cream,367
+Butter,butter,173
+Green Onion/Scallion,green onion/scallion,109
+Tea,tea,103
+Turnip,turnip,86
+Bok Choy,bok choy,56
+Shellfish,shellfish,534
+Seafood,seafood,389
+Celery,celery,298
+Wedding,wedding,105
+Shavuot,shavuot,21
+Whiskey,whiskey,54
+Red Wine,red wine,250
+Paprika,paprika,47
+Hanukkah,hanukkah,101
+Steam,steam,204
+Brussel Sprout,brussel sprout,54
+Snapper,snapper,56
+Low Cholesterol,low cholesterol,390
+Ice Cream Machine,ice cream machine,139
+Zucchini,zucchini,286
+Tailgating,tailgating,119
+Tarragon,tarragon,224
+Kentucky Derby,kentucky derby,38
+Prune,prune,100
+Lemon Juice,lemon juice,140
+Cognac/Armagnac,cognac/armagnac,84
+Vanilla,vanilla,236
+Plantain,plantain,18
+Mardi Gras,mardi gras,51
+Passover,passover,161
+Kosher for Passover,kosher for passover,28
+Walnut,walnut,406
+Kale,kale,135
+Quail,quail,15
+Coffee,coffee,180
+Egg Nog,egg nog,9
+House & Garden,house & garden,445
+Phyllo/Puff Pastry Dough,phyllo/puff pastry dough,124
+Gin,gin,224
+Tequila,tequila,87
+Vodka,vodka,121
+Yellow Squash,yellow squash,25
+Cauliflower,cauliflower,113
+Wasabi,wasabi,23
+Cumin,cumin,83
+Spirit,spirit,216
+Calvados,calvados,19
+Coriander,coriander,118
+Wok,wok,97
+Whole Wheat,whole wheat,29
+Buffet,buffet,127
+Gouda,gouda,10
+Marinate,marinate,562
+Hominy/Cornmeal/Masa,hominy/cornmeal/masa,79
+Trout,trout,51
+Raisin,raisin,319
+Plum,plum,109
+Date,date,117
+Quinoa,quinoa,48
+Oat,oat,133
+Mustard Greens,mustard greens,34
+Broccoli,broccoli,115
+22-Minute Meals,22-minute meals,17
+Lobster,lobster,78
+Candy,candy,59
+Halloween,halloween,40
+Ramadan,ramadan,36
+Lamb,lamb,334
+Apple Juice,apple juice,6
+Seattle,seattle,9
+Washington,washington,25
+Tortillas,tortillas,148
+Melon,melon,61
+Cantaloupe,cantaloupe,51
+Orange Juice,orange juice,47
+Grape,grape,69
+Parade,parade,123
+Pine Nut,pine nut,212
+Butterscotch/Caramel,butterscotch/caramel,12
+Friendsgiving,friendsgiving,9
+Swordfish,swordfish,16
+Kirsch,kirsch,30
+Stew,stew,174
+Low Sugar,low sugar,10
+Weelicious,weelicious,32
+Currant,currant,103
+Candy Thermometer,candy thermometer,50
+Pork Tenderloin,pork tenderloin,115
+Smoothie,smoothie,42
+Mussel,mussel,122
+Sherry,sherry,115
+Poach,poach,129
+Pittsburgh,pittsburgh,10
+Pennsylvania,pennsylvania,32
+Dallas,dallas,5
+Texas,texas,22
+Aperitif,aperitif,12
+Campari,campari,19
+Champagne,champagne,105
+Cookies,cookies,241
+Nectarine,nectarine,60
+Pasadena,pasadena,12
+Florida,florida,40
+Wine,wine,173
+Amaretto,amaretto,37
+Frangelico,frangelico,21
+Legume,legume,67
+Lamb Chop,lamb chop,42
+Bran,bran,3
+Papaya,papaya,52
+Sukkot,sukkot,14
+Rosh Hashanah/Yom Kippur,rosh hashanah/yom kippur,63
+Margarita,margarita,19
+Triple Sec,triple sec,78
+Pancake,pancake,5
+Rutabaga,rutabaga,41
+Pernod,pernod,53
+Marshmallow,marshmallow,9
+Guam,guam,1
+Poultry Sausage,poultry sausage,21
+Ground Lamb,ground lamb,32
+Scallop,scallop,161
+Hamburger,hamburger,4
+Beef Shank,beef shank,13
+Wisconsin,wisconsin,4
+Watermelon,watermelon,71
+Hot Drink,hot drink,36
+Oyster,oyster,35
+Rosé,rosé,4
+Scotch,scotch,21
+Sesame Oil,sesame oil,35
+Caraway,caraway,26
+Cardamom,cardamom,41
+Brie,brie,12
+Raw,raw,68
+"Washington, D.C.","washington, d.c.",8
+Spain,spain,2
+Goose,goose,14
+Chili,chili,3
+Monterey Jack,monterey jack,47
+cookbooks,cookbooks,3
+Macaroni and Cheese,macaroni and cheese,3
+Edible Gift,edible gift,97
+Ireland,ireland,11
+Michigan,michigan,24
+"No Meat, No Problem","no meat, no problem",6
+Pork Rib,pork rib,53
+Radicchio,radicchio,17
+Rack of Lamb,rack of lamb,27
+Poppy,poppy,20
+Brine,brine,32
+San Francisco,san francisco,8
+Game,game,34
+Venison,venison,9
+snack,snack,27
+snack week,snack week,18
+Pressure Cooker,pressure cooker,7
+Couscous,couscous,86
+Hors D'Oeuvre,hors d'oeuvre,17
+Graduation,graduation,77
+Los Angeles,los angeles,21
+Tangerine,tangerine,32
+Clam,clam,128
+Connecticut,connecticut,11
+House Cocktail,house cocktail,6
+Labor Day,labor day,9
+Macadamia Nut,macadamia nut,46
+Lima Bean,lima bean,52
+Flaming Hot Summer,flaming hot summer,12
+Cook Like a Diner,cook like a diner,4
+Omelet,omelet,2
+Denver,denver,3
+Ohio,ohio,13
+Cottage Cheese,cottage cheese,36
+Jerusalem Artichoke,jerusalem artichoke,18
+Mexico,mexico,5
+Poblano,poblano,7
+Barley,barley,49
+Organic,organic,5
+Marsala,marsala,36
+Potato Salad,potato salad,2
+Bass,bass,86
+Lychee,lychee,8
+Chambord,chambord,15
+Honeydew,honeydew,38
+Utah,utah,3
+Slow Cooker,slow cooker,24
+North Carolina,north carolina,17
+Anchovy,anchovy,43
+Sake,sake,21
+Brown Rice,brown rice,20
+Kwanzaa,kwanzaa,11
+Freezer Food,freezer food,3
+Sparkling Wine,sparkling wine,53
+Entertaining,entertaining,8
+South Carolina,south carolina,10
+Rhode Island,rhode island,8
+Rhubarb,rhubarb,74
+Stock,stock,3
+Drinks,drinks,11
+Ramekin,ramekin,34
+Skewer,skewer,7
+Pie,pie,21
+Cupcake,cupcake,3
+Squid,squid,45
+Minnesota,minnesota,11
+Buffalo,buffalo,6
+Missouri,missouri,14
+Brooklyn,brooklyn,7
+Chicago,chicago,4
+Illinois,illinois,8
+Ice Cream,ice cream,12
+Yuca,yuca,6
+Purim,purim,12
+Kahlúa,kahlúa,23
+Chartreuse,chartreuse,18
+Créme de Cacao,créme de cacao,21
+#CAKEWEEK,#cakeweek,6
+Tapioca,tapioca,12
+New Mexico,new mexico,14
+Kiwi,kiwi,34
+Sandwich Theory,sandwich theory,12
+Hollywood,hollywood,1
+Diwali,diwali,22
+New Jersey,new jersey,25
+Dip,dip,20
+Persian New Year,persian new year,4
+Okra,okra,25
+3-Ingredient Recipes,3-ingredient recipes,27
+Rabbit,rabbit,7
+Smoker,smoker,6
+Tamarind,tamarind,19
+Indiana,indiana,3
+New Orleans,new orleans,2
+Louisiana,louisiana,4
+Kitchen Olympics,kitchen olympics,1
+Pickles,pickles,16
+Tennessee,tennessee,2
+Wild Rice,wild rice,17
+Oatmeal,oatmeal,11
+Flat Bread,flat bread,4
+Bon App��tit,bon app��tit,10
+Tart,tart,8
+Sangria,sangria,17
+Mandoline,mandoline,7
+Canada,canada,8
+Pot Pie,pot pie,2
+Chile,chile,13
+Columbus,columbus,3
+Marscarpone,marscarpone,5
+Boston,boston,5
+Italy,italy,6
+Taco,taco,8
+Granola,granola,5
+Haiti,haiti,1
+Semolina,semolina,14
+Costa Mesa,costa mesa,1
+Japan,japan,2
+Persimmon,persimmon,11
+Sardine,sardine,4
+Lasagna,lasagna,3
+Virginia,virginia,11
+Yonkers,yonkers,1
+Maryland,maryland,12
+Grappa,grappa,4
+Juicer,juicer,6
+St. Louis,st. louis,7
+France,france,13
+Miami,miami,2
+Orzo,orzo,2
+Dominican Republic,dominican republic,2
+Paris,paris,4
+Oklahoma,oklahoma,4
+Colorado,colorado,16
+Custard,custard,2
+Octopus,octopus,7
+Pizza,pizza,9
+Muffin,muffin,5
+Meatball,meatball,8
+Tested & Improved,tested & improved,1
+Georgia,georgia,20
+Tilapia,tilapia,11
+Arizona,arizona,8
+Atlanta,atlanta,7
+Cobbler/Crumble,cobbler/crumble,6
+Long Beach,long beach,2
+Peru,peru,2
+Lancaster,lancaster,4
+Cambridge,cambridge,3
+Iced Tea,iced tea,17
+Pasta Maker,pasta maker,11
+Louisville,louisville,2
+Kentucky,kentucky,3
+Grand Marnier,grand marnier,1
+leftovers,leftovers,7
+Cranberry Sauce,cranberry sauce,4
+Aspen,aspen,1
+Biscuit,biscuit,7
+Pomegranate Juice,pomegranate juice,6
+Waffle,waffle,1
+Lingonberry,lingonberry,5
+Cookbook Critic,cookbook critic,3
+Brownie,brownie,3
+Alabama,alabama,3
+Vermouth,vermouth,11
+Eau de Vie,eau de vie,9
+Hummus,hummus,2
+Israel,israel,2
+Hawaii,hawaii,4
+Caviar,caviar,1
+Mortar and Pestle,mortar and pestle,2
+Maine,maine,5
+Suzanne Goin,suzanne goin,1
+Iowa,iowa,1
+Digestif,digestif,5
+Sorbet,sorbet,1
+Cr��me de Cacao,cr��me de cacao,1
+Martini,martini,7
+Philippines,philippines,5
+Minneapolis,minneapolis,2
+Vermont,vermont,5
+Idaho,idaho,1
+Salsa,salsa,6
+Westwood,westwood,1
+Spritzer,spritzer,7
+Providence,providence,1
+Nebraska,nebraska,2
+#WasteLess,#wasteless,1
+Epi Loves the Microwave,epi loves the microwave,2
+London,london,1
+England,england,1
+Nancy Silverton,nancy silverton,1
+Dorie Greenspan,dorie greenspan,1
+Frankenrecipe,frankenrecipe,1
+Emeril Lagasse,emeril lagasse,1
+Soufflé/Meringue,soufflé/meringue,3
+Beverly Hills,beverly hills,1
+Healdsburg,healdsburg,2
+West Virginia,west virginia,1
+Kansas City,kansas city,2
+Frittata,frittata,2
+Mezcal,mezcal,1
+Windsor,windsor,1
+Rub,rub,3
+Jamaica,jamaica,1
+Burrito,burrito,1
+Las Vegas,las vegas,1
+Bulgaria,bulgaria,1
+Cuba,cuba,3
+Camping,camping,1
+Midori,midori,5
+Meatloaf,meatloaf,2
+Epi + USHG,epi + ushg,2
+Fritter,fritter,1
+Egypt,egypt,1
+Iced Coffee,iced coffee,2
+Switzerland,switzerland,4
+Houston,houston,1
+Germany,germany,1
+Quiche,quiche,1
+Anthony Bourdain,anthony bourdain,2
+Marinade,marinade,1
+Pacific Palisades,pacific palisades,1
+Alaska,alaska,2
+Mississippi,mississippi,1
+Crêpe,crêpe,1
+New Hampshire,new hampshire,1
+Sourdough,sourdough,1

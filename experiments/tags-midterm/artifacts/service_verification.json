@@ -1,0 +1,13 @@
+{
+  "server_tests": {
+    "passed": 42,
+    "failed": 0
+  },
+  "browser_tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "build_passed": true,
+  "format_check_passed": true,
+  "note": "First concurrent run had a timing-sensitive timeout-test failure; rerun passed 42/42. No live LLM calls made in this iteration."
+}

@@ -1,0 +1,11 @@
+﻿tag,train,validation,test
+beef,623,113,105
+chicken,872,176,189
+lamb,279,66,50
+fish,822,159,121
+mushrooms,607,109,74
+rice,378,50,68
+vegetables,1615,229,133
+roasted,3981,685,497
+braised,346,61,63
+grilled,645,241,186

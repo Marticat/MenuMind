@@ -1,0 +1,12 @@
+﻿field,missing_n,missing_pct,empty_n,dtype,python_types
+directions,19,0.09438648782911079,13,object,"{'list': 20111, 'float': 19}"
+fat,4222,20.973671137605564,0,float64,{'float': 20130}
+date,19,0.09438648782911079,0,object,"{'str': 20111, 'float': 19}"
+categories,19,0.09438648782911079,59,object,"{'list': 20111, 'float': 19}"
+calories,4154,20.635866865375064,0,float64,{'float': 20130}
+desc,6635,32.960755091902634,0,object,"{'NoneType': 6616, 'str': 13495, 'float': 19}"
+protein,4201,20.869349230004968,0,float64,{'float': 20130}
+rating,30,0.14903129657228018,0,float64,{'float': 20130}
+title,19,0.09438648782911079,0,object,"{'str': 20111, 'float': 19}"
+ingredients,19,0.09438648782911079,57,object,"{'list': 20111, 'float': 19}"
+sodium,4156,20.645802285146548,0,float64,{'float': 20130}

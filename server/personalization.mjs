@@ -68,7 +68,7 @@ export function registerPersonalization({
   const fingerprint = (recipe, profile, language) =>
     digest(
       JSON.stringify({
-        version: 'description-styles-v1',
+        version: 'description-styles-v2-tags',
         recipe,
         language,
         brand: {
@@ -210,6 +210,7 @@ export function registerPersonalization({
               style,
               label: descriptionStyles[style].label,
               texts: result.texts,
+              descriptionTags: result.descriptionTags,
               limits: result.limits,
             };
           }),
@@ -295,20 +296,32 @@ export function registerPersonalization({
             .all(userId, customer.id, input.mode, MODEL_VERSION)
             .map((row) => [row.arm, row]),
         );
-        const context = buildContext(customer, recipe, input.channel, history);
+        const contexts = Object.fromEntries(
+          variants.map((variant) => [
+            variant.style,
+            buildContext(
+              customer,
+              recipe,
+              input.channel,
+              history,
+              variant.descriptionTags[input.channel],
+            ),
+          ]),
+        );
         const models = Object.fromEntries(
           variants.map(({ style }) => [
             style,
-            readModel(userId, input.mode, style, context.length),
+            readModel(userId, input.mode, style, contexts[style].length),
           ]),
         );
         const choice = chooseArm(
           models,
-          context,
+          contexts,
           variants.map((v) => v.style),
           customer.descriptionPreference,
         );
         const variant = variants.find((v) => v.style === choice.arm);
+        const context = contexts[choice.arm];
         const result = {
           id: randomUUID(),
           requestId: input.requestId,
@@ -319,6 +332,7 @@ export function registerPersonalization({
           style: variant.style,
           label: variant.label,
           text: variant.texts[input.channel],
+          descriptionTags: variant.descriptionTags[input.channel],
           language: customer.language,
           channel: input.channel,
           mode: input.mode,
