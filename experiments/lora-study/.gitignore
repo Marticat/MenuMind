@@ -1,0 +1,5 @@
+artifacts/adapters/
+artifacts/checkpoints/
+.venv/
+__pycache__/
+classical-data/

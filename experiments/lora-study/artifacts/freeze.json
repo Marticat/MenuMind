@@ -1,0 +1,43 @@
+{
+  "frozen_at_utc": "2026-10-21T16:53:13Z",
+  "config_sha256": "2e63d1f3986cc9eb97043e2e9a21a27ed2be638b8d4f06edbbca9d1f749684ea",
+  "dataset": {
+    "seed": 42,
+    "split_unit": "ingredient-pair dish; both languages stay together",
+    "counts": {
+      "train": {
+        "rows": 168,
+        "dishes": 84
+      },
+      "validation": {
+        "rows": 36,
+        "dishes": 18
+      },
+      "test": {
+        "rows": 36,
+        "dishes": 18
+      }
+    },
+    "sha256": {
+      "train": "045be4f66f1d7b2022dc3388af187b2b978dd7419487e1febfde5a3cfa755588",
+      "validation": "0548308fd4102cf16efc6a3106071aa771dc5cc6f70be5350e42abcab0474f84",
+      "test": "ebb433fb4af06b38fd88c04218a84b11093c00548281b94e50531573175d3c4e"
+    },
+    "lexicon_sha256": "2d19d0cebfc054b5c126a63423d1c02ae88c72d3113f216d19339a505a5a5bef",
+    "source": "New authored synthetic teaching dataset, no API calls, no human annotations",
+    "limitations": [
+      "Shared vocabulary and target template across splits",
+      "Held-out combinations, not unseen domains",
+      "No naturalness, native Kazakh, customer, safety or conversion claims",
+      "Only one channel and neutral tone"
+    ],
+    "human_review_completed": false
+  },
+  "source_sha256": {
+    "common.py": "bed278c86ee4e74fa6051d97312522bc6e113f4e264caea47d7e1cbff30402a2",
+    "prepare_data.py": "b43dc88a1230d8a5c0dfce5ade355a7f8c478af8fbd934ab698d4d5ebca8109b",
+    "train.py": "42ac4ddebab7a886961094640a6ec5be3b463da69cc41eb2982bd9b2a82018b7"
+  },
+  "selected_learning_rate": 0.0005,
+  "selection_before_test_generation": true
+}

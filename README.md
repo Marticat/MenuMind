@@ -4,6 +4,9 @@
 
 Материалы EDA и Midterm по тегам: [experiments/tags-midterm](experiments/tags-midterm/README.md).
 В комплекте выполненный notebook, обученная модель, двухстраничный отчёт и семь слайдов.
+
+Учебный эксперимент с LoRA, подбором параметров и сравнением конфигураций: [experiments/lora-study](experiments/lora-study/README.md). Новые пары RU/KK синтетические; результаты не заменяют редакторскую оценку.
+
 Проверка требований и оставшиеся ограничения: [docs/project-audit.txt](docs/project-audit.txt).
 Генерации возвращают `descriptionTags` для каждого канала и `variantTags`: упоминания,
 подтверждённые исходными тегами карточки, с фрагментом текста, длиной и признаком краткости.

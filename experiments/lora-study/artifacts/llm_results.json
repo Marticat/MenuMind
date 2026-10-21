@@ -1,0 +1,184 @@
+{
+  "rows": [
+    {
+      "model": "base_simple",
+      "language": "all",
+      "json_valid": 0.4444444444444444,
+      "constraint_pass": 0.4166666666666667,
+      "ingredient_recall": 0.2222222222222222,
+      "method_match": 0.1388888888888889,
+      "known_fact_pass": 0.4166666666666667,
+      "grounded_slot_pass": 0.05555555555555555,
+      "n": 36,
+      "mean_latency_seconds": 5.884049500002423
+    },
+    {
+      "model": "base_simple",
+      "language": "ru",
+      "json_valid": 0.8888888888888888,
+      "constraint_pass": 0.8333333333333334,
+      "ingredient_recall": 0.4444444444444444,
+      "method_match": 0.2777777777777778,
+      "known_fact_pass": 0.8333333333333334,
+      "grounded_slot_pass": 0.1111111111111111,
+      "n": 18,
+      "mean_latency_seconds": 3.4228978555571907
+    },
+    {
+      "model": "base_simple",
+      "language": "kk",
+      "json_valid": 0.0,
+      "constraint_pass": 0.0,
+      "ingredient_recall": 0.0,
+      "method_match": 0.0,
+      "known_fact_pass": 0.0,
+      "grounded_slot_pass": 0.0,
+      "n": 18,
+      "mean_latency_seconds": 8.345201144447653
+    },
+    {
+      "model": "base_detailed",
+      "language": "all",
+      "json_valid": 0.5277777777777778,
+      "constraint_pass": 0.4166666666666667,
+      "ingredient_recall": 0.4583333333333333,
+      "method_match": 0.2777777777777778,
+      "known_fact_pass": 0.5277777777777778,
+      "grounded_slot_pass": 0.1388888888888889,
+      "n": 36,
+      "mean_latency_seconds": 6.123631402782242
+    },
+    {
+      "model": "base_detailed",
+      "language": "ru",
+      "json_valid": 0.9444444444444444,
+      "constraint_pass": 0.7222222222222222,
+      "ingredient_recall": 0.8333333333333334,
+      "method_match": 0.4444444444444444,
+      "known_fact_pass": 0.9444444444444444,
+      "grounded_slot_pass": 0.2222222222222222,
+      "n": 18,
+      "mean_latency_seconds": 4.52005882778192
+    },
+    {
+      "model": "base_detailed",
+      "language": "kk",
+      "json_valid": 0.1111111111111111,
+      "constraint_pass": 0.1111111111111111,
+      "ingredient_recall": 0.08333333333333333,
+      "method_match": 0.1111111111111111,
+      "known_fact_pass": 0.1111111111111111,
+      "grounded_slot_pass": 0.05555555555555555,
+      "n": 18,
+      "mean_latency_seconds": 7.727203977782564
+    },
+    {
+      "model": "lora_detailed",
+      "language": "all",
+      "json_valid": 1.0,
+      "constraint_pass": 1.0,
+      "ingredient_recall": 1.0,
+      "method_match": 1.0,
+      "known_fact_pass": 1.0,
+      "grounded_slot_pass": 1.0,
+      "n": 36,
+      "mean_latency_seconds": 4.249949436110102
+    },
+    {
+      "model": "lora_detailed",
+      "language": "ru",
+      "json_valid": 1.0,
+      "constraint_pass": 1.0,
+      "ingredient_recall": 1.0,
+      "method_match": 1.0,
+      "known_fact_pass": 1.0,
+      "grounded_slot_pass": 1.0,
+      "n": 18,
+      "mean_latency_seconds": 3.2309247444451707
+    },
+    {
+      "model": "lora_detailed",
+      "language": "kk",
+      "json_valid": 1.0,
+      "constraint_pass": 1.0,
+      "ingredient_recall": 1.0,
+      "method_match": 1.0,
+      "known_fact_pass": 1.0,
+      "grounded_slot_pass": 1.0,
+      "n": 18,
+      "mean_latency_seconds": 5.268974127775032
+    }
+  ],
+  "comparisons": [
+    {
+      "comparison": "base_detailed minus base_simple",
+      "metric": "constraint_pass",
+      "delta": 0.0,
+      "ci95": [
+        -0.1388888888888889,
+        0.13958333333332956
+      ],
+      "resampling_unit": "dish (RU/KK paired)",
+      "replicates": 2000
+    },
+    {
+      "comparison": "base_detailed minus base_simple",
+      "metric": "ingredient_recall",
+      "delta": 0.2361111111111111,
+      "ci95": [
+        0.1388888888888889,
+        0.3333333333333333
+      ],
+      "resampling_unit": "dish (RU/KK paired)",
+      "replicates": 2000
+    },
+    {
+      "comparison": "base_detailed minus base_simple",
+      "metric": "grounded_slot_pass",
+      "delta": 0.08333333333333333,
+      "ci95": [
+        -0.027777777777777776,
+        0.19444444444444445
+      ],
+      "resampling_unit": "dish (RU/KK paired)",
+      "replicates": 2000
+    },
+    {
+      "comparison": "lora_detailed minus base_detailed",
+      "metric": "constraint_pass",
+      "delta": 0.5833333333333334,
+      "ci95": [
+        0.4722222222222222,
+        0.6944444444444444
+      ],
+      "resampling_unit": "dish (RU/KK paired)",
+      "replicates": 2000
+    },
+    {
+      "comparison": "lora_detailed minus base_detailed",
+      "metric": "ingredient_recall",
+      "delta": 0.5416666666666666,
+      "ci95": [
+        0.5,
+        0.5833333333333334
+      ],
+      "resampling_unit": "dish (RU/KK paired)",
+      "replicates": 2000
+    },
+    {
+      "comparison": "lora_detailed minus base_detailed",
+      "metric": "grounded_slot_pass",
+      "delta": 0.8611111111111112,
+      "ci95": [
+        0.75,
+        0.9444444444444444
+      ],
+      "resampling_unit": "dish (RU/KK paired)",
+      "replicates": 2000
+    }
+  ],
+  "human_review_completed": false,
+  "scope": "Synthetic bilingual single-channel description study; not production deployment or human evaluation",
+  "test_dishes": 18,
+  "latency_note": "Sequential local GPU generation, includes first-call warmup, no API or hosting cost comparison"
+}

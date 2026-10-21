@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "raw_generations_recomputed": 108,
+  "split_leakage_checked": true,
+  "frozen_source_hashes_checked": true,
+  "selection_uses_validation": true,
+  "human_review_completed": false
+}

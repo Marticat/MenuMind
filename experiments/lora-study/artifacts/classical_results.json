@@ -1,0 +1,68 @@
+{
+  "seed": 42,
+  "rows": [
+    {
+      "model": "frequency",
+      "C": null,
+      "threshold": 0.2,
+      "micro_f1": 0.24027072758037224,
+      "macro_f1": 0.03157560355781448
+    },
+    {
+      "model": "classical_default",
+      "C": 1.0,
+      "threshold": 0.5,
+      "micro_f1": 0.48759983186212696,
+      "macro_f1": 0.37670965939629275
+    },
+    {
+      "model": "classical_tuned",
+      "C": 2.0,
+      "threshold": 0.35,
+      "micro_f1": 0.5906962222916016,
+      "macro_f1": 0.585985444878147
+    }
+  ],
+  "selection": {
+    "C": 2.0,
+    "threshold": 0.35,
+    "micro_f1": 0.6603325415676959,
+    "macro_f1": 0.6592772965112649
+  },
+  "search_space": {
+    "C": [
+      0.5,
+      2.0
+    ],
+    "threshold": [
+      0.2,
+      0.35,
+      0.5
+    ]
+  },
+  "split_hashes": {
+    "train": {
+      "X": "124dc49a10a6d60d9058f9676b67e34e2ecbf1c1da3f65f56f2223400375964c",
+      "y": "e136f7880b9d630c8bdbc6245a43eda0b8fbe724fd569c64a24123d4967cbae9",
+      "n": 12383
+    },
+    "validation": {
+      "X": "145b1248ccc35787d9accfe0e329f1a54fd07c972243c02026a8911ddbc0b6fb",
+      "y": "ffcc76ca798b467a782c3b7a7a64f446107fddd124287fe6c7ff1f32c897b532",
+      "n": 2649
+    },
+    "test": {
+      "X": "d068cda2d81b77345bd3d3546146845ccb77d8599629b5d25d8f8842a7ffa1c0",
+      "y": "574c5826813409be41107626da749e2ab93e2ec07a680a91ef87ae5eee58da5c",
+      "n": 2651
+    }
+  },
+  "seconds": 13.332407099980628,
+  "versions": {
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2"
+  },
+  "python": "3.10.3",
+  "limitations": "Existing published test reused to add an explicit default baseline; not a newly sealed holdout. EN publisher-tag task, not RU/KK generation."
+}
