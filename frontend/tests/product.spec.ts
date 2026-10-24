@@ -25,7 +25,7 @@ test('landing, registration, preferences, keys, logout and login work end to end
     .click();
   await page.getByRole('button', { name: 'Сохранить предпочтения' }).click();
   await expect(page.getByRole('status')).toContainText('Профиль и предпочтения сохранены');
-  await expect(page.locator('.recommendation-item').first()).toContainText('Ризотто');
+  await expect(page.locator('.recommendation-item').first()).toContainText(/Ризотто|Грибной крем-суп/);
   await page.reload();
   await expect(page.getByLabel('Кухня', { exact: true })).toHaveValue('Казахская');
   await expect(page.getByLabel('Язык по умолчанию')).toHaveValue('kk');
@@ -63,7 +63,9 @@ test('name-only generation, regeneration, history and failed saves', async ({ pa
   await page.getByLabel('Название блюда', { exact: true }).fill('Сорпа');
   await page.getByRole('button', { name: 'Сохранить карту' }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
-  const soupCard = page.locator('.library-card').filter({ hasText: 'Сорпа' });
+  const soupCard = page
+    .locator('.library-card')
+    .filter({ has: page.getByRole('heading', { name: 'Сорпа', exact: true }) });
   await expect(soupCard).not.toContainText('0 ₽');
   await expect(soupCard).not.toContainText('0 г');
   await page
@@ -158,13 +160,14 @@ test('two guest profiles receive different descriptions and demo feedback surviv
   await page.getByRole('button', { name: 'Добавить в тестовую корзину' }).click();
   await expect(page.getByRole('status')).toContainText('Реакция учтена');
   await expect(page.getByRole('button', { name: 'Добавление учтено' })).toBeDisabled();
-  await expect(page.locator('.personalization-metrics dd')).toHaveText(['1', '1', '0']);
   const stats = (await (await page.request.get('/api/v1/personalization/stats')).json()).items;
   expect(stats.every((item: { mode: string }) => item.mode === 'demo')).toBeTruthy();
 
   await page.reload();
   await expect(page.getByLabel('Имя гостя')).toHaveValue('Тимур');
-  await expect(page.locator('.personalization-metrics dd')).toHaveText(['1', '1', '0']);
+  const restoredStats = (await (await page.request.get('/api/v1/personalization/stats')).json())
+    .items;
+  expect(restoredStats).toEqual(stats);
   await page.getByLabel('Сохранённый гость').selectOption({ label: 'Алия' });
   await expect(page.getByLabel('Что важно в описании')).toHaveValue('concise');
   await page.getByRole('button', { name: 'Получить описание', exact: true }).click();

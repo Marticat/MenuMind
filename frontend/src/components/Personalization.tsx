@@ -24,16 +24,6 @@ type Selection = {
   reward: number | null;
   descriptionTags?: { mentioned: Tag[]; short: boolean };
 };
-type Stats = {
-  items: {
-    mode: string;
-    style: string;
-    impressions: number;
-    observations: number;
-    additions: number;
-    pending: number;
-  }[];
-};
 const freshCustomer = (): Customer => ({
   id: `guest-${crypto.randomUUID()}`,
   name: '',
@@ -50,35 +40,19 @@ export function Personalization({ recipes }: { recipes: Recipe[] }) {
   const [tags, setTags] = useState<Tag[]>([]);
   const [variants, setVariants] = useState<DescriptionSet | null>(null);
   const [selection, setSelection] = useState<Selection | null>(null);
-  const [stats, setStats] = useState<Stats>({ items: [] });
   const [busy, setBusy] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const savedCustomer = customers.find((customer) => customer.id === selectedCustomer);
   const dirty = !savedCustomer || JSON.stringify(savedCustomer) !== JSON.stringify(draft);
-  const demoStats = stats.items.filter((item) => item.mode === 'demo');
-  const totals = demoStats.reduce(
-    (sum, item) => ({
-      impressions: sum.impressions + item.impressions,
-      additions: sum.additions + item.additions,
-      pending: sum.pending + item.pending,
-    }),
-    { impressions: 0, additions: 0, pending: 0 },
-  );
-  const loadStats = async () => setStats(await api<Stats>('/personalization/stats'));
   useEffect(() => {
     let cancelled = false;
-    void Promise.all([
-      api<{ items: Customer[] }>('/customers'),
-      api<{ items: Tag[] }>('/tags'),
-      api<Stats>('/personalization/stats'),
-    ])
-      .then(([people, catalog, metrics]) => {
+    void Promise.all([api<{ items: Customer[] }>('/customers'), api<{ items: Tag[] }>('/tags')])
+      .then(([people, catalog]) => {
         if (cancelled) return;
         setCustomers(people.items);
         setTags(catalog.items);
-        setStats(metrics);
         if (people.items[0]) {
           setSelectedCustomer(people.items[0].id);
           setDraft(people.items[0]);
@@ -350,7 +324,6 @@ export function Personalization({ recipes }: { recipes: Recipe[] }) {
                             {},
                           );
                           setSelection(shown);
-                          await loadStats();
                           setMessage('Тестовый показ учтён. Окно реакции — 30 минут.');
                         })
                       }
@@ -368,7 +341,6 @@ export function Personalization({ recipes }: { recipes: Recipe[] }) {
                             { event: 'add_to_cart' },
                           );
                           setSelection(feedback);
-                          await loadStats();
                           setMessage(
                             'Реакция учтена. Следующий выбор использует обновлённую модель.',
                           );
@@ -393,34 +365,6 @@ export function Personalization({ recipes }: { recipes: Recipe[] }) {
                   ))}
                 </details>
               )}
-            </section>
-            <section className="account-panel">
-              <h2>Тестовые реакции</h2>
-              <dl className="personalization-metrics">
-                <div>
-                  <dt>Показы</dt>
-                  <dd>{totals.impressions}</dd>
-                </div>
-                <div>
-                  <dt>В корзину</dt>
-                  <dd>{totals.additions}</dd>
-                </div>
-                <div>
-                  <dt>Ожидают реакции</dt>
-                  <dd>{totals.pending}</dd>
-                </div>
-              </dl>
-              <p>
-                Подтверждённый показ без добавления в корзину за 30 минут получает нулевой
-                результат. Предпросмотр без подтверждения не участвует в обучении.
-              </p>
-              <button
-                className="text-button"
-                disabled={busy}
-                onClick={() => void action(loadStats)}
-              >
-                Обновить результаты
-              </button>
             </section>
           </div>
         </div>

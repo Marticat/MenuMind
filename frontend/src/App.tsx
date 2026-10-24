@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'rea
 import {
   ArrowDownToLine,
   ArrowRight,
-  BookOpen,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -1296,9 +1295,6 @@ function ChannelsPage({
         <span>
           ATELIER CONFIGURATION <b>/</b>{' '}
           {brandOnly ? 'BRAND VOICE & EDITORIAL DNA' : 'BRAND PROFILE & CHANNELS'}
-        </span>
-        <span className="tag">
-          <BookOpen size={12} /> CODEX: ED. 1903 [ESCOFFIER]
         </span>
       </div>
       <div className="page-heading config-heading">

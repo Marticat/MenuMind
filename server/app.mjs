@@ -19,6 +19,7 @@ import { extractTags, tagCatalog, rankRecipes } from './tags.mjs';
 import { describeChannels, describeText } from './description-tags.mjs';
 import { generateDescription } from './generation.mjs';
 import { registerPersonalization } from './personalization.mjs';
+import { additionalRecipes } from './additional-recipes.mjs';
 import {
   recipeSchema,
   profileSchema,
@@ -68,6 +69,7 @@ const starters = [
     price: 980,
     pairing: '',
   },
+  ...additionalRecipes,
 ];
 
 // Old accounts keep their recipe data. Supply the new demo photo only when the

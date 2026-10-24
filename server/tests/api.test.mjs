@@ -157,7 +157,7 @@ test('demo images load for new and legacy recipes and saved results without rewr
   const actor = await account(app);
   const recipes = (await actor.client.get('/api/v1/recipes').expect(200)).body.items;
   assert.deepEqual(
-    new Set(recipes.map((r) => r.image)),
+    new Set(recipes.filter((r) => r.id.startsWith('RCP-884')).map((r) => r.image)),
     new Set(['/dish.jpg', '/dishes/scallops.png', '/dishes/mushroom-risotto.png']),
   );
   const id = 'RCP-8842-SEA';
@@ -427,7 +427,8 @@ test('preferences, feedback and brand settings persist and change ranking', asyn
   profile.restaurantName = 'Жаңа мейрамхана';
   await mutation(a, 'put', '/profile', profile).expect(200);
   let recommendations = (await a.client.get('/api/v1/recommendations')).body.items;
-  assert.equal(recommendations[0].id, 'RCP-8843-VEG');
+  assert.ok(recommendations[0].tags.some((tag) => tag.id === 'mushrooms'));
+  assert.equal(recommendations[0].score, 3);
   assert.ok(recommendations[0].reasons.length);
   const generation = await mutation(a, 'post', '/generations', { recipeId: 'RCP-8843-VEG' }).expect(
     201,
@@ -435,6 +436,7 @@ test('preferences, feedback and brand settings persist and change ranking', asyn
   assert.equal(generation.body.language, 'kk');
   await mutation(a, 'put', `/generations/${generation.body.id}/feedback`, { value: 1 }).expect(200);
   recommendations = (await a.client.get('/api/v1/recommendations')).body.items;
+  assert.equal(recommendations[0].id, 'RCP-8843-VEG');
   assert.equal(recommendations[0].score, 4);
   profile.avoidedTags = ['mushrooms'];
   await mutation(a, 'put', '/profile', profile).expect(422);
