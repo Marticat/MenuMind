@@ -1,0 +1,32 @@
+{
+  "accepted": true,
+  "validation_version": "final-v1",
+  "description": "Күріш пен тауық. Құрамы: тауық, күріш, сәбіз. Дайындау тәсілі: бұқтыру.",
+  "raw_output": "{\"description\": \"Күріш пен тауық. Құрамы: тауық, күріш, сәбіз. Дайындау тәсілі: бұқтыру.\"}",
+  "scores": {
+    "json_valid": 1,
+    "constraint_pass": 1,
+    "ingredient_recall": 1.0,
+    "method_match": 1,
+    "known_fact_pass": 1,
+    "grounded_slot_pass": 1,
+    "description": "Күріш пен тауық. Құрамы: тауық, күріш, сәбіз. Дайындау тәсілі: бұқтыру.",
+    "extra_ingredients": [],
+    "wrong_methods": [],
+    "characters": 71
+  },
+  "validation_errors": [],
+  "requires_human_review": true,
+  "review_notice": "Automatic checks cover format and literal slots only; they do not prove factual or linguistic quality.",
+  "model_version": "menumind-lora-1.0.0+2e24ee64a276",
+  "base_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "adapter_sha256": "2e24ee64a276cc99904bf4d2b12892a6b3710b2d7a8bfeaa089a69aeb4d27a61",
+  "language": "kk",
+  "input_tokens": 201,
+  "generated_tokens": 61,
+  "reached_token_limit": false,
+  "generation_seconds": 4.338449999995646,
+  "latency_seconds": 4.352659800002584,
+  "device": "cpu",
+  "load_seconds": 0.9863007999956608
+}

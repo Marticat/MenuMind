@@ -1,0 +1,31 @@
+{
+  "accepted": true,
+  "description": "Индейка с булгуром. Состав: индейка, булгур, морковь. Способ приготовления: тушение.",
+  "raw_output": "{\"description\": \"Индейка с булгуром. Состав: индейка, булгур, морковь. Способ приготовления: тушение.\"}",
+  "scores": {
+    "json_valid": 1,
+    "constraint_pass": 1,
+    "ingredient_recall": 1.0,
+    "method_match": 1,
+    "known_fact_pass": 1,
+    "grounded_slot_pass": 1,
+    "description": "Индейка с булгуром. Состав: индейка, булгур, морковь. Способ приготовления: тушение.",
+    "extra_ingredients": [],
+    "wrong_methods": [],
+    "characters": 84
+  },
+  "validation_errors": [],
+  "requires_human_review": true,
+  "review_notice": "Automatic checks cover format and literal slots only; they do not prove factual or linguistic quality.",
+  "model_version": "menumind-lora-1.0.0+2e24ee64a276",
+  "base_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "adapter_sha256": "2e24ee64a276cc99904bf4d2b12892a6b3710b2d7a8bfeaa089a69aeb4d27a61",
+  "language": "ru",
+  "input_tokens": 193,
+  "generated_tokens": 46,
+  "reached_token_limit": false,
+  "generation_seconds": 2.553571500000544,
+  "latency_seconds": 2.5836561000032816,
+  "device": "cuda",
+  "load_seconds": 2.8000609000009717
+}

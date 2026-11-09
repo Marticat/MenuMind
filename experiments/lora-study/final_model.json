@@ -1,0 +1,42 @@
+{
+  "model_version": "menumind-lora-1.0.0+2e24ee64a276",
+  "base_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "base_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "adapter_dir": "artifacts/adapters/lr-0.0005",
+  "adapter_sha256": "2e24ee64a276cc99904bf4d2b12892a6b3710b2d7a8bfeaa089a69aeb4d27a61",
+  "selection": {
+    "metric": "validation_response_token_nll",
+    "validation_nll": 0.0011057048429218344,
+    "learning_rate": 0.0005,
+    "selection_before_test": true
+  },
+  "contract": {
+    "languages": [
+      "ru",
+      "kk"
+    ],
+    "channel": "website",
+    "tone": "neutral",
+    "maxLength": 250
+  },
+  "max_input_tokens": 384,
+  "max_new_tokens": 128,
+  "assets": {
+    "config.json": "2e63d1f3986cc9eb97043e2e9a21a27ed2be638b8d4f06edbbca9d1f749684ea",
+    "common.py": "bed278c86ee4e74fa6051d97312522bc6e113f4e264caea47d7e1cbff30402a2",
+    "dataset/lexicon.json": "2d19d0cebfc054b5c126a63423d1c02ae88c72d3113f216d19339a505a5a5bef",
+    "artifacts/selection.json": "d1dc9d80870065785a81ee63ac6f2546e843062c211937b9c6e5bb8f9441ca48",
+    "artifacts/adapters/lr-0.0005/adapter_config.json": "24871d25876bd756561bcecf953562bc3f489b6dcb3c3e68d20d3af1fbed9bc7",
+    "artifacts/adapters/lr-0.0005/adapter_model.safetensors": "2e24ee64a276cc99904bf4d2b12892a6b3710b2d7a8bfeaa089a69aeb4d27a61",
+    "inference.py": "2cc4291e354ab31f00ce85dc3dc2cbc2f9603eb3f8e6c041b3eb3795ef2e1f3c",
+    "infer.py": "dbeebfbdbe3aa33e829e5545418897dbaf39f7be3a97e8e26686ddd379812849",
+    "serve.py": "b51a20cad32ef4f74001494c2ff8a3da0496c5f21997b13064eb91daf53808e2",
+    "demo.html": "0471bfd36b3fba6fb0eb086924291862cc043c0025e90cd134017b2e927db505"
+  },
+  "limitations": [
+    "Synthetic training data",
+    "No human or native Kazakh review",
+    "Finite lexicon checks are not a general hallucination detector",
+    "Separate from four-channel product provider"
+  ]
+}

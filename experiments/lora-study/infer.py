@@ -1,48 +1,51 @@
-"""Use the selected local adapter on one example without changing model weights."""
+"""Final-model CLI. stdout is one JSON object; progress remains on stderr."""
 import argparse
 import json
 import sys
 from pathlib import Path
-from transformers import AutoTokenizer
-from peft import PeftModel
-from common import ROOT, DATA, ART, read_json, read_jsonl
-from train import load_base, generate_rows, seed_everything
+from common import DATA, read_jsonl
+from inference import FinalModel, read_input, validate_input
 
 
 def main():
-    # Windows legacy console encodings cannot represent Kazakh letters.
-    sys.stdout.reconfigure(encoding="utf-8")
-    parser = argparse.ArgumentParser()
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    parser = argparse.ArgumentParser(description=__doc__)
     source = parser.add_mutually_exclusive_group(required=True)
-    source.add_argument("--example-id", help="ID in the saved test fixture, e.g. dish-00-03-ru")
-    source.add_argument("--input", type=Path, help="One UTF-8 JSON input with recipe, language, channel, tone, maxLength")
+    source.add_argument("--example-id", help="Saved test fixture ID (not a new-input demonstration)")
+    source.add_argument("--input", type=Path, help="UTF-8 JSON recipe")
+    parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
+    parser.add_argument("--offline", action="store_true", help="Use cached base weights only")
+    parser.add_argument("--output", type=Path, help="Also save the result as UTF-8 JSON")
     args = parser.parse_args()
-    from restore_assets import main as restore_assets
-    restore_assets()
-    cfg = read_json(ROOT / "config.json")
-    selection = read_json(ART / "selection.json")["selected"]
-    if args.example_id:
-        row = next(r for r in read_jsonl(DATA / "test.jsonl") if r["id"] == args.example_id)
-    else:
-        row = read_json(args.input)
-        row.setdefault("id", "manual")
-        row.setdefault("group", "manual")
-        row.setdefault("channel", "website")
-        row.setdefault("tone", "neutral")
-        row.setdefault("maxLength", 250)
-    if row["language"] not in ["ru", "kk"]:
-        raise ValueError("This study supports ru/kk only")
-    if row["channel"] != "website" or row["tone"] != "neutral":
-        raise ValueError("This adapter was studied only for website/neutral")
-    if not isinstance(row["recipe"]["ingredients"], list):
-        raise ValueError("recipe.ingredients must be a list of strings")
-    seed_everything(cfg["seed"])
-    tokenizer = AutoTokenizer.from_pretrained(cfg["model_id"], revision=cfg["revision"])
-    model = PeftModel.from_pretrained(load_base(cfg), ROOT / selection["adapter_dir"])
-    result = generate_rows(model, tokenizer, [row], cfg, "detailed", "lora_detailed", read_json(DATA / "lexicon.json"))[0]
-    result["requires_human_review"] = True
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    try:
+        if args.example_id:
+            fixture = next((r for r in read_jsonl(DATA / "test.jsonl") if r["id"] == args.example_id), None)
+            if fixture is None:
+                raise ValueError(f"Unknown example ID: {args.example_id}")
+            row = validate_input({key: fixture[key] for key in ("recipe", "language", "channel", "tone", "maxLength")})
+        else:
+            row = read_input(args.input)
+    except (ValueError, OSError) as exc:
+        print(json.dumps({"error": {"code": "invalid_input", "message": str(exc)}}, ensure_ascii=False))
+        return 2
+    try:
+        runtime = FinalModel(args.device, args.offline)
+        result = runtime.predict(row)
+        result["load_seconds"] = runtime.load_seconds
+    except ValueError as exc:
+        print(json.dumps({"error": {"code": "validation_failed", "message": str(exc)}}, ensure_ascii=False))
+        return 2
+    except Exception as exc:
+        print(json.dumps({"error": {"code": "model_unavailable", "message": str(exc)}}, ensure_ascii=False))
+        return 1
+    payload = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(payload, encoding="utf-8")
+    print(payload, end="")
+    return 0 if result["accepted"] else 3
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

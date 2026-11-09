@@ -1,5 +1,7 @@
 ﻿# MenuMind
 
+Финальная модель для защиты: [запуск, версия, вход/выход и измерения](experiments/lora-study/FINAL_MODEL.md). Локальное демо сохранённой Qwen + LoRA запускается отдельно от API-провайдера сайта.
+
 Лендинг и студия описаний блюд: React 19 + TypeScript + Vite, Express 5 и SQLite. Аккаунты, профили, рецепты, теги, история генераций и API-ключи сохраняются на сервере.
 
 Материалы EDA и Midterm по тегам: [experiments/tags-midterm](experiments/tags-midterm/README.md).
