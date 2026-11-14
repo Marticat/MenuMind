@@ -90,51 +90,55 @@ test('repair changes repeated channels, keeps real provider text and accounts fo
   assert.equal(result.providerAttempts[0].code, 'LLM_REPEATED_OUTPUT');
 });
 
-test('repair shares a total timeout rather than resetting the latency budget', async () => {
-  const upstream = createServer((_req, res) => {
-    setTimeout(() => {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          choices: [
-            {
-              finish_reason: 'stop',
-              message: {
-                content: JSON.stringify({
-                  texts: { yandex: 'Суп с лапшой.', wolt: 'Суп.', website: 'Суп.', print: 'Суп.' },
-                  variant: 'Суп.',
-                }),
-              },
-            },
-          ],
-        }),
-      );
-    }, 600);
+test('repair shares a total timeout rather than resetting the latency budget', async (t) => {
+  // Control elapsed time so host load cannot consume the 50 ms repair margin.
+  // The separate real HTTP timeout test verifies actual request cancellation.
+  let elapsed = 0;
+  const budgets = [];
+  t.mock.method(Date, 'now', () => elapsed);
+  t.mock.method(AbortSignal, 'timeout', (ms) => {
+    budgets.push(ms);
+    return new AbortController().signal;
   });
-  await new Promise((resolve) => upstream.listen(0, '127.0.0.1', resolve));
-  const start = Date.now();
-  try {
-    await assert.rejects(
-      generateDescription({
-        recipe: { name: 'Суп', ingredients: [] },
-        profile: defaultProfile('Test'),
-        language: 'ru',
-        tone: 'editorial',
-        config: loadConfig({
-          LLM_PROVIDER: 'openai-compatible',
-          LLM_API_KEY: 'test',
-          LLM_MODEL: 'test',
-          LLM_TIMEOUT_MS: '1150',
-          LLM_BASE_URL: `http://127.0.0.1:${upstream.address().port}/v1`,
-        }).llm,
-      }),
-      { code: 'LLM_TIMEOUT' },
-    );
-    assert.ok(Date.now() - start < 1500);
-  } finally {
-    upstream.closeAllConnections();
-    await new Promise((resolve) => upstream.close(resolve));
-  }
+  let calls = 0;
+  const fetchImpl = async () => {
+    if (calls++ === 0) {
+      elapsed += 600;
+      return Response.json({
+        choices: [
+          {
+            finish_reason: 'stop',
+            message: {
+              content: JSON.stringify({
+                texts: { yandex: 'Суп с лапшой.', wolt: 'Суп.', website: 'Суп.', print: 'Суп.' },
+                variant: 'Суп.',
+              }),
+            },
+          },
+        ],
+      });
+    }
+    throw new DOMException('The remaining budget expired', 'TimeoutError');
+  };
+  await assert.rejects(
+    generateDescription({
+      recipe: { name: 'Суп', ingredients: [] },
+      profile: defaultProfile('Test'),
+      language: 'ru',
+      tone: 'editorial',
+      config: loadConfig({
+        LLM_PROVIDER: 'openai-compatible',
+        LLM_API_KEY: 'test',
+        LLM_MODEL: 'test',
+        LLM_TIMEOUT_MS: '1150',
+        LLM_BASE_URL: 'http://127.0.0.1:8009/v1',
+      }).llm,
+      fetchImpl,
+    }),
+    { code: 'LLM_TIMEOUT' },
+  );
+  assert.equal(calls, 2);
+  assert.deepEqual(budgets, [1150, 550]);
 });
 async function account(app, email = 'chef@example.test') {
   const client = request.agent(app);

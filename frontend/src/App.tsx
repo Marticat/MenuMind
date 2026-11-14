@@ -111,7 +111,8 @@ function App({
     workspace.result?.recipeId || workspace.recipes[0]?.id || '',
   );
   const settings = profile.settings;
-  const [tone, setTone] = useState<Tone>(workspace.profile.tone);
+  const localLora = workspace.provider === 'local-lora';
+  const [tone, setTone] = useState<Tone>(localLora ? 'editorial' : workspace.profile.tone);
   const [language, setLanguage] = useState<'ru' | 'kk'>(workspace.profile.language);
   const [result, setResult] = useState<Result>(
     workspace.result ?? {
@@ -251,7 +252,7 @@ function App({
   const saveProfile = async (value: Profile) => {
     const saved = await send<Profile>('/profile', 'PUT', value);
     setProfile(saved);
-    setTone(saved.tone);
+    setTone(localLora ? 'editorial' : saved.tone);
     setLanguage(saved.language);
   };
   const deleteRecipe = async (id: string) => {
@@ -345,7 +346,11 @@ function App({
           </span>
           <span>
             DESCRIPTION ENGINE <b>/</b>{' '}
-            {workspace.provider === 'template' ? 'ШАБЛОННЫЙ РЕЖИМ' : 'LLM'}{' '}
+            {localLora
+              ? 'ЛОКАЛЬНАЯ LoRA'
+              : workspace.provider === 'template'
+                ? 'ШАБЛОННЫЙ РЕЖИМ'
+                : 'LLM'}{' '}
             <span className="session-extra">· Данные сохранены на сервере</span>
           </span>
         </div>
@@ -371,12 +376,25 @@ function App({
               <div className="mode-label">
                 <span>РЕЖИМ:</span>
                 <span className="tag">
-                  {workspace.provider === 'template'
-                    ? 'ШАБЛОННЫЙ · БЕЗ LLM'
-                    : 'LLM · ПРОВЕРЬТЕ РЕЗУЛЬТАТ'}
+                  {localLora
+                    ? 'ЛОКАЛЬНАЯ LoRA'
+                    : workspace.provider === 'template'
+                      ? 'ШАБЛОННЫЙ · БЕЗ LLM'
+                      : 'LLM · ПРОВЕРЬТЕ РЕЗУЛЬТАТ'}
                 </span>
               </div>
             </div>
+            {localLora && (
+              <div className="notice local-lora-notice">
+                <p>
+                  Локальная LoRA работает без платного API. Нужны название, ингредиенты и способ
+                  приготовления на выбранном языке. Один нейтральный текст до 250 символов
+                  копируется в четыре канала. Настройки голоса бренда не применяются; перевод и
+                  разные стили этой версией не поддерживаются. Одинаковые данные дают одинаковый
+                  ответ. После генерации проверьте текст и при необходимости отредактируйте его.
+                </p>
+              </div>
+            )}
             <div className="studio-grid">
               <section className="recipe-panel" aria-label="Настройки генерации">
                 <div className="section-intro">
@@ -429,21 +447,30 @@ function App({
                 </div>
                 <fieldset className="field-block tones">
                   <legend className="field-label">Регистр повествования (tone of voice)</legend>
-                  {tones.map((t) => (
-                    <label className={`tone-option ${tone === t.id ? 'selected' : ''}`} key={t.id}>
-                      <input
-                        type="radio"
-                        name="tone"
-                        value={t.id}
-                        checked={tone === t.id}
-                        onChange={() => setTone(t.id)}
-                      />
-                      <span>
-                        <strong>{t.title}</strong>
-                        <small>{t.desc}</small>
-                      </span>
-                    </label>
-                  ))}
+                  {tones
+                    .filter((t) => !localLora || t.id === 'editorial')
+                    .map((t) => (
+                      <label
+                        className={`tone-option ${tone === t.id ? 'selected' : ''}`}
+                        key={t.id}
+                      >
+                        <input
+                          type="radio"
+                          name="tone"
+                          value={t.id}
+                          checked={tone === t.id}
+                          onChange={() => setTone(t.id)}
+                        />
+                        <span>
+                          <strong>{localLora ? 'Нейтральное описание · LoRA' : t.title}</strong>
+                          <small>
+                            {localLora
+                              ? 'Состав и способ приготовления из техкарты, без смены стиля.'
+                              : t.desc}
+                          </small>
+                        </span>
+                      </label>
+                    ))}
                 </fieldset>
                 <label className="product-field">
                   Язык описания
@@ -502,15 +529,21 @@ function App({
                     <Sparkles size={17} />
                   )}
                   <span>
-                    {generating ? 'Формируем описания…' : 'Сгенерировать для всех каналов'}
+                    {generating
+                      ? 'Формируем описания…'
+                      : localLora
+                        ? 'Получить описание LoRA'
+                        : 'Сгенерировать для всех каналов'}
                   </span>
                   <kbd>⌘ ↵</kbd>
                 </button>
                 <div className="generation-note">
                   <span>
-                    {workspace.provider === 'template'
-                      ? 'Шаблонный режим · без перевода исходных полей'
-                      : 'Генерация через LLM'}
+                    {localLora
+                      ? 'Локальная модель · на CPU может потребоваться до 2 минут'
+                      : workspace.provider === 'template'
+                        ? 'Шаблонный режим · без перевода исходных полей'
+                        : 'Генерация через LLM'}
                   </span>
                   <span>4 канала / {language.toUpperCase()}</span>
                 </div>
@@ -547,13 +580,28 @@ function App({
                           ? 'Подготовка редакционных вариантов…'
                           : stale
                             ? 'Параметры изменены · сгенерируйте новые тексты'
-                            : 'Четыре варианта · готовы к редактуре'}
+                            : result.provider === 'local-lora'
+                              ? result.editedAt
+                                ? 'Ручная редакция · проверьте перед публикацией'
+                                : 'Один текст для четырёх каналов'
+                              : 'Четыре варианта · готовы к редактуре'}
                       </span>
                       <span className="status-right">
-                        {result.provider === 'openai-compatible' ? 'LLM' : 'TEMPLATE'}{' '}
+                        {result.provider === 'local-lora'
+                          ? 'LOCAL LoRA'
+                          : result.provider === 'openai-compatible'
+                            ? 'LLM'
+                            : 'TEMPLATE'}{' '}
                         <Check size={12} />
                       </span>
                     </div>
+                    {result.provider === 'local-lora' && (
+                      <p className="footnote">
+                        {result.editedAt
+                          ? `Исходная модель: ${result.providerModel}. Текст изменён вручную; проверки модели относятся к исходному ответу.`
+                          : `Модель: ${result.providerModel}. Один проверенный ответ модели, без адаптации под каналы.`}
+                      </p>
+                    )}
                     <article className="result-card marketplace">
                       <div className="card-heading">
                         <div>
@@ -658,20 +706,22 @@ function App({
                         <CharacterCount text={result.texts.print} limit={resultLimits.print} />
                       </div>
                     </article>
-                    <article className="result-card variant-card">
-                      <div className="card-heading">
-                        <div>
-                          <span className="tag">A/B СПЛИТ: МАРКЕТПЛЕЙС 2</span>
-                          <span className="card-caption">Фокус на ремесло & фактуру</span>
+                    {result.provider !== 'local-lora' && (
+                      <article className="result-card variant-card">
+                        <div className="card-heading">
+                          <div>
+                            <span className="tag">A/B СПЛИТ: МАРКЕТПЛЕЙС 2</span>
+                            <span className="card-caption">Фокус на ремесло & фактуру</span>
+                          </div>
+                          {actionButtons('variant')}
                         </div>
-                        {actionButtons('variant')}
-                      </div>
-                      <p className="editorial-text">«{result.variant}»</p>
-                      <div className="card-bottom">
-                        <span>Альтернативная редакция · вариант B</span>
-                        <span className="mono">{result.variant.length} симв.</span>
-                      </div>
-                    </article>
+                        <p className="editorial-text">«{result.variant}»</p>
+                        <div className="card-bottom">
+                          <span>Альтернативная редакция · вариант B</span>
+                          <span className="mono">{result.variant.length} симв.</span>
+                        </div>
+                      </article>
+                    )}
                     <div className="export-bar">
                       <div>
                         <Clipboard size={18} />
@@ -750,7 +800,11 @@ function App({
         )}
         {page === 'docs' && <ApiDocs />}
         {page === 'personalization' && (
-          <Personalization recipes={recipes} onRecipesChange={setRecipes} />
+          <Personalization
+            recipes={recipes}
+            onRecipesChange={setRecipes}
+            provider={workspace.provider}
+          />
         )}
         {page === 'profile' && (
           <Account
@@ -774,7 +828,7 @@ function App({
               }
               setResult(value);
               setSelectedId(value.recipeId);
-              setTone(value.tone);
+              setTone(localLora ? 'editorial' : value.tone);
               setLanguage(value.language ?? 'ru');
               go('studio');
             }}

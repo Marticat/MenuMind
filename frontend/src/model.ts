@@ -25,6 +25,14 @@ export interface Settings {
 export interface Result {
   language?: 'ru' | 'kk';
   provider?: string;
+  providerModel?: string | null;
+  localInference?: {
+    modelVersion: string;
+    adapterSha256: string;
+    channelMode: 'shared';
+    style: 'neutral';
+    deterministic: true;
+  };
   feedback?: number;
   limits?: Record<ChannelId, number>;
   sourceFingerprint: string;
@@ -35,6 +43,7 @@ export interface Result {
   variant: string;
   tone: Tone;
   createdAt: string;
+  editedAt?: string;
   price: number;
   weight: number;
   image?: string;

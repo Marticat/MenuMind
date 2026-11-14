@@ -48,7 +48,13 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
     response = await fetch(`/api/v1${path}`, {
       ...options,
       credentials: 'same-origin',
-      signal: options.signal ?? AbortSignal.timeout(12_000),
+      signal:
+        options.signal ??
+        AbortSignal.timeout(
+          options.method === 'POST' && ['/generations', '/description-sets'].includes(path)
+            ? 185_000
+            : 12_000,
+        ),
       headers: {
         'Content-Type': 'application/json',
         ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {}),

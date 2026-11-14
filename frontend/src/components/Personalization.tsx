@@ -36,10 +36,13 @@ const freshCustomer = (): Customer => ({
 export function Personalization({
   recipes,
   onRecipesChange,
+  provider,
 }: {
   recipes: Recipe[];
   onRecipesChange: (items: Recipe[]) => void;
+  provider: string;
 }) {
+  const localLora = provider === 'local-lora';
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [draft, setDraft] = useState<Customer>(freshCustomer);
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -130,7 +133,9 @@ export function Personalization({
           <p className="eyebrow">ОПИСАНИЕ ДЛЯ КАЖДОГО ГОСТЯ</p>
           <h1>Персонализация описаний</h1>
           <p className="page-description">
-            Одно блюдо — разные акценты. Выбор учитывает предпочтения гостя и его реакции.
+            {localLora
+              ? 'Локальное описание и тестовые события гостя.'
+              : 'Одно блюдо — разные акценты. Выбор учитывает предпочтения гостя и его реакции.'}
           </p>
         </div>
       </div>
@@ -141,6 +146,15 @@ export function Personalization({
           модель и не влияют на рабочую выдачу API.
         </p>
       </div>
+      {localLora && (
+        <div className="notice local-lora-notice">
+          <p>
+            Локальная LoRA даёт один нейтральный вариант. Здесь нет выбора между стилями;
+            предпочтения гостя не меняют текст этой версии. Сравнение LinUCB ниже остаётся отдельной
+            демонстрацией на искусственных данных.
+          </p>
+        </div>
+      )}
       <section className="account-panel personalization-demo-import">
         <h2>Блюда для проверки</h2>
         <p>
@@ -255,6 +269,7 @@ export function Personalization({
                 <label>
                   Что важно в описании
                   <select
+                    disabled={localLora}
                     value={draft.descriptionPreference}
                     onChange={(e) => {
                       setDraft({ ...draft, descriptionPreference: e.target.value as Style });
@@ -323,10 +338,12 @@ export function Personalization({
                 Сохраните профиль, затем получите вариант. При первом запросе будут подготовлены
                 тексты; повторные запросы используют сохранённые варианты.
               </p>
-              <p>
-                Предпочтение помогает выбору. Пока система учится, она также проверяет другие типы
-                описаний.
-              </p>
+              {!localLora && (
+                <p>
+                  Предпочтение помогает выбору. Пока система учится, она также проверяет другие типы
+                  описаний.
+                </p>
+              )}
               <button
                 className="button primary"
                 disabled={busy || dirty || !recipeId}
@@ -338,7 +355,12 @@ export function Personalization({
               {selection && (
                 <article className="personalized-description" aria-label="Персональное описание">
                   <p className="eyebrow">
-                    {selection.label} · {selection.provider === 'template' ? 'ШАБЛОН' : 'LLM'}
+                    {selection.label} ·{' '}
+                    {selection.provider === 'local-lora'
+                      ? 'LOCAL LoRA'
+                      : selection.provider === 'template'
+                        ? 'ШАБЛОН'
+                        : 'LLM'}
                   </p>
                   <p className="personalized-text">{selection.text}</p>
                   {!!selection.descriptionTags?.mentioned.length && (
@@ -380,7 +402,9 @@ export function Personalization({
                           );
                           setSelection(feedback);
                           setMessage(
-                            'Реакция учтена. Следующий выбор использует обновлённую модель.',
+                            localLora
+                              ? 'Реакция учтена. У этой LoRA один вариант, поэтому выбор текста не изменится.'
+                              : 'Реакция учтена. Следующий выбор использует обновлённую модель.',
                           );
                         })
                       }

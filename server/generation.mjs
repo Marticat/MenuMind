@@ -4,6 +4,7 @@ import { extractTags } from './tags.mjs';
 import { describeChannels, describeText } from './description-tags.mjs';
 import { descriptionStyles } from './description-styles.mjs';
 import { checkGrounding } from './grounding.mjs';
+import { generateLocalDescription } from './local-lora.mjs';
 
 const channelIds = ['yandex', 'wolt', 'website', 'print'];
 const prohibited =
@@ -127,17 +128,39 @@ async function generateAttempt({
   const limits = Object.fromEntries(
     channelIds.map((id) => [id, maxLength ?? profile.settings.limits[id]]),
   );
+  const sourceFingerprint = JSON.stringify({
+    recipe,
+    tone,
+    settings: profile.settings,
+    language,
+    profile,
+  });
   let output;
   let providerResponseId = null;
   let providerRequestId = null;
   let providerModel = null;
   let usage = null;
+  let localInference;
   const started = Date.now();
   if (config.provider === 'template') {
     output = template(recipe, language, tone, limits, sequence, profile.settings, descriptionStyle);
     // Even a long name / small limit must yield a different opening on regeneration.
     if (previous && output.texts.yandex === previous.texts.yandex)
       output = template(recipe, language, tone, limits, sequence + 1, profile.settings);
+  } else if (config.provider === 'local-lora') {
+    const local = await generateLocalDescription({
+      recipe,
+      language,
+      tone,
+      descriptionStyle,
+      config,
+      limits,
+      fetchImpl,
+    });
+    output = local.output;
+    localInference = local.localInference;
+    providerModel = local.providerModel;
+    usage = local.usage;
   } else {
     if (!config.apiKey || !config.model)
       throw new ApiError(503, 'LLM_NOT_CONFIGURED', 'Укажите LLM_API_KEY и LLM_MODEL на сервере.');
@@ -214,7 +237,8 @@ async function generateAttempt({
         'LLM_CONSTRAINT_FAILED',
         'Модель вернула некорректную структуру описаний.',
       );
-    output = parsed.data;
+    // The frozen local model's accepted description must remain unchanged.
+    if (config.provider !== 'local-lora') output = parsed.data;
     const sourceTags = new Set(
       extractTags({
         ...recipe,
@@ -259,12 +283,16 @@ async function generateAttempt({
         .trim();
     if (
       previous &&
+      (config.provider !== 'local-lora' ||
+        (previous.provider === 'local-lora' && previous.sourceFingerprint === sourceFingerprint)) &&
       channelIds.some((id) => canonical(output.texts[id]) === canonical(previous.texts[id]))
     )
       throw new ApiError(
         502,
-        'LLM_REPEATED_OUTPUT',
-        'Модель повторила предыдущий вариант. Попробуйте ещё раз.',
+        config.provider === 'local-lora' ? 'LORA_DETERMINISTIC' : 'LLM_REPEATED_OUTPUT',
+        config.provider === 'local-lora'
+          ? 'LoRA даёт одинаковый ответ для одинаковой техкарты. Измените исходные данные или отредактируйте текст вручную.'
+          : 'Модель повторила предыдущий вариант. Попробуйте ещё раз.',
       );
   } catch (error) {
     error.attempt = { usage, providerResponseId, providerRequestId, code: error.code };
@@ -284,18 +312,13 @@ async function generateAttempt({
     weight: recipe.weight,
     image: recipe.image,
     pairing: recipe.pairing,
-    sourceFingerprint: JSON.stringify({
-      recipe,
-      tone,
-      settings: profile.settings,
-      language,
-      profile,
-    }),
+    sourceFingerprint,
     provider: config.provider,
     model: config.provider === 'template' ? null : config.model,
     providerResponseId,
     providerRequestId,
     providerModel,
+    ...(localInference ? { localInference } : {}),
     usage,
     limits,
     tags: extractTags(recipe),
@@ -304,9 +327,9 @@ async function generateAttempt({
     requiresReview: true,
     durationMs: Date.now() - started,
     referencesUsed:
-      config.provider === 'template'
-        ? []
-        : retrieveSamples(recipe, profile.settings.samples).map((s) => s.index),
+      config.provider === 'openai-compatible'
+        ? retrieveSamples(recipe, profile.settings.samples).map((s) => s.index)
+        : [],
   };
 }
 
@@ -360,7 +383,7 @@ export async function generateDescription(options) {
       ].includes(error.code);
       if (
         attempt ||
-        options.config.provider === 'template' ||
+        options.config.provider !== 'openai-compatible' ||
         !repairable ||
         options.config.timeoutMs - (Date.now() - start) < 500
       )

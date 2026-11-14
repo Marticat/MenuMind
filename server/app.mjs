@@ -645,7 +645,7 @@ export function createApp({
           recipe,
           profile,
           language: input.language ?? profile.language,
-          tone: input.tone ?? profile.tone,
+          tone: input.tone ?? (config.llm.provider === 'local-lora' ? 'editorial' : profile.tone),
           maxLength: input.maxLength,
           previous,
           sequence,

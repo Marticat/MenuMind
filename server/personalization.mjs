@@ -210,24 +210,30 @@ export function registerPersonalization({
       const work = (async () => {
         // All calls finish before releasing the concurrency slot, even if one fails.
         const generated = await Promise.allSettled(
-          availableStyles(recipe).map(async (style) => {
-            const result = await generateDescription({
-              recipe,
-              profile,
-              language: input.language,
-              tone: profile.tone,
-              descriptionStyle: style,
-              config: config.llm,
-              fetchImpl,
-            });
-            return {
-              style,
-              label: descriptionStyles[style].label,
-              texts: result.texts,
-              descriptionTags: result.descriptionTags,
-              limits: result.limits,
-            };
-          }),
+          (config.llm.provider === 'local-lora' ? ['concise'] : availableStyles(recipe)).map(
+            async (style) => {
+              const result = await generateDescription({
+                recipe,
+                profile,
+                language: input.language,
+                tone: config.llm.provider === 'local-lora' ? 'editorial' : profile.tone,
+                descriptionStyle: style,
+                config: config.llm,
+                fetchImpl,
+              });
+              return {
+                style,
+                label:
+                  config.llm.provider === 'local-lora'
+                    ? 'Нейтральное описание · LoRA'
+                    : descriptionStyles[style].label,
+                texts: result.texts,
+                descriptionTags: result.descriptionTags,
+                limits: result.limits,
+                ...(result.localInference ? { localInference: result.localInference } : {}),
+              };
+            },
+          ),
         );
         const failed = generated.find((item) => item.status === 'rejected');
         if (failed) throw failed.reason;
