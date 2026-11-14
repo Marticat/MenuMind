@@ -15,7 +15,8 @@
     "dev:web": "npm run dev --workspace frontend",
     "build": "npm run build --workspace frontend",
     "start": "node server/index.mjs",
-    "test": "node --test server/tests/api.test.mjs server/tests/personalization.test.mjs",
+    "test": "node --test server/tests/api.test.mjs server/tests/personalization.test.mjs server/tests/demo-study.test.mjs",
+    "study:personalization": "node scripts/personalization-study.mjs",
     "test:e2e": "npm test --workspace frontend",
     "format": "prettier --write server frontend/src frontend/tests frontend/*.ts package.json README.md",
     "format:check": "prettier --check server frontend/src frontend/tests frontend/*.ts package.json README.md"

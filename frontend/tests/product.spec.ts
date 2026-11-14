@@ -25,7 +25,9 @@ test('landing, registration, preferences, keys, logout and login work end to end
     .click();
   await page.getByRole('button', { name: 'Сохранить предпочтения' }).click();
   await expect(page.getByRole('status')).toContainText('Профиль и предпочтения сохранены');
-  await expect(page.locator('.recommendation-item').first()).toContainText(/Ризотто|Грибной крем-суп/);
+  await expect(page.locator('.recommendation-item').first()).toContainText(
+    /Ризотто|Грибной крем-суп/,
+  );
   await page.reload();
   await expect(page.getByLabel('Кухня', { exact: true })).toHaveValue('Казахская');
   await expect(page.getByLabel('Язык по умолчанию')).toHaveValue('kk');
@@ -182,4 +184,59 @@ test('two guest profiles receive different descriptions and demo feedback surviv
     await page.screenshot({ path: `.cache/personalization-${width}.png`, fullPage: true });
   }
   expect(errors).toEqual([]);
+});
+
+test('synthetic evidence and dish import work without changing existing dishes', async ({
+  page,
+}) => {
+  const reg = await page.request.post('/api/v1/auth/register', {
+    data: {
+      name: 'Chef',
+      email: `${crypto.randomUUID()}@example.test`,
+      password: 'Test-password-42',
+      restaurantName: 'Demo',
+    },
+  });
+  const csrf = (await reg.json()).csrfToken;
+  const recipe = await (await page.request.get('/api/v1/recipes/DEMO-9101')).json();
+  await page.request.put('/api/v1/recipes/DEMO-9101', {
+    headers: { 'X-CSRF-Token': csrf },
+    data: { ...recipe, name: 'Моя индейка' },
+  });
+  await page.request.delete('/api/v1/recipes/DEMO-9102', { headers: { 'X-CSRF-Token': csrf } });
+  await page.goto('/#personalization');
+  const evidence = page.getByRole('region', { name: 'Проверка персонализации' });
+  await expect(evidence).toContainText('не доказывает рост реальных заказов');
+  await page.getByRole('button', { name: 'Добавить примеры блюд', exact: true }).click();
+  await expect(page.getByRole('status')).toContainText('Добавлено блюд: 1');
+  await expect(
+    page.getByLabel('Блюдо для персонализации').locator('option[value="DEMO-9101"]'),
+  ).toHaveText('Моя индейка');
+  await expect(
+    page.getByLabel('Блюдо для персонализации').locator('option[value="DEMO-9102"]'),
+  ).toHaveCount(1);
+  await page.getByRole('button', { name: 'Добавить примеры блюд', exact: true }).click();
+  await expect(page.getByRole('status')).toContainText('Добавлено блюд: 0');
+  await page.getByLabel('Тестовый сценарий').selectOption('no-effect');
+  const rates = await evidence.locator('tbody tr td:last-child').allTextContents();
+  expect(rates).toHaveLength(3);
+  expect(new Set(rates).size).toBe(1);
+  await page.getByLabel('Имя гостя').fill('Қонақ');
+  await page.getByLabel('Язык гостя').selectOption('kk');
+  await page.getByLabel('Что важно в описании').selectOption('ingredients');
+  await page.getByRole('button', { name: 'Сохранить гостя', exact: true }).click();
+  await expect(page.getByRole('status')).toContainText('Профиль гостя сохранён');
+  await page.getByLabel('Блюдо для персонализации').selectOption('DEMO-9107');
+  await page.getByRole('button', { name: 'Получить описание', exact: true }).click();
+  await expect(page.getByRole('article', { name: 'Персональное описание' })).toContainText(
+    'Құрамы:',
+  );
+  await expect(page.getByRole('article', { name: 'Персональное описание' })).toContainText('Тауық');
+  for (const width of [1440, 390, 320]) {
+    await page.setViewportSize({ width, height: 1000 });
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+    ).toBeTruthy();
+    await page.screenshot({ path: `.cache/evidence-${width}.png`, fullPage: true });
+  }
 });

@@ -20,6 +20,7 @@ import { describeChannels, describeText } from './description-tags.mjs';
 import { generateDescription } from './generation.mjs';
 import { registerPersonalization } from './personalization.mjs';
 import { additionalRecipes } from './additional-recipes.mjs';
+import { demonstrationDishes } from './demo-recipes.mjs';
 import {
   recipeSchema,
   profileSchema,
@@ -70,6 +71,7 @@ const starters = [
     pairing: '',
   },
   ...additionalRecipes,
+  ...demonstrationDishes.map(({ recipe }) => recipe),
 ];
 
 // Old accounts keep their recipe data. Supply the new demo photo only when the
@@ -487,6 +489,34 @@ export function createApp({
   route('get', '/recipes', 'Список рецептов и извлечённых тегов', null, (req) => ({
     items: listRecipes(req.user.id),
   }));
+  route(
+    'post',
+    '/recipes/demo',
+    'Добавить недостающие демонстрационные блюда без перезаписи',
+    z.object({}).strict(),
+    (req) =>
+      db.transaction(() => {
+        let added = 0;
+        for (const { recipe } of demonstrationDishes) {
+          if (
+            !db
+              .prepare('SELECT 1 FROM recipes WHERE user_id = ? AND id = ?')
+              .get(req.user.id, recipe.id)
+          ) {
+            saveRecipe(req.user.id, recipe);
+            added++;
+          }
+        }
+        return {
+          added,
+          items: listRecipes(req.user.id),
+          examples: demonstrationDishes.map(({ recipe, language }) => ({
+            id: recipe.id,
+            language,
+          })),
+        };
+      })(),
+  );
   route(
     'post',
     '/recipes',

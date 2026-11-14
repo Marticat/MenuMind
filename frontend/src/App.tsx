@@ -749,7 +749,9 @@ function App({
           />
         )}
         {page === 'docs' && <ApiDocs />}
-        {page === 'personalization' && <Personalization recipes={recipes} />}
+        {page === 'personalization' && (
+          <Personalization recipes={recipes} onRecipesChange={setRecipes} />
+        )}
         {page === 'profile' && (
           <Account
             user={workspace.user}

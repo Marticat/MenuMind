@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { LoaderCircle, Plus, Sparkles, ShoppingBag } from 'lucide-react';
 import { api, send, errorMessage, type Tag } from '../api';
 import type { Recipe, ChannelId } from '../model';
+import { PersonalizationEvidence } from './PersonalizationEvidence';
 
 type Style = 'auto' | 'concise' | 'ingredients' | 'method';
 type Customer = {
@@ -32,7 +33,13 @@ const freshCustomer = (): Customer => ({
   preferredTags: [],
 });
 
-export function Personalization({ recipes }: { recipes: Recipe[] }) {
+export function Personalization({
+  recipes,
+  onRecipesChange,
+}: {
+  recipes: Recipe[];
+  onRecipesChange: (items: Recipe[]) => void;
+}) {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [draft, setDraft] = useState<Customer>(freshCustomer);
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -134,6 +141,37 @@ export function Personalization({ recipes }: { recipes: Recipe[] }) {
           модель и не влияют на рабочую выдачу API.
         </p>
       </div>
+      <section className="account-panel personalization-demo-import">
+        <h2>Блюда для проверки</h2>
+        <p>
+          12 коротких техкарт: основные блюда, супы, завтраки, салаты и десерты. По шесть на русском
+          и казахском. Варианты проверены в шаблонном режиме; тексты LLM требуют отдельной проверки.
+        </p>
+        <button
+          className="button secondary"
+          disabled={busy}
+          onClick={() =>
+            void action(async () => {
+              const result = await send<{ added: number; items: Recipe[] }>(
+                '/recipes/demo',
+                'POST',
+                {},
+              );
+              onRecipesChange(result.items);
+              if (!result.items.some((r) => r.id === recipeId))
+                setRecipeId(result.items[0]?.id ?? '');
+              resetPreview();
+              setMessage(`Добавлено блюд: ${result.added}. Существующие техкарты сохранены.`);
+            })
+          }
+        >
+          Добавить примеры блюд
+        </button>
+        <p>
+          Для казахского гостя выбирайте техкарту на казахском: шаблонный режим не переводит
+          исходные данные.
+        </p>
+      </section>
       {error && (
         <p className="form-error" role="alert">
           {error}
@@ -369,6 +407,9 @@ export function Personalization({ recipes }: { recipes: Recipe[] }) {
           </div>
         </div>
       )}
+      <PersonalizationEvidence
+        refreshKey={`${selection?.id ?? ''}:${selection?.shownAt ?? ''}:${selection?.reward ?? ''}`}
+      />
     </>
   );
 }

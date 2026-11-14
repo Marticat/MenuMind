@@ -1,0 +1,321 @@
+{
+  "version": "personalization-simulation-v1",
+  "dataSource": "synthetic",
+  "realOrderUpliftEstablished": false,
+  "modelVersion": "linucb-descriptions-v2-tags",
+  "alpha": 0.5,
+  "seeds": [
+    7,
+    19,
+    42
+  ],
+  "stepsPerSeed": 300,
+  "guestCount": 6,
+  "dishCount": 12,
+  "scope": "Synthetic add-to-cart events; not real purchases, a causal effect estimate, or a forecast. No live/demo database models are read or written.",
+  "protocol": "Same guest/dish/outcome stream for all policies; fresh LinUCB per seed/scenario; only chosen-arm feedback used. Existing production context features and alpha, no tuning on these outcomes.",
+  "guests": [
+    {
+      "id": "sim-guest-1",
+      "name": "Тестовый гость 1",
+      "language": "ru",
+      "descriptionPreference": "auto",
+      "preferredTags": [
+        "chicken"
+      ]
+    },
+    {
+      "id": "sim-guest-2",
+      "name": "Тестовый гость 2",
+      "language": "kk",
+      "descriptionPreference": "auto",
+      "preferredTags": [
+        "beef"
+      ]
+    },
+    {
+      "id": "sim-guest-3",
+      "name": "Тестовый гость 3",
+      "language": "ru",
+      "descriptionPreference": "auto",
+      "preferredTags": [
+        "fish"
+      ]
+    },
+    {
+      "id": "sim-guest-4",
+      "name": "Тестовый гость 4",
+      "language": "kk",
+      "descriptionPreference": "auto",
+      "preferredTags": [
+        "rice"
+      ]
+    },
+    {
+      "id": "sim-guest-5",
+      "name": "Тестовый гость 5",
+      "language": "ru",
+      "descriptionPreference": "auto",
+      "preferredTags": [
+        "mushrooms"
+      ]
+    },
+    {
+      "id": "sim-guest-6",
+      "name": "Тестовый гость 6",
+      "language": "kk",
+      "descriptionPreference": "auto",
+      "preferredTags": [
+        "vegetables"
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "personalized",
+      "title": "У гостей разные предпочтения",
+      "rule": "P(add)=0.65 for the hidden preferred style, 0.15 otherwise. Hidden styles cycle across six guest profiles.",
+      "policies": [
+        {
+          "id": "linucb",
+          "label": "LinUCB",
+          "impressions": 900,
+          "additions": 461,
+          "rate": 0.5122222222222222,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 153
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 156
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 152
+            }
+          ]
+        },
+        {
+          "id": "random",
+          "label": "Случайный выбор",
+          "impressions": 900,
+          "additions": 288,
+          "rate": 0.32,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 83
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 102
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 103
+            }
+          ]
+        },
+        {
+          "id": "fixed",
+          "label": "Всегда кратко",
+          "impressions": 900,
+          "additions": 284,
+          "rate": 0.31555555555555553,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 93
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 94
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 97
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no-effect",
+      "title": "Описание не влияет на реакцию",
+      "rule": "P(add)=0.30 for every guest and style. Paired outcome draws give identical outcomes for all policies.",
+      "policies": [
+        {
+          "id": "linucb",
+          "label": "LinUCB",
+          "impressions": 900,
+          "additions": 257,
+          "rate": 0.28555555555555556,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 80
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 92
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 85
+            }
+          ]
+        },
+        {
+          "id": "random",
+          "label": "Случайный выбор",
+          "impressions": 900,
+          "additions": 257,
+          "rate": 0.28555555555555556,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 80
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 92
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 85
+            }
+          ]
+        },
+        {
+          "id": "fixed",
+          "label": "Всегда кратко",
+          "impressions": 900,
+          "additions": 257,
+          "rate": 0.28555555555555556,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 80
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 92
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 85
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "common-preference",
+      "title": "Всем нравится краткий вариант",
+      "rule": "P(add)=0.65 for concise, 0.15 otherwise, regardless of guest.",
+      "policies": [
+        {
+          "id": "linucb",
+          "label": "LinUCB",
+          "impressions": 900,
+          "additions": 576,
+          "rate": 0.64,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 188
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 189
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 199
+            }
+          ]
+        },
+        {
+          "id": "random",
+          "label": "Случайный выбор",
+          "impressions": 900,
+          "additions": 280,
+          "rate": 0.3111111111111111,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 85
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 100
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 95
+            }
+          ]
+        },
+        {
+          "id": "fixed",
+          "label": "Всегда кратко",
+          "impressions": 900,
+          "additions": 583,
+          "rate": 0.6477777777777778,
+          "bySeed": [
+            {
+              "seed": 7,
+              "impressions": 300,
+              "additions": 188
+            },
+            {
+              "seed": 19,
+              "impressions": 300,
+              "additions": 193
+            },
+            {
+              "seed": 42,
+              "impressions": 300,
+              "additions": 202
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceHashNormalization": "UTF-8 LF",
+  "sourceHashes": {
+    "bandit.mjs": "14c979a6705907c0c89668ed723940a2f4154927e58ebb9b61f7663c7040bb73",
+    "personalization-study.mjs": "c53ecfbfd1dc964fd263eb1a17f2beae3d3d8bf6fb58f919323e6ac3c0a071ff",
+    "demo-recipes.mjs": "87253f83cbd6c8f3a53bccce68a07a2a4bbaa3aa1280a3328e2ff0186795c70e",
+    "description-tags.mjs": "5686c195352915a69ee78cef5d7a817dbf2666817e80958ac32bd2d2b99acf6c",
+    "generation.mjs": "1c981d43007751c225d0da800aa98ea304d81b419bbb4770afba8038177b824c",
+    "tags.mjs": "b8be676b1938c7e392f4cb1d63859785e7afce4cc45a4b9257e0454315033fa8"
+  }
+}

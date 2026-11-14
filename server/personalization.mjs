@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 import { digest } from './auth.mjs';
 import { fail, languageSchema, channelSchema } from './schemas.mjs';
@@ -161,6 +162,19 @@ export function registerPersonalization({
       .all(req.user.id)
       .map((row) => ({ ...JSON.parse(row.data), id: row.id })),
   }));
+  route(
+    'get',
+    '/personalization/study',
+    'Сохранённая синтетическая демонстрация, не реальные заказы',
+    null,
+    () =>
+      JSON.parse(
+        readFileSync(
+          new URL('../experiments/personalization-demo/summary.json', import.meta.url),
+          'utf8',
+        ),
+      ),
+  );
   route('get', '/customers/:id', 'Получение профиля гостя', null, (req) =>
     findCustomer(req.user.id, req.params.id),
   );

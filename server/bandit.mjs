@@ -79,7 +79,14 @@ export function scoreArm(model, context, alpha = ALPHA) {
   return { estimate, uncertainty, score: estimate + alpha * uncertainty };
 }
 
-export function chooseArm(models, context, candidates, preference = 'auto', alpha = ALPHA) {
+export function chooseArm(
+  models,
+  context,
+  candidates,
+  preference = 'auto',
+  alpha = ALPHA,
+  randomIndex = randomInt,
+) {
   const scores = candidates.map((arm) => ({
     arm,
     ...scoreArm(
@@ -91,7 +98,7 @@ export function chooseArm(models, context, candidates, preference = 'auto', alph
   const maximum = Math.max(...scores.map((item) => item.score));
   const ties = scores.filter((item) => Math.abs(item.score - maximum) < 1e-10);
   // Declared preference breaks equal UCB scores, including the first request.
-  const chosen = ties.find((item) => item.arm === preference) ?? ties[randomInt(ties.length)];
+  const chosen = ties.find((item) => item.arm === preference) ?? ties[randomIndex(ties.length)];
   return { arm: chosen.arm, scores };
 }
 
